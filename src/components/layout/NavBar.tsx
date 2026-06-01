@@ -1,47 +1,36 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { House, MapPin, Star, Heart, CircleUser } from 'lucide-react';
+
+interface NavItem {
+    to: string;
+    icon: React.ComponentType<{ size?: number; color?: string }>;
+    label: string;
+}
+
+const navItems: NavItem[] = [
+    { to: '/home', icon: House, label: 'Home' },
+    { to: '/nearby', icon: MapPin, label: 'Nearby' },
+    { to: '/experiences', icon: Star, label: 'Experiences' },
+    { to: '/saved', icon: Heart, label: 'Saved' },
+    { to: '/profile', icon: CircleUser, label: 'Profile' },
+];
+
+interface NavBarItemProps {
+    to: string;
+    icon: React.ComponentType<{ size?: number; color?: string }>;
+    label: string;
+}
+
+const NavBarItem = ({ to, icon: Icon, label }: NavBarItemProps) => (
+    <NavLink to={to} className={({ isActive }) => isActive ? 'active' : ''} >
+        <Icon size={24} color="currentColor" />
+        <span>{label}</span>
+    </NavLink>
+);
 
 const NavBar = () => (
     <nav>
-        <NavLink
-            to="/home"
-            className={({ isActive }) => isActive ? 'active' : ''}
-        >
-            <House size={24} color="currentColor" />
-            <span>Home</span>
-        </NavLink>
-
-        <NavLink
-            to="/nearby"
-            className={({ isActive }) => isActive ? 'active' : ''}
-        >
-            <MapPin size={24} color="currentColor" />
-            <span>Nearby</span>
-        </NavLink>
-
-        <NavLink
-            to="/experiences"
-            className={({ isActive }) => isActive ? 'active' : ''}
-        >
-            <Star size={24} color="currentColor" />
-            <span>Experiences</span>
-        </NavLink>
-
-        <NavLink
-            to="/saved"
-            className={({ isActive }) => isActive ? 'active' : ''}
-        >
-            <Heart size={24} color="currentColor" />
-            <span>Saved</span>
-        </NavLink>
-
-        <NavLink
-            to="/profile"
-            className={({ isActive }) => isActive ? 'active' : ''}
-        >
-            <CircleUser size={24} color="currentColor" />
-            <span>Profile</span>
-        </NavLink>
+        {navItems.map((item) => (<NavBarItem key={item.to} {...item} />))}
     </nav>
 );
 

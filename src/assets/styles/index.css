@@ -7,10 +7,15 @@ body {
   padding: 0;
   overflow-y: hidden;
   height: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 
-body {
-  font-family: 'Poppins', sans-serif;
+p {
+    display: block;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-inline-start: 0;
+    margin-inline-end: 0;
 }
 
 .app {
@@ -23,17 +28,29 @@ body {
     justify-items: center;
     flex-grow: 1;
     width: 100%;
+
+    img.logo{
+      width: 144px;
+      margin: var(--mp) 0;
+    }
+
+    &>* {
+      min-width: 89%;
+      display: flex;
+      flex-direction: column;
+    }
   }
 
   nav {
-    max-width: 95%;
+    max-width: 89%;
     display: flex;
     width: 100%;
     justify-content: space-evenly;
     border-top: 1px solid var(--color-F);
+
     a {
 
-      color: var(--color-F);
+      color: var(--color-H);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -41,6 +58,7 @@ body {
       min-width: 20%;
       margin: var(--mp) 0;
       gap: calc(var(--mp)/2);
+      
       &.active {
         color: var(--color-J)
       }
