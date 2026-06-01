@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { House, MapPin, Star, Heart, User } from 'lucide-react';
+import { House, MapPin, Star, Heart, CircleUser } from 'lucide-react';
 
 const NavBar = () => (
     <nav>
@@ -7,7 +7,7 @@ const NavBar = () => (
             to="/home"
             className={({ isActive }) => isActive ? 'active' : ''}
         >
-            <House size={24} />
+            <House size={24} color="currentColor" />
             <span>Home</span>
         </NavLink>
 
@@ -15,7 +15,7 @@ const NavBar = () => (
             to="/nearby"
             className={({ isActive }) => isActive ? 'active' : ''}
         >
-            <MapPin size={24} />
+            <MapPin size={24} color="currentColor" />
             <span>Nearby</span>
         </NavLink>
 
@@ -23,7 +23,7 @@ const NavBar = () => (
             to="/experiences"
             className={({ isActive }) => isActive ? 'active' : ''}
         >
-            <Star size={24} />
+            <Star size={24} color="currentColor" />
             <span>Experiences</span>
         </NavLink>
 
@@ -31,7 +31,7 @@ const NavBar = () => (
             to="/saved"
             className={({ isActive }) => isActive ? 'active' : ''}
         >
-            <Heart size={24} />
+            <Heart size={24} color="currentColor" />
             <span>Saved</span>
         </NavLink>
 
@@ -39,7 +39,7 @@ const NavBar = () => (
             to="/profile"
             className={({ isActive }) => isActive ? 'active' : ''}
         >
-            <User size={24} />
+            <CircleUser size={24} color="currentColor" />
             <span>Profile</span>
         </NavLink>
     </nav>

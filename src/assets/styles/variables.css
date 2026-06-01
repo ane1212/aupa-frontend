@@ -4,7 +4,7 @@
     --tone2: #e8f0fc;
     --tone3: #f3e8ee;
     --tone4: #f9e5e5;
-    --tone5: #f7d8d8;
+    --tone5: #beacac;
     --tone6: #22c55e;
     --tone7: #e26866;
     --tone8: #2b9e5b;
@@ -24,7 +24,10 @@
     --color-K: var(--toneK);
     --opacity: 34%;
 
-    @media (prefers-color-scheme: dark) {
+    --np: 1.618rem;
+    --mp: 0.618rem;
+
+    @media (prefers-color-scheme: light) {
         --color-A: var(--toneK);
         --color-B: var(--tone9);
         --color-C: var(--tone8);
@@ -38,7 +41,4 @@
         --color-K: var(--tone0);
         --opacity: 55%;
     }
-
-    --np: 1.618rem;
-    --mp: 0.618rem;
 }
