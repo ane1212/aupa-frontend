@@ -1,7 +1,44 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
+    --tone0: #fcf2e7;
+    --tone1: #ecf6eb;
+    --tone2: #e8f0fc;
+    --tone3: #f3e8ee;
+    --tone4: #f9e5e5;
+    --tone5: #f7d8d8;
+    --tone6: #22c55e;
+    --tone7: #e26866;
+    --tone8: #2b9e5b;
+    --tone9: #ef342a;
+    --toneK: #000000;
+
+    --color-A: var(--tone0);
+    --color-B: var(--tone1);
+    --color-C: var(--tone2);
+    --color-D: var(--tone3);
+    --color-E: var(--tone4);
+    --color-F: var(--tone5);
+    --color-G: var(--tone6);
+    --color-H: var(--tone7);
+    --color-I: var(--tone8);
+    --color-J: var(--tone9);
+    --color-K: var(--toneK);
+    --opacity: 34%;
+
+    @media (prefers-color-scheme: dark) {
+        --color-A: var(--toneK);
+        --color-B: var(--tone9);
+        --color-C: var(--tone8);
+        --color-D: var(--tone7);
+        --color-E: var(--tone6);
+        --color-F: var(--tone5);
+        --color-G: var(--tone4);
+        --color-H: var(--tone3);
+        --color-I: var(--tone2);
+        --color-J: var(--tone1);
+        --color-K: var(--tone0);
+        --opacity: 55%;
+    }
+
+    --np: 1.618rem;
+    --mp: 0.618rem;
 }

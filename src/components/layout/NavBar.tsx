@@ -8,6 +8,7 @@ const NavBar = () => (
             className={({ isActive }) => isActive ? 'active' : ''}
         >
             <House size={24} />
+            <span>Home</span>
         </NavLink>
 
         <NavLink
@@ -15,6 +16,7 @@ const NavBar = () => (
             className={({ isActive }) => isActive ? 'active' : ''}
         >
             <MapPin size={24} />
+            <span>Nearby</span>
         </NavLink>
 
         <NavLink
@@ -22,6 +24,7 @@ const NavBar = () => (
             className={({ isActive }) => isActive ? 'active' : ''}
         >
             <Star size={24} />
+            <span>Experiences</span>
         </NavLink>
 
         <NavLink
@@ -29,6 +32,7 @@ const NavBar = () => (
             className={({ isActive }) => isActive ? 'active' : ''}
         >
             <Heart size={24} />
+            <span>Saved</span>
         </NavLink>
 
         <NavLink
@@ -36,6 +40,7 @@ const NavBar = () => (
             className={({ isActive }) => isActive ? 'active' : ''}
         >
             <User size={24} />
+            <span>Profile</span>
         </NavLink>
     </nav>
 );
