@@ -75,6 +75,10 @@ p {
 .auth {
   .register,
   .login {
+    h2 {
+      margin-top: 21%;
+    }
+
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -83,11 +87,12 @@ p {
     text-align: center;
 
     .register-header span,
-    .terms-text {
-      max-width: 89%;
+    .span-text {
+      max-width: 70%;
       align-self: center;
       text-align: center;
       font-size: small;
+      display: inline-block;
     }
 
     .register-form {

@@ -65,9 +65,7 @@ const Register: React.FC = () => {
         <span>Join Aupa! to save your favorite experience and trips</span>
       </div>
 
-
       <form className="register-form" onSubmit={handleSubmit}>
-
 
         <div className="username-container">
           <CircleUser className="icon" size={21} color="currentColor" />
@@ -80,7 +78,6 @@ const Register: React.FC = () => {
             data-testid="name-input"
           />
         </div>
-
 
         <div className="email-container">
           <Mail className="icon" size={21} color="currentColor" />
@@ -99,11 +96,15 @@ const Register: React.FC = () => {
         <PasswordInput testId="confirm-password-input" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleInputChange('confirmPassword')} />
         <div className="error-message">{errorMessage}</div>
         <button type="submit" className="create-account-btn">Create an account</button>
+        <span className="span-text">
+          Do you already have an account? <br />
+          <a href="/login" className="terms-link">Click here to sign in!</a>
+        </span>
       </form>
 
-      <span className="terms-text">
+      <span className="span-text">
         By creating an account, you agree to the{' '}
-        <a href="/terms" className="terms-link">Terms of Service</a> y{' '}
+        <a href="/terms" className="terms-link">Terms of Service</a> &{' '}
         <a href="/privacy" className="terms-link">Privacy Policy</a>
       </span>
 
