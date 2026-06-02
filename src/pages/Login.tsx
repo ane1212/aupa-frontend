@@ -69,7 +69,7 @@ const Login: React.FC = () => {
                 <div className="error-message">{errorMessage}</div>
                 <button type="submit" className="create-account-btn">Sign in</button>
                 <span className="span-text">
-                    Do you don't have an account? <br />
+                    Don't you have an account? <br />
                     <a href="/register" className="terms-link">Click here to sign up!</a>
                 </span>
             </form>
