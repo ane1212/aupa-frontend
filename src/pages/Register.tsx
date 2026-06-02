@@ -97,8 +97,8 @@ const Register: React.FC = () => {
         <div className="error-message">{errorMessage}</div>
         <button type="submit" className="create-account-btn">Create an account</button>
         <span className="span-text">
-          Do you already have an account? <br />
-          <a href="/login" className="terms-link">Click here to sign in!</a>
+          Already have an account? <br />
+          <a href="/login" className="terms-link">Sign in!</a>
         </span>
       </form>
 
