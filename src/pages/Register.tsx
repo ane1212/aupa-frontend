@@ -1,90 +1,82 @@
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import PasswordInput from '../components/ui/PasswordInput';
+import { CircleUser, Mail } from 'lucide-react';
 
-const Register = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+interface RegisterFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+const Register: React.FC = () => {
+  const [formData, setFormData] = useState<RegisterFormData>({
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleInputChange = (field: keyof RegisterFormData) => (value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSubmit = (e: React.SubmitEvent) => {
+    e.preventDefault();
+
+    if (formData.password.length < 8) {
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      return;
+    }
+    //auth
+  };
 
   return (
     <div className="register">
       <div className="register-header">
-        <h1>Create your account</h1>
+        <h2>Create your account</h2>
         <p>Join Aupa! to save your favorite experience and trips</p>
       </div>
 
-      <form className="register-form">
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="input-box"
-        />
+      <form className="register-form" onSubmit={handleSubmit}>
 
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="input-box"
-        />
-
-        <div className="password-container">
+        <div className="username-container">
+          <CircleUser size={24} color="currentColor" />
           <input
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            type="text"
+            placeholder="Name"
+            value={formData.name}
+            onChange={(e) => handleInputChange('name')(e.target.value)}
             className="input-box"
+            data-testid="name-input"
           />
-          <button
-            type="button"
-            onClick={() => setShowPassword(!showPassword)}
-            className="eye-icon"
-          >
-            {showPassword ? (
-              <Eye size={24} color="currentColor" />
-            ) : (
-              <EyeOff size={24} color="currentColor" />
-            )}
-          </button>
         </div>
 
-        <div className="password-container">
+        <div className="email-container">
+          <Mail size={24} color="currentColor" />
           <input
-            type={showConfirmPassword ? 'text' : 'password'}
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            type="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={(e) => handleInputChange('email')(e.target.value)}
             className="input-box"
+            data-testid="email-input"
           />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="eye-icon"
-          >
-            {showConfirmPassword ? (
-              <Eye size={24} color="currentColor" />
-            ) : (
-              <EyeOff size={24} color="currentColor" />
-            )}
-          </button>
         </div>
 
-        <button type="submit" className="create-account-btn">
-          Create an account
-        </button>
+        <PasswordInput testId="password-input" placeholder="Password" value={formData.password} onChange={handleInputChange('password')} />
+        <PasswordInput testId="confirm-password-input" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleInputChange('confirmPassword')} />
+
+        <button type="submit" className="create-account-btn">Create an account</button>
       </form>
 
-      <p className="terms-text">
+      <span className="terms-text">
         By creating an account, you agree to the{' '}
         <a href="/terms" className="terms-link">Terms of Service</a> and{' '}
         <a href="/privacy" className="terms-link">Privacy Policy</a>
-      </p>
+      </span>
     </div>
   );
 };
