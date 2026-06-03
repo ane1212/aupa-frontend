@@ -2,7 +2,8 @@ import { useState } from 'react';
 import PasswordInput from '../components/ui/PasswordInput';
 import { CircleUser, Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
-import { Link } from 'react-router-dom';
+import TermsLink from '../components/ui/TermsLink';
+import AuthLink from '../components/ui/AuthLink';
 
 interface RegisterFormData {
   name: string;
@@ -68,7 +69,7 @@ const Register: React.FC = () => {
 
       <form className="register-form" onSubmit={handleSubmit}>
 
-        <div className="username-container">
+        <div className="account-container">
           <CircleUser className="icon" size={21} color="currentColor" />
           <input
             type="text"
@@ -80,7 +81,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <div className="email-container">
+        <div className="account-container">
           <Mail className="icon" size={21} color="currentColor" />
           <input
             type="email"
@@ -96,18 +97,11 @@ const Register: React.FC = () => {
         <PasswordInput testId="password-input" placeholder="Password" value={formData.password} onChange={handleInputChange('password')} />
         <PasswordInput testId="confirm-password-input" placeholder="Confirm Password" value={formData.confirmPassword} onChange={handleInputChange('confirmPassword')} />
         <div className="error-message">{errorMessage}</div>
-        <button type="submit" className="create-account-btn">Create an account</button>
-        <span className="span-text">
-          Already have an account? <br />
-          <Link to="/login" className="terms-link">Sign in!</Link>
-        </span>
+        <button type="submit" className="account-btn">Create an account</button>
+        <AuthLink mainText="Already have an account?" linkTo="/login" linkText="Sign in!" />
       </form>
 
-      <span className="span-text">
-        By creating an account, you agree to the{' '}
-        <Link to="/terms" className="terms-link">Terms of Service</Link> &{' '}
-        <Link to="/privacy" className="terms-link">Privacy Policy</Link>
-      </span>
+      <TermsLink />
 
       <img className="footer" src={footer} alt="footer" />
     </div>

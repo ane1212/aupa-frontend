@@ -102,13 +102,25 @@ p {
       gap: var(--mp);
       width: 100%;
 
-      .username-container,
-      .email-container {
+      .account-container {
         position: relative;
         width: 100%;
         max-width: 233px;
         display: flex;
         align-items: center;
+
+        .login-type {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-content: center;
+          justify-content: space-around;
+          align-items: center;
+        }
+
+        .login-icon {
+          width: 21px;
+        }
       }
 
       .input-wrapper {
@@ -156,7 +168,7 @@ p {
         }
       }
 
-      .create-account-btn {
+      .account-btn {
         padding: .2rem var(--np) 0;
         height: calc(var(--np) * 1.618);
         width: 233px;
@@ -165,11 +177,17 @@ p {
         background-color: var(--color-G);
         color: var(--color-A);
         font-weight: bold;
+        font-size:small;
+        text-decoration: none;
       }
     }
   }
 }
 
+.btn-back {
+  border: none;
+  background-color: transparent;
+}
 
 .footer {
   width: 100vw;
