@@ -2,6 +2,7 @@ import { useState } from 'react';
 import PasswordInput from '../components/ui/PasswordInput';
 import { CircleUser, Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
+import { Link } from 'react-router-dom';
 
 interface RegisterFormData {
   name: string;
@@ -98,14 +99,14 @@ const Register: React.FC = () => {
         <button type="submit" className="create-account-btn">Create an account</button>
         <span className="span-text">
           Already have an account? <br />
-          <a href="/login" className="terms-link">Sign in!</a>
+          <Link to="/login" className="terms-link">Sign in!</Link>
         </span>
       </form>
 
       <span className="span-text">
         By creating an account, you agree to the{' '}
-        <a href="/terms" className="terms-link">Terms of Service</a> &{' '}
-        <a href="/privacy" className="terms-link">Privacy Policy</a>
+        <Link to="/terms" className="terms-link">Terms of Service</Link> &{' '}
+        <Link to="/privacy" className="terms-link">Privacy Policy</Link>
       </span>
 
       <img className="footer" src={footer} alt="footer" />

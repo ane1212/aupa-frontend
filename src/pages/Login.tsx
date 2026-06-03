@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import PasswordInput from '../components/ui/PasswordInput';
 import { Mail } from 'lucide-react';
-import footer from '../assets/redfooter.png'
+import footer from '../assets/redfooter.png';
+import { Link } from 'react-router-dom';
 
 interface LoginFormData {
     email: string;
@@ -70,14 +71,14 @@ const Login: React.FC = () => {
                 <button type="submit" className="create-account-btn">Sign in</button>
                 <span className="span-text">
                     Don't have an account? <br />
-                    <a href="/register" className="terms-link">Register here!</a>
+                    <Link to="/register" className="terms-link">Register here!</Link>
                 </span>
             </form>
 
             <span className="span-text">
                 By creating an account, you agree to the{' '}
-                <a href="/terms" className="terms-link">Terms of Service</a> &{' '}
-                <a href="/privacy" className="terms-link">Privacy Policy</a>
+                <Link to="/terms" className="terms-link">Terms of Service</Link> &{' '}
+                <Link to="/privacy" className="terms-link">Privacy Policy</Link>
             </span>
 
             <img className="footer" src={footer} alt="footer" />
