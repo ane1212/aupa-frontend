@@ -34,3 +34,15 @@ export interface Category {
     createdAt?: string
     updatedAt?: string
 }
+
+export interface CreateCategoryForm {
+    name: CategoryType
+    description?: string
+    icon?: string
+}
+
+export interface UpdateCategoryForm {
+    name?: CategoryType
+    description?: string
+    icon?: string
+}
