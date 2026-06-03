@@ -73,6 +73,7 @@ p {
 }
 
 .auth {
+
   .register,
   .login {
     h2 {
@@ -147,10 +148,13 @@ p {
 
         &:focus {
           border-color: var(--color-G);
-          border-width: 2px;
           outline: none;
         }
 
+        &:hover {
+          background-color: var(--color-E);
+          outline: none;
+        }
       }
 
       .create-account-btn {
