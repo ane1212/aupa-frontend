@@ -1,4 +1,5 @@
 export { default as Error } from './Error';
+export { default as DashboardUsers } from './DashboardUsers';
 export { default as Experiences } from './Experiences';
 export { default as Home } from './Home';
 export { default as Login } from './Login';

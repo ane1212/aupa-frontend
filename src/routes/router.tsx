@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Error, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
+import { DashboardUsers, Error, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
+import DashboardLayout from "../components/layout/DashboardLayout";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,16 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { index: true, element: <Navigate to="/dashboard/users" /> },
+      // { path: "locals", element: <DashboardLocals /> },
+      { path: "users", element: <DashboardUsers /> },
+    ],
+  }
+
 ]);
 
 export default router;
