@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PasswordInput from '../components/ui/PasswordInput';
 import { CircleUser, Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
@@ -122,6 +123,10 @@ const Register: React.FC = () => {
         <div className="error-message">{errorMessage}</div>
         <button type="submit" className="account-btn">Create an account</button>
         <AuthLink mainText="Already have an account?" linkTo="/login" linkText="Sign in!" />
+        <span className="span-text">
+          I'm a business.{' '}
+          <Link to="/local-partner" className="terms-link">Create business profile</Link>
+        </span>
       </form>
 
       <TermsLink />

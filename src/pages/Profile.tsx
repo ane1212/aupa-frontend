@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Bell,
   CircleHelp,
@@ -68,6 +69,7 @@ const categoryIcons: Partial<Record<CategoryType, LucideIcon>> = {
 const categoryTones = ['pink', 'green', 'cream', 'blue', 'cream'];
 
 const Profile = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [savedCount, setSavedCount] = useState(7);
   const [preferences, setPreferences] = useState<PreferenceChip[]>(fallbackPreferences);
@@ -208,7 +210,7 @@ const Profile = () => {
             <Info size={23} />
             <span>About Aupa!</span>
           </button>
-          <button type="button">
+          <button type="button" onClick={() => navigate('/local-partner')}>
             <Megaphone size={23} />
             <span>
               Become a local partner!
