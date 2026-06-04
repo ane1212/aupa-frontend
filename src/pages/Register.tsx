@@ -16,6 +16,7 @@ interface RegisterFormData {
 }
 
 const Register: React.FC = () => {
+  
   const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
@@ -81,7 +82,7 @@ const Register: React.FC = () => {
       }));
 
       setErrorMessage('Logged in successfully');
-      navigate('/home');
+      navigate('/onboarding');
     } catch {
       setErrorMessage('Registration failed');
     }

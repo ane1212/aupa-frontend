@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Detail, ErrorPage, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
+import { Detail, ErrorPage, Experiences, Home, Login, Nearby, Onboarding, Profile, Register, Saved } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import AuthenticatedRoute from "../components/layout/AuthenticatedRoute";
@@ -13,29 +13,29 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/home" /> },
       { path: "home", element: <Home /> },
       { path: "nearby", element: <Nearby /> },
-      { 
-        path: "experiences", 
+      {
+        path: "experiences",
         element: (
           <AuthenticatedRoute>
             <Experiences />
           </AuthenticatedRoute>
-        ) 
+        )
       },
-      { 
-        path: "saved", 
+      {
+        path: "saved",
         element: (
           <AuthenticatedRoute>
             <Saved />
           </AuthenticatedRoute>
-        ) 
+        )
       },
-      { 
-        path: "profile", 
+      {
+        path: "profile",
         element: (
           <AuthenticatedRoute>
             <Profile />
           </AuthenticatedRoute>
-        ) 
+        )
       },
     ],
   },
@@ -49,6 +49,7 @@ const router = createBrowserRouter([
     children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
+      { path: "onboarding", element: <Onboarding /> },
     ],
   },
 ]);
