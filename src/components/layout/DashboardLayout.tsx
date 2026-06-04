@@ -1,31 +1,24 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import '../../assets/styles/dashboard.css'
 import {
-    Bell,
     CalendarDays,
     FolderKanban,
-    Heart,
     LayoutDashboard,
     LogOut,
-    MessageSquare,
-    Settings,
-    ShieldAlert,
     SlidersHorizontal,
     Store,
     Tags,
     Users,
 } from "lucide-react";
 import { useAuth } from "../../context";
+import NotificationPanel from "./NotificationPanel";
 
 const dashboardLinks = [
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, end: true },
     { to: "/dashboard/users", label: "Usuarios", icon: Users },
     { to: "/dashboard/locals", label: "Locales", icon: Store },
     { to: "/dashboard/preferences", label: "Preferencias de Usuario", icon: SlidersHorizontal },
-    { to: "/dashboard/favorites", label: "Favoritos", icon: Heart },
-    { to: "/dashboard/incidents", label: "Incidentes", icon: ShieldAlert },
     { to: "/dashboard/events", label: "Eventos", icon: CalendarDays },
-    { to: "/dashboard/comments", label: "Comentarios", icon: MessageSquare },
     { to: "/dashboard/categories", label: "Categorias", icon: Tags },
 ];
 
@@ -75,8 +68,7 @@ const DashboardLayout = () => {
             <div className="dashboard-content">
                 <header className="dashboard-header">
                     <div className="dashboard-header-actions">
-                        <Bell size={18} />
-                        <Settings size={18} />
+                        <NotificationPanel />
                     </div>
                 </header>
 

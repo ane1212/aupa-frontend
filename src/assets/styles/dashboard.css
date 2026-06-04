@@ -286,6 +286,11 @@
   color: #dc2626;
 }
 
+.dashboard-stat-icon-yellow {
+  background: #fffbeb;
+  color: #d97706;
+}
+
 .dashboard-stat-body {
   display: flex;
   flex-direction: column;

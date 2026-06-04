@@ -23,6 +23,7 @@ const DashboardUsers = () => {
     const [role, setRole] = useState("all")
     const [currentPage, setCurrentPage] = useState(1)
     const [totalItems, setTotalItems] = useState(0)
+    const [refresh, setRefresh] = useState(0)
 
     // Reset to page 1 when filters/search change
     useEffect(() => {
@@ -54,13 +55,9 @@ const DashboardUsers = () => {
             .finally(() => { if (!cancelled) setIsLoading(false) })
 
         return () => { cancelled = true }
-    }, [currentPage, debouncedSearch, status, role])
+    }, [currentPage, debouncedSearch, status, role, refresh])
 
-    const fetchUsers = () => setCurrentPage(prev => {
-        // Force re-fetch keeping same page
-        setIsLoading(true)
-        return prev
-    })
+    const fetchUsers = () => setRefresh(prev => prev + 1)
 
     const columns = useMemo<DataTableColumn<User>[]>(() => [
         {
@@ -193,14 +190,16 @@ const DashboardUsers = () => {
                             { label: "Admin", value: "superAdmin" },
                         ]}
                     />
-                    <button
-                        type="button"
-                        className="dashboard-clear-button"
-                        onClick={() => { setSearch(""); setStatus("all"); setRole("all"); setCurrentPage(1) }}
-                    >
-                        <X size={16} />
-                        <span>Limpiar filtros</span>
-                    </button>
+                    {(search || status !== "all" || role !== "all") && (
+                        <button
+                            type="button"
+                            className="dashboard-clear-button"
+                            onClick={() => { setSearch(""); setStatus("all"); setRole("all"); setCurrentPage(1) }}
+                        >
+                            <X size={16} />
+                            <span>Limpiar filtros</span>
+                        </button>
+                    )}
                     <SearchInput
                         value={search}
                         onChange={setSearch}
