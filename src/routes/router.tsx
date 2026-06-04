@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { DashboardUsers, Error, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
+import { DashboardUsers, Error, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import DashboardLayout from "../components/layout/DashboardLayout";
@@ -17,6 +17,10 @@ const router = createBrowserRouter([
       { path: "saved", element: <Saved /> },
       { path: "profile", element: <Profile /> },
     ],
+  },
+  {
+    path: "/detail/:id",
+    element: <Detail />,
   },
   {
     path: "/",

@@ -1,3 +1,4 @@
+export { default as Detail } from './Detail';
 export { default as Error } from './Error';
 export { default as DashboardUsers } from './DashboardUsers';
 export { default as Experiences } from './Experiences';
