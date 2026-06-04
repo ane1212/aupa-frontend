@@ -7,6 +7,9 @@ body {
   padding: 0;
   overflow-y: hidden;
   height: 100%;
+}
+
+* {
   font-family: 'Poppins', sans-serif;
 }
 
@@ -49,7 +52,6 @@ p {
     border-top: 1px solid var(--color-F);
 
     a {
-
       color: var(--color-H);
       display: flex;
       flex-direction: column;
@@ -71,31 +73,100 @@ p {
 }
 
 .auth {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  justify-content: space-between;
+  .register,
+  .login {
+    h2 {
+      margin-top: 21%;
+    }
 
-  .auth-main {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
-
-  .register,
-  .login {
     text-align: center;
+
+    .register-header span,
+    .span-text {
+      max-width: 70%;
+      align-self: center;
+      text-align: center;
+      font-size: small;
+      display: inline-block;
+    }
 
     .register-form {
       display: flex;
       flex-direction: column;
       align-items: center;
+      gap: var(--mp);
+      width: 100%;
+
+      .username-container,
+      .email-container {
+        position: relative;
+        width: 100%;
+        max-width: 233px;
+        display: flex;
+        align-items: center;
+      }
+
+      .input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 100%;
+        max-width: 233px;
+      }
+
+      .icon {
+        position: absolute;
+        left: 3%;
+        color: var(--color-K);
+        z-index: 1;
+      }
+
+      .eye-icon {
+        position: absolute;
+        right: 0%;
+        transform: translateY(5%);
+        border: none;
+        background: none;
+        color: var(--color-F);
+        z-index: 1;
+      }
+
+      .input-box {
+        height: var(--np);
+        border-radius: var(--mp);
+        background-color: var(--color-C);
+        border-color: var(--color-F);
+        border-style: solid;
+        width: 100%;
+        padding: .2rem calc(var(--np) + var(--mp)) 0;
+
+        &:focus {
+          border-color: var(--color-G);
+          border-width: 2px;
+          outline: none;
+        }
+
+      }
+
+      .create-account-btn {
+        padding: .2rem var(--np) 0;
+        height: calc(var(--np) * 1.618);
+        width: 233px;
+        border-radius: var(--mp);
+        border-style: none;
+        background-color: var(--color-G);
+        color: var(--color-A);
+        font-weight: bold;
+      }
     }
   }
 }
+
 
 .footer {
   width: 100vw;
