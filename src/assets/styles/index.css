@@ -77,6 +77,12 @@ p {
 
 /* ── Auth layout ──────────────────────────────────────────────── */
 .auth {
+
+  .logo {
+    width: 55%;
+    margin-top: 13%;
+  }
+
   .register,
   .login {
     h2 {
@@ -87,7 +93,6 @@ p {
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
-    flex-wrap: wrap;
     text-align: center;
 
     .register-header span,
@@ -97,6 +102,16 @@ p {
       text-align: center;
       font-size: small;
       display: inline-block;
+
+      .txt-red {
+        color: var(--color-J);
+        font-weight: 700;
+      }
+
+      .txt-green {
+        color: var(--color-I);
+        font-weight: 700;
+      }
     }
 
     .register-form {
@@ -106,13 +121,25 @@ p {
       gap: var(--mp);
       width: 100%;
 
-      .username-container,
-      .email-container {
+      .account-container {
         position: relative;
         width: 100%;
         max-width: 233px;
         display: flex;
         align-items: center;
+
+        .login-type {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-content: center;
+          justify-content: space-around;
+          align-items: center;
+        }
+
+        .login-icon {
+          width: 21px;
+        }
       }
 
       .input-wrapper {
@@ -151,12 +178,16 @@ p {
 
         &:focus {
           border-color: var(--color-G);
-          border-width: 2px;
+          outline: none;
+        }
+
+        &:hover {
+          background-color: var(--color-E);
           outline: none;
         }
       }
 
-      .create-account-btn {
+      .account-btn {
         padding: .2rem var(--np) 0;
         height: calc(var(--np) * 1.618);
         width: 233px;
@@ -165,9 +196,16 @@ p {
         background-color: var(--color-G);
         color: var(--color-A);
         font-weight: bold;
+        font-size: small;
+        text-decoration: none;
       }
     }
   }
+}
+
+.btn-back {
+  border: none;
+  background-color: transparent;
 }
 
 .footer {
