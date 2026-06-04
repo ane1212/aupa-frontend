@@ -6,6 +6,7 @@ import {
   RecommendationCard,
   SectionHeader,
 } from "../components/home";
+import { useAuth } from "../context";
 
 const recommendations = [
   { title: "Walk through Casco Viejo", distance: "12 min away", score: 96 },
@@ -26,6 +27,8 @@ const experiences = [
 ];
 
 const Home = () => {
+  const { user } = useAuth();
+
   return (
     <div className="home">
       <header className="home-hero">
@@ -36,7 +39,7 @@ const Home = () => {
           </button>
         </div>
 
-        <h1>Aupa, Jovian!</h1>
+        <h1>Aupa, {user?.name ?? "there"}!</h1>
         <p>Ready to live like basque today?</p>
 
         <div className="home-meta">

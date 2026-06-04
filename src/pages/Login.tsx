@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PasswordInput from '../components/ui/PasswordInput';
 import { Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
+import { useAuth } from '../context';
 
 interface LoginFormData {
   email: string;
@@ -9,6 +11,8 @@ interface LoginFormData {
 }
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: ''
@@ -21,7 +25,7 @@ const Login: React.FC = () => {
     setErrorMessage('');
   };
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (!formData.email || !formData.password) {
@@ -39,8 +43,15 @@ const Login: React.FC = () => {
       return;
     }
 
-    setErrorMessage('Logged in successfully')
-    // auth
+    try {
+      await login({
+        email: formData.email,
+        password: formData.password,
+      });
+      navigate('/home', { replace: true });
+    } catch {
+      setErrorMessage('Invalid credentials');
+    }
   };
 
   return (

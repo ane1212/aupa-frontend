@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         if (token) {
+            setIsLoading(true)
             fetchProfile()
         } else {
             setIsLoading(false)
@@ -33,6 +34,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const user = await userService.getProfile()
             setUser(user)
         } catch {
+            setUser(null)
+        } finally {
             setIsLoading(false)
         }
     }
@@ -40,7 +43,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (data: LoginForm) => {
         const res = await authService.login(data)
         localStorage.setItem('token', res.token)
+        localStorage.setItem('user', JSON.stringify({
+            id: res.user.id,
+            name: res.user.name,
+            email: res.user.email,
+        }))
+        setUser(res.user)
         setToken(res.token)
+        setIsLoading(false)
     }
 
     const register = async (data: RegisterForm) => {
@@ -49,6 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const logout = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem('user')
         setToken(null)
         setUser(null)
     }

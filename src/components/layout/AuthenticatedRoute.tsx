@@ -1,6 +1,7 @@
+import type { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
-const AuthenticatedRoute = ({ children }: { children: JSX.Element }) => {
+const AuthenticatedRoute = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
   const token = localStorage.getItem('token');
 
