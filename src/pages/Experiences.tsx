@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, ChevronDown, Bookmark } from 'lucide-react';
+import { ExperienceCard, SearchBar, SectionHeader, VibeCard } from '../components/experiences';
 
 interface Vibe {
     id: number;
@@ -30,10 +30,6 @@ const topExperiences: Experience[] = [
     { id: 3, name: 'Hidden viewpoints of Bilbao',  duration: '2 hours',   price: 'Free',   score: 92 },
 ];
 
-const ImgX = ({ className }: { className: string }) => (
-    <div className={className} aria-hidden="true" />
-);
-
 const Experiences = () => {
     const [query, setQuery] = useState('');
 
@@ -46,60 +42,29 @@ const Experiences = () => {
     return (
         <div className="experiences">
 
-            {/* ── Browse by vibe ── */}
-            <div className="exp-row-head">
-                <h2 className="exp-title">Browse by vibe</h2>
-                <button className="exp-view-all">
-                    View all <ChevronDown size={14} />
-                </button>
-            </div>
+            <SectionHeader title="Browse by vibe" onAction={() => {}} />
 
             <div className="exp-vibe-grid">
                 {vibes.map(({ id, label, bg }) => (
-                    <button key={id} className="exp-vibe-card" style={{ backgroundColor: bg }}>
-                        <ImgX className="exp-vibe-img" />
-                        <span className="exp-vibe-label">{label}</span>
-                    </button>
+                    <VibeCard key={id} label={label} bg={bg} />
                 ))}
             </div>
 
-            {/* ── Top experiences ── */}
             <h2 className="exp-title exp-top-title">Top experiences</h2>
 
             <ul className="exp-list">
                 {filtered.length > 0 ? filtered.map(exp => (
-                    <li key={exp.id} className="exp-card">
-                        <ImgX className="exp-card-img" />
-                        <div className="exp-card-info">
-                            <p className="exp-card-name">{exp.name}</p>
-                            <p className="exp-card-meta">{exp.duration} · {exp.price}</p>
-                        </div>
-                        <div className="exp-card-actions">
-                            <div className="exp-score-row">
-                                <span className="exp-score-badge">{exp.score}</span>
-                                <button className="exp-bookmark" aria-label="Guardar experiencia">
-                                    <Bookmark size={16} />
-                                </button>
-                            </div>
-                            <span className="exp-score-label">Local Score</span>
-                        </div>
-                    </li>
+                    <ExperienceCard key={exp.id} {...exp} />
                 )) : (
                     <li className="exp-no-results">No experiences found.</li>
                 )}
             </ul>
 
-            {/* ── Search ── */}
-            <label className="exp-search">
-                <Search size={15} aria-hidden="true" />
-                <input
-                    className="exp-search-input"
-                    type="search"
-                    placeholder="Search experiences"
-                    value={query}
-                    onChange={e => setQuery(e.target.value)}
-                />
-            </label>
+            <SearchBar
+                value={query}
+                onChange={setQuery}
+                placeholder="Search experiences"
+            />
 
         </div>
     );
