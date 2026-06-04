@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 import type { LoginForm, RegisterForm, User } from "../services/models"
-import { apiClient } from "../services/http"
+import { authService, userService } from "../services/API"
 
 
 interface AuthContextType {
@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     useEffect(() => {
         if (token) {
+            setIsLoading(true)
             fetchProfile()
         } else {
             setIsLoading(false)
@@ -30,27 +31,37 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchProfile = async () => {
         try {
-            const user = await apiClient.get<User>('/user/profile')
+            const user = await userService.getProfile()
             setUser(user)
         } catch {
-            logout()
+            setUser(null)
         } finally {
             setIsLoading(false)
         }
     }
 
     const login = async (data: LoginForm) => {
-        const res = await apiClient.post<{ token: string }>('/auth/login', data)
+        const res = await authService.login(data)
         localStorage.setItem('token', res.token)
         setToken(res.token)
+
+        const user = await userService.getProfile()
+        localStorage.setItem('user', JSON.stringify({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+        }))
+        setUser(user)
+        setIsLoading(false)
     }
 
     const register = async (data: RegisterForm) => {
-        await apiClient.post('/auth/register', data)
+        await authService.register(data)
     }
 
     const logout = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem('user')
         setToken(null)
         setUser(null)
     }

@@ -1,0 +1,16 @@
+import { Utensils, Wine, Building2, TreePine, CalendarDays } from 'lucide-react';
+import type { Category, Place } from './types';
+
+export const categories: Category[] = [
+    { id: 'food', label: 'Food', icon: Utensils },
+    { id: 'bars', label: 'Bars', icon: Wine },
+    { id: 'culture', label: 'Culture', icon: Building2 },
+    { id: 'nature', label: 'Nature', icon: TreePine },
+    { id: 'events', label: 'Events', icon: CalendarDays },
+];
+
+export const places: Place[] = [
+    { id: 1, name: 'Bar El Globo', type: 'Pintxos bar', neighborhood: 'Casco Viejo', distance: '400m away', walkTime: '5 min walk', score: 97 },
+    { id: 2, name: 'La Viña del Ensanche', type: 'Wine bar', neighborhood: 'Ensanche', distance: '600m away', walkTime: '8 min walk', score: 95 },
+    { id: 3, name: 'Gure Toki', type: 'Restaurant', neighborhood: 'Indautxu', distance: '750m away', walkTime: '10 min walk', score: 93 },
+];

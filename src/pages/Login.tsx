@@ -1,87 +1,58 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PasswordInput from '../components/ui/PasswordInput';
-import { Mail } from 'lucide-react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Mail, User } from 'lucide-react';
+import Google from '../assets/web_neutral_rd_na.svg';
 import footer from '../assets/redfooter.png'
-import { useAuth } from '../context';
+import AuthLink from '../components/ui/AuthLink';
+import EmailLoginForm from '../components/ui/EmailLoginForm';
+import TermsLink from '../components/ui/TermsLink';
+import TopLogo from '../components/ui/TopLogo';
+
+type LoginMode = 'choices' | 'email';
 
 const Login: React.FC = () => {
-    const { login, user } = useAuth()
-    const navigate = useNavigate()
+    const [mode, setMode] = useState<LoginMode>('choices');
 
-    const [formData, setFormData] = useState({ email: '', password: '' })
-    const [errorMessage, setErrorMessage] = useState('')
-
-    useEffect(() => {
-        if (user) {
-            navigate(user.role === 'superAdmin' ? '/dashboard' : '/home', { replace: true })
-        }
-    }, [user])
-
-    const handleInputChange = (field: 'email' | 'password') => (value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }))
-        setErrorMessage('')
-    }
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-
-        if (!formData.email || !formData.password) {
-            setErrorMessage('All fields need to be filled!')
-            return
-        }
-
-        try {
-            await login(formData)
-        } catch {
-            setErrorMessage('Email o contraseña incorrectos')
-        }
+    if (mode === 'email') {
+        return <EmailLoginForm onBack={() => setMode('choices')} />;
     }
 
     return (
-        <div className="login">
+        <div className="register login">
             <div className="register-header">
-                <h2>Welcome back</h2>
-                <span>Sign in to your Aupa! account</span>
+                <TopLogo />
+                <span className='span-text'>Visit <span className='txt-red'>Eu</span><span className='txt-green'>ska</span><span className='txt-red'>di</span> lika a local!</span>
             </div>
 
-            <form className="register-form" onSubmit={handleSubmit}>
-                <div className="email-container">
-                    <Mail className="icon" size={21} color="currentColor" />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={formData.email}
-                        onChange={(e) => handleInputChange('email')(e.target.value)}
-                        className="input-box"
-                        data-testid="email-input"
-                        autoComplete="email"
-                    />
+            <form className="register-form" onSubmit={(e) => e.preventDefault()}>
+                <div className="account-container">
+                    <button type="button" className="account-btn login-type">
+                        <img src={Google} alt="Google logo" className="login-icon" />
+                        Continue with Google
+                    </button>
                 </div>
 
-                <PasswordInput
-                    testId="password-input"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleInputChange('password')}
-                />
-                <div className="error-message">{errorMessage}</div>
-                <button type="submit" className="create-account-btn">Sign in</button>
-                <span className="span-text">
-                    Don't have an account? <br />
-                    <a href="/register" className="terms-link">Register here!</a>
-                </span>
-            </form>
+                <div className="account-container">
+                    <button type="button" className="account-btn login-type" onClick={() => setMode('email')} >
+                        <Mail size={21} />
+                        Continue with Email
+                    </button>
+                </div>
 
-            <span className="span-text">
-                By creating an account, you agree to the{' '}
-                <a href="/terms" className="terms-link">Terms of Service</a> &{' '}
-                <a href="/privacy" className="terms-link">Privacy Policy</a>
-            </span>
+                <div className="account-container">
+                    <Link to="/home" className="account-btn login-type">
+                        <User size={21} />
+                        Continue as Guest
+                    </Link>
+                </div>
+
+                <AuthLink mainText="Don't have an account?" linkTo="/register" linkText="Register here!" />
+                <TermsLink />
+            </form>
 
             <img className="footer" src={footer} alt="footer" />
         </div>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;
