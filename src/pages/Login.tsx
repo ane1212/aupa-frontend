@@ -1,47 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PasswordInput from '../components/ui/PasswordInput';
 import { Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
-
-interface LoginFormData {
-    email: string;
-    password: string;
-}
+import { useAuth } from '../context';
 
 const Login: React.FC = () => {
-    const [formData, setFormData] = useState<LoginFormData>({
-        email: '',
-        password: ''
-    });
+    const { login, user } = useAuth()
+    const navigate = useNavigate()
 
-    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [formData, setFormData] = useState({ email: '', password: '' })
+    const [errorMessage, setErrorMessage] = useState('')
 
-    const handleInputChange = (field: keyof LoginFormData) => (value: string) => {
-        setFormData(prev => ({ ...prev, [field]: value }));
-        setErrorMessage('');
-    };
+    useEffect(() => {
+        if (user) {
+            navigate(user.role === 'superAdmin' ? '/dashboard' : '/home', { replace: true })
+        }
+    }, [user])
 
-    const handleSubmit = (e: React.SubmitEvent) => {
-        e.preventDefault();
+    const handleInputChange = (field: 'email' | 'password') => (value: string) => {
+        setFormData(prev => ({ ...prev, [field]: value }))
+        setErrorMessage('')
+    }
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
 
         if (!formData.email || !formData.password) {
-            setErrorMessage('All fields need to be filled!');
-            return;
+            setErrorMessage('All fields need to be filled!')
+            return
         }
 
-        if (formData.email.length < 7 || !formData.email.includes('@') || !formData.email.includes('.')) {
-            setErrorMessage('Email address is incorrect!');
-            return;
+        try {
+            await login(formData)
+        } catch {
+            setErrorMessage('Email o contraseña incorrectos')
         }
-
-        if (formData.password.length < 8) {
-            setErrorMessage('Password needs at least 8 characters!');
-            return;
-        }
-
-        setErrorMessage('Logged in successfully')
-        // auth
-    };
+    }
 
     return (
         <div className="login">
@@ -51,7 +46,6 @@ const Login: React.FC = () => {
             </div>
 
             <form className="register-form" onSubmit={handleSubmit}>
-
                 <div className="email-container">
                     <Mail className="icon" size={21} color="currentColor" />
                     <input
@@ -65,7 +59,12 @@ const Login: React.FC = () => {
                     />
                 </div>
 
-                <PasswordInput testId="password-input" placeholder="Password" value={formData.password} onChange={handleInputChange('password')} />
+                <PasswordInput
+                    testId="password-input"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleInputChange('password')}
+                />
                 <div className="error-message">{errorMessage}</div>
                 <button type="submit" className="create-account-btn">Sign in</button>
                 <span className="span-text">
@@ -82,7 +81,7 @@ const Login: React.FC = () => {
 
             <img className="footer" src={footer} alt="footer" />
         </div>
-    );
-};
+    )
+}
 
-export default Login;
+export default Login

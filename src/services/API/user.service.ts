@@ -15,6 +15,9 @@ export const userService = {
     deleteProfile: () =>
         apiClient.delete<void>('/user/profile'),
 
+    create: (data: Record<string, string>) =>
+        apiClient.post<User>('/auth/register', data),
+
     getAllUsers: () =>
         apiClient.get<User[]>('/user'),
 

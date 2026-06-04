@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchProfile = async () => {
         try {
-            const user = await apiClient.get<User>('/users/profile')
+            const user = await apiClient.get<User>('/user/profile')
             setUser(user)
         } catch {
             logout()

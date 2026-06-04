@@ -1,10 +1,12 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import '../../assets/styles/dashboard.css'
 import {
     Bell,
     CalendarDays,
     FolderKanban,
     Heart,
     LayoutDashboard,
+    LogOut,
     MessageSquare,
     Settings,
     ShieldAlert,
@@ -13,6 +15,7 @@ import {
     Tags,
     Users,
 } from "lucide-react";
+import { useAuth } from "../../context";
 
 const dashboardLinks = [
     { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, end: true },
@@ -27,6 +30,14 @@ const dashboardLinks = [
 ];
 
 const DashboardLayout = () => {
+    const { logout, user } = useAuth()
+    const navigate = useNavigate()
+
+    const handleLogout = () => {
+        logout()
+        navigate('/login')
+    }
+
     return (
         <div className="dashboard">
             <aside className="dashboard-sidebar">
@@ -50,11 +61,14 @@ const DashboardLayout = () => {
                 </nav>
 
                 <div className="dashboard-admin">
-                    <div className="dashboard-admin-avatar">A</div>
+                    <div className="dashboard-admin-avatar">{user?.name.charAt(0) ?? 'A'}</div>
                     <div>
-                        <strong>Admin Principal</strong>
-                        <span>admin@aupa.com</span>
+                        <strong>{user?.name ?? 'Admin'}</strong>
+                        <span>{user?.email ?? ''}</span>
                     </div>
+                    <button className="dashboard-logout-btn" onClick={handleLogout} title="Cerrar sesión">
+                        <LogOut size={16} />
+                    </button>
                 </div>
             </aside>
 

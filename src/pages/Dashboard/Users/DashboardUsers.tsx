@@ -1,37 +1,47 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Pencil, Plus, Trash2, UserCheck, Users, UserX, X } from "lucide-react";
-import { DataTable, SearchInput, SelectFilter } from "../components/common";
-import type { DataTableColumn } from "../components/common";
-
-interface DashboardUserRow {
-    id: string;
-    name: string;
-    email: string;
-    role: "Host" | "Admin" | "User";
-    status: "Activo" | "Inactivo" | "Baneado";
-}
-
-const users: DashboardUserRow[] = [
-    {
-        id: "#AUP-8291",
-        name: "Juan Perez",
-        email: "juan.perez@example.com",
-        role: "Host",
-        status: "Activo",
-    },
-];
+import { DataTable, SearchInput, SelectFilter, Tooltip } from "../../../components/common";
+import type { DataTableColumn } from "../../../components/common";
+import { userService } from "../../../services/API";
+import type { User } from "../../../services/models";
+import UserDetail from "./components/UserDetail";
+import UserAddModal from "./components/UserAddModal";
+import UserEditModal from "./components/UserEditModal";
+import UserDeleteModal from "./components/UserDeleteModal";
 
 const DashboardUsers = () => {
-    const [search, setSearch] = useState("");
-    const [status, setStatus] = useState("all");
-    const [dateRange, setDateRange] = useState("30");
-    const [page, setPage] = useState(1);
+    const [users, setUsers] = useState<User[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+    const [selected, setSelected] = useState<User | null>(null)
+    const [editing, setEditing] = useState<User | null>(null)
+    const [deleting, setDeleting] = useState<User | null>(null)
+    const [showAdd, setShowAdd] = useState(false)
+    const [search, setSearch] = useState("")
+    const [status, setStatus] = useState("all")
+    const [dateRange, setDateRange] = useState("30")
+    const [page, setPage] = useState(1)
 
-    const columns = useMemo<DataTableColumn<DashboardUserRow>[]>(() => [
+    useEffect(() => {
+        userService.getAllUsers()
+            .then(setUsers)
+            .finally(() => setIsLoading(false))
+    }, [])
+
+    const columns = useMemo<DataTableColumn<User>[]>(() => [
         {
             key: "id",
             header: "ID",
-            render: (user) => <strong className="dashboard-row-id">{user.id}</strong>,
+            render: (user) => (
+                <Tooltip text={user.id}>
+                    <strong
+                        className="dashboard-row-id"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => setSelected(user)}
+                    >
+                        {user.id.slice(0, 8)}…
+                    </strong>
+                </Tooltip>
+            ),
         },
         {
             key: "user",
@@ -51,44 +61,52 @@ const DashboardUsers = () => {
         {
             key: "role",
             header: "Rol",
-            render: (user) => <span className="dashboard-badge dashboard-badge-role">{user.role}</span>,
+            render: (user) => (
+                <span className="dashboard-badge dashboard-badge-role">
+                    {user.role === 'superAdmin' ? 'Admin' : user.role === 'local' ? 'Local' : 'User'}
+                </span>
+            ),
         },
         {
             key: "status",
             header: "Estado",
             render: (user) => (
-                <span className={`dashboard-status dashboard-status-${user.status.toLowerCase()}`}>
-                    {user.status}
+                <span className={`dashboard-status dashboard-status-${user.active ? 'activo' : 'inactivo'}`}>
+                    {user.active ? 'Activo' : 'Inactivo'}
                 </span>
             ),
         },
         {
             key: "actions",
             header: "Acciones",
-            render: () => (
+            render: (user) => (
                 <div className="dashboard-actions">
-                    <button type="button" aria-label="Editar usuario">
+                    <button type="button" aria-label="Editar usuario" onClick={() => setEditing(user)}>
                         <Pencil size={15} />
                     </button>
-                    <button type="button" aria-label="Eliminar usuario">
+                    <button type="button" aria-label="Eliminar usuario" onClick={() => setDeleting(user)}>
                         <Trash2 size={15} />
                     </button>
                 </div>
             ),
         },
-    ], []);
+    ], [])
 
     const filteredUsers = users.filter((user) => {
-        const matchesSearch = `${user.name} ${user.email} ${user.id}`.toLowerCase().includes(search.toLowerCase());
-        const matchesStatus = status === "all" || user.status.toLowerCase() === status;
-        return matchesSearch && matchesStatus;
-    });
+        const matchesSearch = `${user.name} ${user.email} ${user.id}`.toLowerCase().includes(search.toLowerCase())
+        const matchesStatus = status === "all" ||
+            (status === "activo" && user.active) ||
+            (status === "inactivo" && !user.active)
+        return matchesSearch && matchesStatus
+    })
 
     const stats = useMemo(() => ({
         total: users.length,
-        activos: users.filter((u) => u.status === "Activo").length,
-        baneados: users.filter((u) => u.status === "Baneado").length,
-    }), []);
+        activos: users.filter((u) => u.active).length,
+        inactivos: users.filter((u) => !u.active).length,
+    }), [users])
+
+    if (isLoading) return <p>Cargando...</p>
 
     return (
         <section className="dashboard-page">
@@ -97,7 +115,7 @@ const DashboardUsers = () => {
                     <h1>Gestion de Usuarios</h1>
                     <p>Administra el acceso y roles de los miembros de la comunidad Aupa.</p>
                 </div>
-                <button type="button" className="dashboard-primary-button">
+                <button type="button" className="dashboard-primary-button" onClick={() => setShowAdd(true)}>
                     <Plus size={17} />
                     <span>Anadir Usuario</span>
                 </button>
@@ -121,8 +139,8 @@ const DashboardUsers = () => {
                 <div className="dashboard-stat-card">
                     <span className="dashboard-stat-icon dashboard-stat-icon-red"><UserX size={20} /></span>
                     <div className="dashboard-stat-body">
-                        <strong className="dashboard-stat-value">{stats.baneados}</strong>
-                        <span className="dashboard-stat-label">Usuarios Baneados</span>
+                        <strong className="dashboard-stat-value">{stats.inactivos}</strong>
+                        <span className="dashboard-stat-label">Usuarios Inactivos</span>
                     </div>
                 </div>
             </div>
@@ -137,7 +155,6 @@ const DashboardUsers = () => {
                             { label: "Todos los estados", value: "all" },
                             { label: "Activo", value: "activo" },
                             { label: "Inactivo", value: "inactivo" },
-                            { label: "Baneado", value: "baneado" },
                         ]}
                     />
                     <SelectFilter
@@ -153,11 +170,7 @@ const DashboardUsers = () => {
                     <button
                         type="button"
                         className="dashboard-clear-button"
-                        onClick={() => {
-                            setSearch("");
-                            setStatus("all");
-                            setDateRange("30");
-                        }}
+                        onClick={() => { setSearch(""); setStatus("all"); setDateRange("30") }}
                     >
                         <X size={16} />
                         <span>Limpiar filtros</span>
@@ -178,8 +191,38 @@ const DashboardUsers = () => {
                 totalItems={filteredUsers.length}
                 onPageChange={setPage}
             />
-        </section>
-    );
-};
 
-export default DashboardUsers;
+            {showAdd && (
+                <UserAddModal
+                    onCreated={setUsers}
+                    onClose={() => setShowAdd(false)}
+                />
+            )}
+
+            {editing && (
+                <UserEditModal
+                    user={editing}
+                    onUpdated={(updated) => setUsers(prev => prev.map(u => u.id === updated.id ? updated : u))}
+                    onClose={() => setEditing(null)}
+                />
+            )}
+
+            {deleting && (
+                <UserDeleteModal
+                    user={deleting}
+                    onDeleted={(id) => setUsers(prev => prev.filter(u => u.id !== id))}
+                    onClose={() => setDeleting(null)}
+                />
+            )}
+
+            {selected && (
+                <UserDetail
+                    user={selected}
+                    onClose={() => setSelected(null)}
+                />
+            )}
+        </section>
+    )
+}
+
+export default DashboardUsers
