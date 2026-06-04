@@ -6,11 +6,21 @@ export const UserRole = {
 
 export type UserRole = typeof UserRole[keyof typeof UserRole]
 
+export const LanguageType = {
+    ES: 'es',
+    EU: 'eu',
+    FR: 'fr',
+    EN: 'en'
+} as const
+
+export type LanguageType = typeof LanguageType[keyof typeof LanguageType]
+
 export interface User {
     id: string
     name: string
     email: string
     role: UserRole
+    language: LanguageType
     avatar?: string
     active: boolean
     createdAt?: string
@@ -32,4 +42,5 @@ export interface LoginForm {
 export interface UpdateUserForm {
     name?: string
     avatar?: string
+    language?: LanguageType
 }

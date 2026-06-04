@@ -71,6 +71,20 @@ const Profile = () => {
   const { user } = useAuth();
   const [savedCount, setSavedCount] = useState(7);
   const [preferences, setPreferences] = useState<PreferenceChip[]>(fallbackPreferences);
+  const [avatarError, setAvatarError] = useState(false);
+
+
+  const seed = useMemo(() => {
+    if (!user?.name) return ':)';
+    return user.name.trim().split(' ')[0];
+  }, [user?.name]);
+
+
+  const avatarUrl = useMemo(() =>
+    `https://api.dicebear.com/7.x/initials/svg?seed=${seed}`,
+    [seed] // notionists, avataaars, initials
+  );
+
 
   useEffect(() => {
     if (!user?.id) return;
@@ -113,7 +127,7 @@ const Profile = () => {
     loadProfileData();
   }, [user?.id]);
 
-  const firstName = useMemo(() => user?.name?.trim().split(' ')[0] || 'Jovian', [user?.name]);
+  const firstName = useMemo(() => user?.name?.trim().split(' ')[0] || ':)', [user?.name]);
 
   return (
     <div className="profile">
@@ -126,10 +140,15 @@ const Profile = () => {
 
       <section className="profile-summary" aria-label="Profile summary">
         <div className="profile-identity">
-          {user?.avatar ? (
-            <img className="profile-avatar" src={user.avatar} alt={user.name} />
-          ) : (
+          {avatarError ? (
             <CircleUserRound className="profile-avatar-icon" size={68} strokeWidth={1.8} />
+          ) : (
+            <img
+              className="profile-avatar"
+              src={avatarUrl}
+              alt={user?.name || 'Avatar'}
+              onError={() => setAvatarError(true)}
+            />
           )}
           <h2>Aupa, {firstName}!</h2>
         </div>
