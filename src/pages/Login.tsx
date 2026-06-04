@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { Mail, User } from 'lucide-react';
 import Google from '../assets/web_neutral_rd_na.svg';
 import footer from '../assets/redfooter.png'
-import logo from '../assets/logo-trimmed.png'
 import AuthLink from '../components/ui/AuthLink';
 import EmailLoginForm from '../components/ui/EmailLoginForm';
 import TermsLink from '../components/ui/TermsLink';
+import TopLogo from '../components/ui/TopLogo';
 
 type LoginMode = 'choices' | 'email';
 
@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   return (
     <div className="register login">
       <div className="register-header">
-        <img className="logo" src={logo} alt="Logo" /><br />
+        <TopLogo />  
         <span className='span-text'>Visit <span className='txt-red'>Eu</span><span className='txt-green'>ska</span><span className='txt-red'>di</span> lika a local!</span>
       </div>
 

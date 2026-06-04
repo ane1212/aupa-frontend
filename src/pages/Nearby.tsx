@@ -33,6 +33,15 @@ const places: Place[] = [
 
 const Nearby = () => {
     const [activeCategory, setActiveCategory] = useState('food');
+    const [query, setQuery] = useState('');
+
+    const filtered = query.trim()
+        ? places.filter(p =>
+            [p.name, p.type, p.neighborhood].some(field =>
+                field.toLowerCase().includes(query.toLowerCase())
+            )
+          )
+        : places;
 
     return (
         <div className="nearby">
@@ -52,7 +61,7 @@ const Nearby = () => {
             </div>
 
             <ul className="places-list">
-                {places.map(place => (
+                {filtered.length > 0 ? filtered.map(place => (
                     <li key={place.id} className="place-card">
                         <div className="place-image-placeholder" aria-hidden="true" />
                         <div className="place-info">
@@ -70,15 +79,23 @@ const Nearby = () => {
                             <span className="score-label">Local Score</span>
                         </div>
                     </li>
-                ))}
+                )) : (
+                    <li className="nearby-no-results">No places found.</li>
+                )}
             </ul>
 
             <div className="nearby-map" aria-label="Mapa de la zona" />
 
-            <div className="nearby-search">
-                <Search size={15} />
-                <span>Where do you want to go?</span>
-            </div>
+            <label className="nearby-search">
+                <Search size={15} aria-hidden="true" />
+                <input
+                    className="nearby-search-input"
+                    type="search"
+                    placeholder="Where do you want to go?"
+                    value={query}
+                    onChange={e => setQuery(e.target.value)}
+                />
+            </label>
         </div>
     );
 };

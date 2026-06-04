@@ -6,6 +6,7 @@ import TermsLink from '../components/ui/TermsLink';
 import AuthLink from '../components/ui/AuthLink';
 import { useNavigate } from 'react-router-dom';
 import { authService, userService } from '../services/API';
+import TopLogo from '../components/ui/TopLogo';
 
 interface RegisterFormData {
   name: string;
@@ -89,6 +90,7 @@ const Register: React.FC = () => {
   return (
     <div className="register">
       <div className="register-header">
+        <TopLogo />
         <h2>Create your account</h2>
         <span>Join Aupa! to save your favorite experience and trips</span>
       </div>

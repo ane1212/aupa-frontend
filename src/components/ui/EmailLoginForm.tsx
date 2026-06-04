@@ -5,7 +5,7 @@ import footer from '../../assets/redfooter.png';
 import AuthLink from './AuthLink';
 import { authService, userService } from '../../services/API';
 import { useNavigate } from 'react-router-dom';
-
+import TopLogo from './TopLogo';
 
 interface LoginFormData {
     email: string;
@@ -73,6 +73,7 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
     return (
         <div className="login">
             <div className="register-header">
+                <TopLogo />
                 <h2>Welcome back</h2>
                 <span>Sign in to your Aupa! account</span>
                 <br />
