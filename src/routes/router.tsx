@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Error, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
+import { Detail, Error, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 
@@ -16,6 +16,10 @@ const router = createBrowserRouter([
       { path: "saved", element: <Saved /> },
       { path: "profile", element: <Profile /> },
     ],
+  },
+  {
+    path: "/detail/:id",
+    element: <Detail />,
   },
   {
     path: "/",
