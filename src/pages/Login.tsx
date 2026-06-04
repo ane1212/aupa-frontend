@@ -1,95 +1,54 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import PasswordInput from '../components/ui/PasswordInput';
-import { Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Mail, User } from 'lucide-react';
+import Google from '../assets/web_neutral_rd_na.svg';
 import footer from '../assets/redfooter.png'
-import { useAuth } from '../context';
+import logo from '../assets/logo-trimmed.png'
+import AuthLink from '../components/ui/AuthLink';
+import EmailLoginForm from '../components/ui/EmailLoginForm';
+import TermsLink from '../components/ui/TermsLink';
 
-interface LoginFormData {
-  email: string;
-  password: string;
-}
+type LoginMode = 'choices' | 'email';
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-  const { login } = useAuth();
-  const [formData, setFormData] = useState<LoginFormData>({
-    email: '',
-    password: ''
-  });
+  const [mode, setMode] = useState<LoginMode>('choices');
 
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const handleInputChange = (field: keyof LoginFormData) => (value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    setErrorMessage('');
-  };
-
-  const handleSubmit = async (e: React.SubmitEvent) => {
-    e.preventDefault();
-
-    if (!formData.email || !formData.password) {
-      setErrorMessage('All fields need to be filled!');
-      return;
-    }
-
-    if (formData.email.length < 7 || !formData.email.includes('@') || !formData.email.includes('.')) {
-      setErrorMessage('Email address is incorrect!');
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      setErrorMessage('Password needs at least 8 characters!');
-      return;
-    }
-
-    try {
-      await login({
-        email: formData.email,
-        password: formData.password,
-      });
-      navigate('/home', { replace: true });
-    } catch {
-      setErrorMessage('Invalid credentials');
-    }
-  };
+  if (mode === 'email') {
+    return <EmailLoginForm onBack={() => setMode('choices')} />;
+  }
 
   return (
-    <div className="login">
+    <div className="register login">
       <div className="register-header">
-        <h2>Welcome back</h2>
-        <span>Sign in to your Aupa! account</span>
+        <img className="logo" src={logo} alt="Logo" /><br />
+        <span className='span-text'>Visit <span className='txt-red'>Eu</span><span className='txt-green'>ska</span><span className='txt-red'>di</span> lika a local!</span>
       </div>
 
-      <form className="register-form" onSubmit={handleSubmit}>
-
-        <div className="email-container">
-          <Mail className="icon" size={21} color="currentColor" />
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(e) => handleInputChange('email')(e.target.value)}
-            className="input-box"
-            data-testid="email-input"
-            autoComplete="email"
-          />
+      <form className="register-form" onSubmit={(e) => e.preventDefault()}>
+        <div className="account-container">
+          <button type="button" className="account-btn login-type">
+            <img src={Google} alt="Google logo" className="login-icon" />
+            Continue with Google
+          </button>
         </div>
 
-        <PasswordInput testId="password-input" placeholder="Password" value={formData.password} onChange={handleInputChange('password')} />
-        <div className="error-message">{errorMessage}</div>
-        <button type="submit" className="create-account-btn">Sign in</button>
-        <span className="span-text">
-          Don't have an account? <br />
-          <a href="/register" className="terms-link">Register here!</a>
-        </span>
-      </form>
+        <div className="account-container">
+          <button type="button" className="account-btn login-type" onClick={() => setMode('email')} >
+            <Mail size={21} />
+            Continue with Email
+          </button>
+        </div>
 
-      <span className="span-text">
-        By creating an account, you agree to the{' '}
-        <a href="/terms" className="terms-link">Terms of Service</a> &{' '}
-        <a href="/privacy" className="terms-link">Privacy Policy</a>
-      </span>
+        <div className="account-container">
+          <Link to="/home" className="account-btn login-type">
+            <User size={21} />
+            Continue as Guest
+          </Link>
+        </div>
+
+        <AuthLink mainText="Don't have an account?" linkTo="/register" linkText="Register here!" />
+        <TermsLink />
+      </form>
 
       <img className="footer" src={footer} alt="footer" />
     </div>
