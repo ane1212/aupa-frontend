@@ -1,6 +1,3 @@
-import { Link } from "react-router-dom";
-// para links a registro por ejemplo quizás meter el auth aquí al ser landing de router.
-
 import logo from '../assets/logo-trimmed.png'
 
 const Home = () => {

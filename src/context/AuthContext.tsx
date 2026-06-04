@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react"
 import type { LoginForm, RegisterForm, User } from "../services/models"
-import { apiClient } from "../services/http"
+import { authService, userService } from "../services/API"
 
 
 interface AuthContextType {
@@ -30,23 +30,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const fetchProfile = async () => {
         try {
-            const user = await apiClient.get<User>('/users/profile')
+            const user = await userService.getProfile()
             setUser(user)
         } catch {
-            logout()
-        } finally {
             setIsLoading(false)
         }
     }
 
     const login = async (data: LoginForm) => {
-        const res = await apiClient.post<{ token: string }>('/auth/login', data)
+        const res = await authService.login(data)
         localStorage.setItem('token', res.token)
         setToken(res.token)
     }
 
     const register = async (data: RegisterForm) => {
-        await apiClient.post('/auth/register', data)
+        await authService.register(data)
     }
 
     const logout = () => {

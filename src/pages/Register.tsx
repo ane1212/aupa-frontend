@@ -5,7 +5,7 @@ import footer from '../assets/redfooter.png'
 import TermsLink from '../components/ui/TermsLink';
 import AuthLink from '../components/ui/AuthLink';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/API';
+import { authService, userService } from '../services/API';
 
 interface RegisterFormData {
   name: string;
@@ -57,7 +57,7 @@ const Register: React.FC = () => {
       setErrorMessage('Both passwords must match!')
       return;
     }
-    
+
     try {
       await authService.register({
         name: formData.name,
@@ -72,6 +72,14 @@ const Register: React.FC = () => {
       });
 
       localStorage.setItem('token', token);
+      const user = await userService.getProfile();
+      localStorage.setItem('user', JSON.stringify({
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      }));
+
+      setErrorMessage('Logged in successfully');
       navigate('/home');
     } catch {
       setErrorMessage('Registration failed');

@@ -3,8 +3,9 @@ import PasswordInput from './PasswordInput';
 import { Mail, ArrowLeft } from 'lucide-react';
 import footer from '../../assets/redfooter.png';
 import AuthLink from './AuthLink';
-import { authService } from '../../services/API';
+import { authService, userService } from '../../services/API';
 import { useNavigate } from 'react-router-dom';
+
 
 interface LoginFormData {
     email: string;
@@ -54,6 +55,14 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
             });
 
             localStorage.setItem('token', token);
+            
+            const user = await userService.getProfile();
+            localStorage.setItem('user', JSON.stringify({
+                id: user.id,
+                name: user.name,
+                email: user.email,
+            }));
+
             setErrorMessage('Logged in successfully');
             navigate('/home');
         } catch {
