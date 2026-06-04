@@ -1,16 +1,16 @@
 import { apiClient } from "../http";
-import type { CreateCommentForm, UpdateCommentForm } from "../models";
+import type { Comment, CreateCommentForm, UpdateCommentForm, PaginatedResponse, PaginationQuery } from "../models";
 
 
 export const commentService = {
     create: (data: CreateCommentForm) =>
         apiClient.post<Comment>('/comment', data),
 
-    getByEvent: (eventId: string) =>
-        apiClient.get<Comment[]>(`/comment/event/${eventId}`),
+    getByEvent: (eventId: string, params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<Comment>>(`/comment/event/${eventId}`, params),
 
-    getByUser: (userId: string) =>
-        apiClient.get<Comment[]>(`/comment/user/${userId}`),
+    getByUser: (userId: string, params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<Comment>>(`/comment/user/${userId}`, params),
 
     getById: (id: string) =>
         apiClient.get<Comment>(`/comment/${id}`),

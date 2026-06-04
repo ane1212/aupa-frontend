@@ -1,3 +1,4 @@
+export * from './query'
 export * from './user'
 export * from './event'
 export * from './category'

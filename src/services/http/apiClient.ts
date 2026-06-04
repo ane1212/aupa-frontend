@@ -4,7 +4,7 @@ const getToken = () => localStorage.getItem('token')
 
 const request = async <T>(
     endpoint: string,
-    options: RequestInit = {}
+    options: RequestInit & { params?: Record<string, any> } = {}
 ): Promise<T> => {
     const token = getToken()
 
@@ -14,7 +14,21 @@ const request = async <T>(
         ...options.headers,
     }
 
-    const res = await fetch(`${BASE_URL}${endpoint}`, {
+    let url = `${BASE_URL}${endpoint}`
+    if (options.params) {
+        const searchParams = new URLSearchParams()
+        Object.entries(options.params).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                searchParams.append(key, String(value))
+            }
+        })
+        const qs = searchParams.toString()
+        if (qs) {
+            url += `?${qs}`
+        }
+    }
+
+    const res = await fetch(url, {
         ...options,
         headers,
     })
@@ -34,8 +48,8 @@ const request = async <T>(
 }
 
 export const apiClient = {
-    get: <T>(endpoint: string) =>
-        request<T>(endpoint),
+    get: <T>(endpoint: string, params?: Record<string, any>) =>
+        request<T>(endpoint, { params }),
 
     post: <T>(endpoint: string, body: unknown) =>
         request<T>(endpoint, {

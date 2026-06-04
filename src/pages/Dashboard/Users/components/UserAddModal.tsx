@@ -1,9 +1,7 @@
 import { DashboardForm } from '../../../../components/common'
 import { userService } from '../../../../services/API'
-import type { User } from '../../../../services/models'
-
 interface Props {
-    onCreated: (users: User[]) => void
+    onCreated: () => void
     onClose: () => void
 }
 
@@ -27,8 +25,7 @@ const UserAddModal = ({ onCreated, onClose }: Props) => (
             if (data.password !== data.passwordRepeat)
                 throw new Error('Las contraseñas no coinciden')
             await userService.create(data)
-            const updated = await userService.getAllUsers()
-            onCreated(updated)
+            onCreated()
         }}
         onClose={onClose}
     />

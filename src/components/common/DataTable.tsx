@@ -14,6 +14,7 @@ interface DataTableProps<T> {
     pageSize: number;
     totalItems: number;
     onPageChange: (page: number) => void;
+    isLoading?: boolean;
 }
 
 const DataTable = <T,>({
@@ -23,6 +24,7 @@ const DataTable = <T,>({
     pageSize,
     totalItems,
     onPageChange,
+    isLoading = false,
 }: DataTableProps<T>) => {
     const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
     const firstItem = totalItems === 0 ? 0 : (page - 1) * pageSize + 1;
@@ -40,7 +42,19 @@ const DataTable = <T,>({
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row, rowIndex) => (
+                        {isLoading ? (
+                            <tr>
+                                <td colSpan={columns.length} className="dashboard-table-loading">
+                                    Cargando...
+                                </td>
+                            </tr>
+                        ) : data.length === 0 ? (
+                            <tr>
+                                <td colSpan={columns.length} className="dashboard-table-empty">
+                                    No hay resultados
+                                </td>
+                            </tr>
+                        ) : data.map((row, rowIndex) => (
                             <tr key={rowIndex}>
                                 {columns.map((column) => (
                                     <td key={column.key}>{column.render(row)}</td>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { useDebounce } from "../../../hooks";
 import { Pencil, Plus, Trash2, UserCheck, Users, UserX, X } from "lucide-react";
 import { DataTable, SearchInput, SelectFilter, Tooltip } from "../../../components/common";
 import type { DataTableColumn } from "../../../components/common";
@@ -17,15 +18,49 @@ const DashboardUsers = () => {
     const [deleting, setDeleting] = useState<User | null>(null)
     const [showAdd, setShowAdd] = useState(false)
     const [search, setSearch] = useState("")
+    const debouncedSearch = useDebounce(search)
     const [status, setStatus] = useState("all")
-    const [dateRange, setDateRange] = useState("30")
-    const [page, setPage] = useState(1)
+    const [role, setRole] = useState("all")
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalItems, setTotalItems] = useState(0)
+
+    // Reset to page 1 when filters/search change
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [debouncedSearch, status, role])
 
     useEffect(() => {
-        userService.getAllUsers()
-            .then(setUsers)
-            .finally(() => setIsLoading(false))
-    }, [])
+        setIsLoading(true)
+
+        const params: Record<string, any> = { page: currentPage, limit: 10 }
+        if (debouncedSearch) params.search = debouncedSearch
+        if (status === 'activo') params.active = 'true'
+        if (status === 'inactivo') params.active = 'false'
+        if (role !== 'all') params.role = role
+
+        console.log('[fetchUsers] params:', params)
+
+        let cancelled = false
+        userService.getAllUsers(params)
+            .then(res => {
+                if (cancelled) return
+                console.log('[fetchUsers] response:', res)
+                const data = res.data || (Array.isArray(res) ? res : [])
+                const total = res.meta?.total ?? data.length
+                setUsers(data)
+                setTotalItems(total)
+            })
+            .catch(err => console.error('[fetchUsers] error:', err))
+            .finally(() => { if (!cancelled) setIsLoading(false) })
+
+        return () => { cancelled = true }
+    }, [currentPage, debouncedSearch, status, role])
+
+    const fetchUsers = () => setCurrentPage(prev => {
+        // Force re-fetch keeping same page
+        setIsLoading(true)
+        return prev
+    })
 
     const columns = useMemo<DataTableColumn<User>[]>(() => [
         {
@@ -92,21 +127,11 @@ const DashboardUsers = () => {
         },
     ], [])
 
-    const filteredUsers = users.filter((user) => {
-        const matchesSearch = `${user.name} ${user.email} ${user.id}`.toLowerCase().includes(search.toLowerCase())
-        const matchesStatus = status === "all" ||
-            (status === "activo" && user.active) ||
-            (status === "inactivo" && !user.active)
-        return matchesSearch && matchesStatus
-    })
-
     const stats = useMemo(() => ({
-        total: users.length,
+        total: totalItems,
         activos: users.filter((u) => u.active).length,
         inactivos: users.filter((u) => !u.active).length,
-    }), [users])
-
-    if (isLoading) return <p>Cargando...</p>
+    }), [users, totalItems])
 
     return (
         <section className="dashboard-page">
@@ -158,19 +183,20 @@ const DashboardUsers = () => {
                         ]}
                     />
                     <SelectFilter
-                        label="Fecha de Registro"
-                        value={dateRange}
-                        onChange={setDateRange}
+                        label="Rol"
+                        value={role}
+                        onChange={setRole}
                         options={[
-                            { label: "Ultimos 30 dias", value: "30" },
-                            { label: "Ultimos 7 dias", value: "7" },
-                            { label: "Este ano", value: "year" },
+                            { label: "Todos los roles", value: "all" },
+                            { label: "Usuario", value: "usuario" },
+                            { label: "Local", value: "local" },
+                            { label: "Admin", value: "superAdmin" },
                         ]}
                     />
                     <button
                         type="button"
                         className="dashboard-clear-button"
-                        onClick={() => { setSearch(""); setStatus("all"); setDateRange("30") }}
+                        onClick={() => { setSearch(""); setStatus("all"); setRole("all"); setCurrentPage(1) }}
                     >
                         <X size={16} />
                         <span>Limpiar filtros</span>
@@ -185,16 +211,17 @@ const DashboardUsers = () => {
 
             <DataTable
                 columns={columns}
-                data={filteredUsers}
-                page={page}
+                data={users}
+                page={currentPage}
                 pageSize={10}
-                totalItems={filteredUsers.length}
-                onPageChange={setPage}
+                totalItems={totalItems}
+                onPageChange={setCurrentPage}
+                isLoading={isLoading}
             />
 
             {showAdd && (
                 <UserAddModal
-                    onCreated={setUsers}
+                    onCreated={() => { fetchUsers(); setShowAdd(false) }}
                     onClose={() => setShowAdd(false)}
                 />
             )}

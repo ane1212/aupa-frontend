@@ -439,6 +439,14 @@
   font-weight: 500;
 }
 
+.dashboard-table-loading,
+.dashboard-table-empty {
+  text-align: center;
+  padding: 2.5rem 0 !important;
+  color: #98a2b3;
+  font-size: 0.84rem;
+}
+
 .dashboard-row-id {
   color: var(--color-I);
   font-size: 0.82rem;

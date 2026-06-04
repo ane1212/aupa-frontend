@@ -1,9 +1,9 @@
 import { apiClient } from "../http";
-import type { Category, CreateCategoryForm, UpdateCategoryForm } from "../models";
+import type { Category, PaginatedResponse, PaginationQuery, CreateCategoryForm, UpdateCategoryForm } from "../models";
 
 export const categoryService = {
-    getAll: () =>
-        apiClient.get<Category[]>('/category'),
+    getAll: (params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<Category>>('/category', params),
 
     getById: (id: string) =>
         apiClient.get<Category>(`/category/${id}`),

@@ -1,5 +1,5 @@
 import { apiClient } from "../http";
-import type { CreateLocalForm, Local, UpdateLocalForm } from "../models";
+import type { CreateLocalForm, Local, UpdateLocalForm, PaginatedResponse, PaginationQuery } from "../models";
 
 export const localService = {
     create: (data: CreateLocalForm) =>
@@ -15,8 +15,8 @@ export const localService = {
         apiClient.get<Local>(`/local/${id}`),
 
     // Admin
-    getAll: () =>
-        apiClient.get<Local[]>('/local'),
+    getAll: (params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<Local>>('/local', params),
 
     verify: (id: string, status: string, reason?: string) =>
         apiClient.patch<Local>(`/local/${id}/verify`, { status, reason }),
