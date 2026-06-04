@@ -43,13 +43,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (data: LoginForm) => {
         const res = await authService.login(data)
         localStorage.setItem('token', res.token)
-        localStorage.setItem('user', JSON.stringify({
-            id: res.user.id,
-            name: res.user.name,
-            email: res.user.email,
-        }))
-        setUser(res.user)
         setToken(res.token)
+
+        const user = await userService.getProfile()
+        localStorage.setItem('user', JSON.stringify({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+        }))
+        setUser(user)
         setIsLoading(false)
     }
 
