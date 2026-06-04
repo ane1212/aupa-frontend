@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Detail, ErrorPage, Experiences, Home, Login, Nearby, Profile, Register, Saved } from "../pages";
+import { Detail, ErrorPage, Experiences, Home, Login, LocalPartner, Nearby, Profile, Register, Saved } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import AuthenticatedRoute from "../components/layout/AuthenticatedRoute";
@@ -42,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/detail/:id",
     element: <Detail />,
+  },
+  {
+    path: "/local-partner",
+    element: <LocalPartner />,
   },
   {
     path: "/",

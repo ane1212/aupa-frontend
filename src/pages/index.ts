@@ -7,3 +7,4 @@ export { default as Nearby } from './Nearby';
 export { default as Profile } from './Profile';
 export { default as Register } from './Register';
 export { default as Saved } from './Saved';
+export { default as LocalPartner } from './LocalPartner';

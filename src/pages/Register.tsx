@@ -4,7 +4,7 @@ import { CircleUser, Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
 import TermsLink from '../components/ui/TermsLink';
 import AuthLink from '../components/ui/AuthLink';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { authService, userService } from '../services/API';
 import TopLogo from '../components/ui/TopLogo';
 
@@ -127,6 +127,10 @@ const Register: React.FC = () => {
         <div className="error-message">{errorMessage}</div>
         <button type="submit" className="account-btn">Create an account</button>
         <AuthLink mainText="Already have an account?" linkTo="/login" linkText="Sign in!" />
+        <span className="span-text">
+          I'm a business.{' '}
+          <Link to="/local-partner" className="terms-link">Create business profile</Link>
+        </span>
       </form>
 
       <TermsLink />
