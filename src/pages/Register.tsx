@@ -4,6 +4,8 @@ import { CircleUser, Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
 import TermsLink from '../components/ui/TermsLink';
 import AuthLink from '../components/ui/AuthLink';
+import { useNavigate } from 'react-router-dom';
+import { authService } from '../services/API';
 
 interface RegisterFormData {
   name: string;
@@ -13,6 +15,7 @@ interface RegisterFormData {
 }
 
 const Register: React.FC = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
     email: '',
@@ -27,7 +30,7 @@ const Register: React.FC = () => {
     setErrorMessage('');
   };
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
@@ -54,11 +57,26 @@ const Register: React.FC = () => {
       setErrorMessage('Both passwords must match!')
       return;
     }
+    
+    try {
+      await authService.register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        passwordRepeat: formData.confirmPassword,
+      });
 
-    setErrorMessage('Account created')
-    // auth
+      const { token } = await authService.login({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      localStorage.setItem('token', token);
+      navigate('/home');
+    } catch {
+      setErrorMessage('Registration failed');
+    }
   };
-
 
   return (
     <div className="register">

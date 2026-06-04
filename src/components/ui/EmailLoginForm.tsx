@@ -3,6 +3,8 @@ import PasswordInput from './PasswordInput';
 import { Mail, ArrowLeft } from 'lucide-react';
 import footer from '../../assets/redfooter.png';
 import AuthLink from './AuthLink';
+import { authService } from '../../services/API';
+import { useNavigate } from 'react-router-dom';
 
 interface LoginFormData {
     email: string;
@@ -14,6 +16,7 @@ interface EmailLoginFormProps {
 }
 
 const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState<LoginFormData>({
         email: '',
         password: '',
@@ -26,7 +29,7 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
         setErrorMessage('');
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SubmitEvent) => {
         e.preventDefault();
 
         if (!formData.email || !formData.password) {
@@ -34,11 +37,7 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
             return;
         }
 
-        if (
-            formData.email.length < 7 ||
-            !formData.email.includes('@') ||
-            !formData.email.includes('.')
-        ) {
+        if (formData.email.length < 7 || !formData.email.includes('@') || !formData.email.includes('.')) {
             setErrorMessage('Email address is incorrect!');
             return;
         }
@@ -48,7 +47,18 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
             return;
         }
 
-        setErrorMessage('Logged in successfully');
+        try {
+            const { token } = await authService.login({
+                email: formData.email,
+                password: formData.password,
+            });
+
+            localStorage.setItem('token', token);
+            setErrorMessage('Logged in successfully');
+            navigate('/home');
+        } catch {
+            setErrorMessage('Invalid credentials');
+        }
     };
 
     return (
@@ -77,21 +87,12 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
                     />
                 </div>
 
-                <PasswordInput
-                    testId="password-input"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleInputChange('password')}
-                />
+                <PasswordInput testId="password-input" placeholder="Password" value={formData.password} onChange={handleInputChange('password')} />
 
                 <div className="error-message">{errorMessage}</div>
 
-                <button type="submit" className="account-btn">
-                    Sign in
-                </button>
-
+                <button type="submit" className="account-btn">Sign in</button>
                 <AuthLink mainText="Don't have an account?" linkTo="/register" linkText="Register here!" />
-
             </form>
 
             <img className="footer" src={footer} alt="footer" />

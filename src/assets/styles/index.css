@@ -78,6 +78,11 @@ p {
 /* ── Auth layout ──────────────────────────────────────────────── */
 .auth {
 
+  .logo {
+    width: 55%;
+    margin-top: 13%;
+  }
+
   .register,
   .login {
     h2 {
@@ -97,6 +102,16 @@ p {
       text-align: center;
       font-size: small;
       display: inline-block;
+
+      .txt-red {
+        color: var(--color-J);
+        font-weight: 700;
+      }
+
+      .txt-green {
+        color: var(--color-I);
+        font-weight: 700;
+      }
     }
 
     .register-form {
@@ -181,7 +196,7 @@ p {
         background-color: var(--color-G);
         color: var(--color-A);
         font-weight: bold;
-        font-size:small;
+        font-size: small;
         text-decoration: none;
       }
     }
