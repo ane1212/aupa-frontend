@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../../hooks";
-import { Pencil, Plus, Trash2, UserCheck, Users, UserX, X } from "lucide-react";
+import { Pencil, Plus, UserCheck, Users, UserX, X } from "lucide-react";
 import { DataTable, SearchInput, SelectFilter, Tooltip } from "../../../components/common";
 import type { DataTableColumn } from "../../../components/common";
 import { userService } from "../../../services/API";
@@ -8,14 +8,12 @@ import type { User } from "../../../services/models";
 import UserDetail from "./components/UserDetail";
 import UserAddModal from "./components/UserAddModal";
 import UserEditModal from "./components/UserEditModal";
-import UserDeleteModal from "./components/UserDeleteModal";
 
 const DashboardUsers = () => {
     const [users, setUsers] = useState<User[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [selected, setSelected] = useState<User | null>(null)
     const [editing, setEditing] = useState<User | null>(null)
-    const [deleting, setDeleting] = useState<User | null>(null)
     const [showAdd, setShowAdd] = useState(false)
     const [search, setSearch] = useState("")
     const debouncedSearch = useDebounce(search)
@@ -115,9 +113,6 @@ const DashboardUsers = () => {
                 <div className="dashboard-actions">
                     <button type="button" aria-label="Editar usuario" onClick={() => setEditing(user)}>
                         <Pencil size={15} />
-                    </button>
-                    <button type="button" aria-label="Eliminar usuario" onClick={() => setDeleting(user)}>
-                        <Trash2 size={15} />
                     </button>
                 </div>
             ),
@@ -230,14 +225,6 @@ const DashboardUsers = () => {
                     user={editing}
                     onUpdated={(updated) => setUsers(prev => prev.map(u => u.id === updated.id ? updated : u))}
                     onClose={() => setEditing(null)}
-                />
-            )}
-
-            {deleting && (
-                <UserDeleteModal
-                    user={deleting}
-                    onDeleted={(id) => setUsers(prev => prev.filter(u => u.id !== id))}
-                    onClose={() => setDeleting(null)}
                 />
             )}
 

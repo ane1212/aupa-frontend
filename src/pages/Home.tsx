@@ -1,4 +1,4 @@
-import { Bell, Guitar, MapPin, Paintbrush, PersonStanding, Sun } from "lucide-react";
+import { Guitar, MapPin, Paintbrush, PersonStanding, Sun } from "lucide-react";
 import logo from "../assets/logo-trimmed.png";
 import {
   ExperienceCard,
@@ -7,6 +7,7 @@ import {
   SectionHeader,
 } from "../components/home";
 import { useAuth } from "../context";
+import NotificationPanel from "../components/layout/NotificationPanel";
 
 const recommendations = [
   { title: "Walk through Casco Viejo", distance: "12 min away", score: 96 },
@@ -34,9 +35,7 @@ const Home = () => {
       <header className="home-hero">
         <div className="home-topbar">
           <img className="logo" src={logo} alt="Aupa" />
-          <button className="icon-button" type="button" aria-label="Notifications">
-            <Bell size={24} fill="currentColor" />
-          </button>
+          <NotificationPanel />
         </div>
 
         <h1>Aupa, {user?.name ?? "there"}!</h1>

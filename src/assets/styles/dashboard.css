@@ -351,7 +351,7 @@
   gap: 0.55rem;
 }
 
-.dashboard-filter > span {
+.dashboard-filter>span {
   color: #667085;
   font-size: 0.72rem;
   font-weight: 700;
@@ -650,8 +650,15 @@
 }
 
 @keyframes modalIn {
-  from { opacity: 0; transform: translate(-50%, -48%); }
-  to   { opacity: 1; transform: translate(-50%, -50%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .modal-header {
@@ -855,8 +862,13 @@
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); }
-  to   { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
 .detail-panel-header {
@@ -951,4 +963,94 @@
   color: #344054;
   font-weight: 500;
   word-break: break-all;
+}
+
+/* ── Dashboard Login ───────────────────────────────────────────── */
+.dashboard-login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+}
+
+.dashboard-login-card {
+  background-color: white;
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.dashboard-login-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dashboard-login-logo {
+  height: 60px;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.dashboard-login-title {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+.dashboard-login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dashboard-login-input-group {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
+
+.dashboard-login-input-icon {
+  margin-right: 10px;
+}
+
+.dashboard-login-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+}
+
+.dashboard-login-btn-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dashboard-login-error {
+  color: red;
+  font-size: 14px;
+  text-align: center;
+}
+
+.dashboard-login-submit {
+  margin-top: 1rem;
+  background-color: #2b9e5b;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
 }

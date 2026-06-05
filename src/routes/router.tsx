@@ -1,8 +1,10 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, Onboarding, DashboardCategories, DashboardPreferences, Experiences, Home, Login, MapView, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage } from "../pages";import Root from "../components/layout/Root";
+import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage, DashboardLogin, Onboarding, MapView } from "../pages";
+import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import AuthenticatedRoute from "../components/layout/AuthenticatedRoute";
+import SuperAdminRoute from "../components/layout/SuperAdminRoute";
 
 const router = createBrowserRouter([
   {
@@ -62,15 +64,24 @@ const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout />,
     children: [
-      { index: true, element: <DashboardHome /> },
-      { path: "users", element: <DashboardUsers /> },
-      { path: "locals", element: <DashboardLocals /> },
-      { path: "events", element: <DashboardEvents /> },
-      { path: "categories", element: <DashboardCategories /> },
-      { path: "preferences", element: <DashboardPreferences /> },
-    ],
+      { index: true, element: <DashboardLogin /> },
+      {
+        element: (
+          <SuperAdminRoute>
+            <DashboardLayout />
+          </SuperAdminRoute>
+        ),
+        children: [
+          { path: "home", element: <DashboardHome /> },
+          { path: "users", element: <DashboardUsers /> },
+          { path: "locals", element: <DashboardLocals /> },
+          { path: "events", element: <DashboardEvents /> },
+          { path: "categories", element: <DashboardCategories /> },
+          { path: "preferences", element: <DashboardPreferences /> },
+        ],
+      }
+    ]
   }
 
 ]);

@@ -14,7 +14,7 @@ import { useAuth } from "../../context";
 import NotificationPanel from "./NotificationPanel";
 
 const dashboardLinks = [
-    { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard, end: true },
+    { to: "/dashboard/home", label: "Dashboard", icon: LayoutDashboard, end: true },
     { to: "/dashboard/users", label: "Usuarios", icon: Users },
     { to: "/dashboard/locals", label: "Locales", icon: Store },
     { to: "/dashboard/preferences", label: "Preferencias de Usuario", icon: SlidersHorizontal },
