@@ -1,4 +1,10 @@
 export { default as Detail } from './Detail';
+export { default as DashboardHome } from './Dashboard/DashboardHome';
+export { default as DashboardUsers } from './Dashboard/Users/DashboardUsers';
+export { default as DashboardLocals } from './Dashboard/Local/DashboardLocals';
+export { default as DashboardEvents } from './Dashboard/Events/DashboardEvents';
+export { default as DashboardCategories } from './Dashboard/Categories/DashboardCategories';
+export { default as DashboardPreferences } from './Dashboard/Preferences/DashboardPreferences';
 export { default as ErrorPage } from './ErrorPage';
 export { default as Experiences } from './Experiences';
 export { default as Home } from './Home';

@@ -1,7 +1,8 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { Detail, ErrorPage, Experiences, Home, Login, LocalPartner, Nearby, Profile, Register, Saved } from "../pages";
+import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
+import DashboardLayout from "../components/layout/DashboardLayout";
 import AuthenticatedRoute from "../components/layout/AuthenticatedRoute";
 
 const router = createBrowserRouter([
@@ -13,29 +14,29 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/home" /> },
       { path: "home", element: <Home /> },
       { path: "nearby", element: <Nearby /> },
-      { 
-        path: "experiences", 
+      {
+        path: "experiences",
         element: (
           <AuthenticatedRoute>
             <Experiences />
           </AuthenticatedRoute>
-        ) 
+        )
       },
-      { 
-        path: "saved", 
+      {
+        path: "saved",
         element: (
           <AuthenticatedRoute>
             <Saved />
           </AuthenticatedRoute>
-        ) 
+        )
       },
-      { 
-        path: "profile", 
+      {
+        path: "profile",
         element: (
           <AuthenticatedRoute>
             <Profile />
           </AuthenticatedRoute>
-        ) 
+        )
       },
     ],
   },
@@ -55,6 +56,19 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
     ],
   },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { index: true, element: <DashboardHome /> },
+      { path: "users", element: <DashboardUsers /> },
+      { path: "locals", element: <DashboardLocals /> },
+      { path: "events", element: <DashboardEvents /> },
+      { path: "categories", element: <DashboardCategories /> },
+      { path: "preferences", element: <DashboardPreferences /> },
+    ],
+  }
+
 ]);
 
 export default router;

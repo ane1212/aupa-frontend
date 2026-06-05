@@ -1,5 +1,5 @@
 import { apiClient } from "../http";
-import type { UpdateUserForm, User } from "../models";
+import type { UpdateUserForm, User, PaginatedResponse, PaginationQuery } from "../models";
 
 
 export const userService = {
@@ -15,8 +15,11 @@ export const userService = {
     deleteProfile: () =>
         apiClient.delete<void>('/user/profile'),
 
-    getAllUsers: () =>
-        apiClient.get<User[]>('/user'),
+    create: (data: Record<string, string>) =>
+        apiClient.post<User>('/auth/register', data),
+
+    getAllUsers: (params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<User>>('/user', params),
 
     getUserById: (id: string) =>
         apiClient.get<User>(`/user/${id}`),

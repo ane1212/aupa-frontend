@@ -7,12 +7,12 @@ body {
   padding: 0;
   overflow-y: hidden;
   height: 100%;
+  background: #f3f5f8;
+  color: #33343b;
 }
 
 * {
   font-family: 'Poppins', sans-serif;
-  background: #f3f5f8;
-  color: #33343b;
 }
 
 p {
@@ -1063,7 +1063,6 @@ p {
     margin: 0 0 var(--mp);
   }
 
-  /* Tabs */
   .sv-tabs {
     display: flex;
     border-bottom: 1px solid #e0e0e0;
@@ -1091,7 +1090,6 @@ p {
     }
   }
 
-  /* Filter chips */
   .sv-filters {
     display: flex;
     gap: calc(var(--mp) / 2);
@@ -1128,7 +1126,6 @@ p {
     }
   }
 
-  /* Saved content */
   .sv-content {
     display: flex;
     flex-direction: column;
@@ -1183,7 +1180,6 @@ p {
     gap: var(--mp);
   }
 
-  /* Place card */
   .sv-place-card {
     display: flex;
     align-items: center;
@@ -1280,7 +1276,6 @@ p {
     text-align: center;
   }
 
-  /* My Trip tab */
   .sv-trip {
     display: flex;
     flex-direction: column;
@@ -1426,7 +1421,6 @@ p {
     touch-action: manipulation;
   }
 
-  /* Context menu — position: fixed, rendered at component root */
   .sv-context-menu {
     position: fixed;
     background: #fff;
@@ -1552,7 +1546,6 @@ p {
   overflow: hidden;
   background-color: #fff;
 
-  /* Scrollable area */
   .detail-scroll {
     flex: 1;
     overflow-y: auto;
@@ -1560,7 +1553,6 @@ p {
     min-height: 0;
   }
 
-  /* Hero image */
   .detail-hero {
     height: 220px;
     background-color: #c8c8c8;
@@ -1591,7 +1583,6 @@ p {
     right: var(--mp);
   }
 
-  /* Body content */
   .detail-body {
     padding: var(--mp) var(--np);
     display: flex;
@@ -1646,7 +1637,6 @@ p {
     white-space: nowrap;
   }
 
-  /* Stats row */
   .detail-stats {
     display: flex;
     align-items: center;
@@ -1674,7 +1664,6 @@ p {
     font-size: 0.88rem;
   }
 
-  /* Description */
   .detail-description {
     font-size: 0.82rem;
     line-height: 1.65;
@@ -1682,7 +1671,6 @@ p {
     margin: 0;
   }
 
-  /* You'll visit */
   .detail-visits {
     display: flex;
     flex-direction: column;
@@ -1736,7 +1724,6 @@ p {
     margin: 0;
   }
 
-  /* Sticky action bar */
   .detail-actions {
     flex-shrink: 0;
     display: flex;
@@ -2426,34 +2413,43 @@ p {
 }
 
 .lp-confetti span:nth-child(1) {
-  top: -14px; right: -22px;
+  top: -14px;
+  right: -22px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #facc15;
 }
+
 .lp-confetti span:nth-child(2) {
-  top: 8px; right: -42px;
+  top: 8px;
+  right: -42px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #f472b6;
   transform: rotate(30deg);
 }
+
 .lp-confetti span:nth-child(3) {
-  top: -18px; left: -28px;
+  top: -18px;
+  left: -28px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #60a5fa;
   transform: rotate(-20deg);
 }
+
 .lp-confetti span:nth-child(4) {
-  bottom: 8px; left: -38px;
+  bottom: 8px;
+  left: -38px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #a78bfa;
   transform: rotate(15deg);
 }
+
 .lp-confetti span:nth-child(5) {
-  bottom: -12px; right: -18px;
+  bottom: -12px;
+  right: -18px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #34d399;
