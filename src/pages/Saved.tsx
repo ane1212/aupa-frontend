@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     SavedTabs, FilterChips, SavedContent, TripList, ContextMenu,
-    filterDefs, savedItems, initialTripItems,
+    filterDefs, savedItems, initialTripItems, TRIP_CATEGORY_MAP, PLACE_COORDS,
 } from '../components/saved';
-import type { Tab, Filter, TripItem } from '../components/saved';
+import type { Tab, Filter, TripItem, SavedItem } from '../components/saved';
 
 const Saved = () => {
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Saved = () => {
     const [activeFilter, setActiveFilter] = useState<Filter>('all');
     const [completed, setCompleted] = useState<Set<number>>(new Set([2]));
     const [tripList, setTripList] = useState<TripItem[]>(initialTripItems);
+    const [savedList, setSavedList] = useState<SavedItem[]>(savedItems);
     const [openMenuId, setOpenMenuId] = useState<number | null>(null);
     const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
 
@@ -42,9 +43,34 @@ const Saved = () => {
         setOpenMenuId(null);
     };
 
+    const viewOnMaps = (id: number) => {
+        const item = tripList.find(i => i.id === id);
+        const coords = PLACE_COORDS[id];
+        if (!item || !coords) return;
+        setOpenMenuId(null);
+        navigate(`/map?name=${encodeURIComponent(item.name)}&subtitle=${encodeURIComponent(item.subtitle)}&lat=${coords.lat}&lng=${coords.lng}`);
+    };
+
+    const moveToSaved = (id: number) => {
+        const item = tripList.find(i => i.id === id);
+        if (!item) return;
+        const newSavedItem: SavedItem = {
+            id: item.id,
+            name: item.name,
+            meta: `${item.category} · ${item.subtitle}`,
+            score: 0,
+            category: TRIP_CATEGORY_MAP[item.category] ?? 'experiences',
+        };
+        setSavedList(prev => [...prev, newSavedItem]);
+        setTripList(prev => prev.filter(i => i.id !== id));
+        setCompleted(prev => { const next = new Set(prev); next.delete(id); return next; });
+        setOpenMenuId(null);
+        setActiveTab('saved');
+    };
+
     const visible = activeFilter === 'all'
-        ? savedItems
-        : savedItems.filter(i => i.category === activeFilter);
+        ? savedList
+        : savedList.filter(i => i.category === activeFilter);
 
     const pct = tripList.length > 0
         ? Math.round(([...completed].filter(id => tripList.some(i => i.id === id)).length / tripList.length) * 100)
@@ -77,8 +103,9 @@ const Saved = () => {
                 <ContextMenu
                     openMenuId={openMenuId}
                     menuPos={menuPos}
+                    onViewOnMaps={viewOnMaps}
                     onDelete={deleteItem}
-                    onClose={() => setOpenMenuId(null)}
+                    onMoveToSaved={moveToSaved}
                 />
             )}
         </div>
