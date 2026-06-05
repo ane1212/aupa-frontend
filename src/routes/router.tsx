@@ -1,6 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, Onboarding, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage } from "../pages";
-import Root from "../components/layout/Root";
+import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, Onboarding, DashboardCategories, DashboardPreferences, Experiences, Home, Login, MapView, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage } from "../pages";import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import AuthenticatedRoute from "../components/layout/AuthenticatedRoute";
@@ -47,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/local-partner",
     element: <LocalPartner />,
+  },
+  {
+    path: "/map",
+    element: <MapView />,
   },
   {
     path: "/",

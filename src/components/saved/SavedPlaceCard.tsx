@@ -16,12 +16,12 @@ const SavedPlaceCard = ({ item }: SavedPlaceCardProps) => (
         </div>
         <div className="sv-place-actions">
             <div className="sv-score-row">
-                <span className="sv-score-badge">{item.score}</span>
+                {item.score > 0 && <span className="sv-score-badge">{item.score}</span>}
                 <button className="sv-bookmark" aria-label="Guardar lugar">
                     <Bookmark size={16} />
                 </button>
             </div>
-            <span className="sv-score-label">Local Score</span>
+            {item.score > 0 && <span className="sv-score-label">Local Score</span>}
         </div>
     </li>
 );
