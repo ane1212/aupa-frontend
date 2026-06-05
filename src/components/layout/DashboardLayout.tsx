@@ -1,8 +1,8 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 import '../../assets/styles/dashboard.css'
+import logoTrimmed from '../../assets/logo-trimmed.png'
 import {
     CalendarDays,
-    FolderKanban,
     LayoutDashboard,
     LogOut,
     SlidersHorizontal,
@@ -35,11 +35,8 @@ const DashboardLayout = () => {
         <div className="dashboard">
             <aside className="dashboard-sidebar">
                 <div className="dashboard-brand">
-                    <div className="dashboard-brand-icon">
-                        <FolderKanban size={20} />
-                    </div>
                     <div>
-                        <strong>Aupa</strong>
+                        <img src={logoTrimmed} alt="Aupa" style={{ height: '40px', display: 'block' }} />
                         <span>Superadmin</span>
                     </div>
                 </div>

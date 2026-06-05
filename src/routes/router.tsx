@@ -61,7 +61,6 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       { index: true, element: <DashboardHome /> },
-      // { path: "locals", element: <DashboardLocals /> },
       { path: "users", element: <DashboardUsers /> },
       { path: "locals", element: <DashboardLocals /> },
       { path: "events", element: <DashboardEvents /> },

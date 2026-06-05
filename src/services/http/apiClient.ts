@@ -49,8 +49,10 @@ const request = async <T>(
 }
 
 export const apiClient = {
-    get: <T>(endpoint: string, params?: Record<string, any>) =>
-        request<T>(endpoint, { params }),
+    get: <T>(endpoint: string, params?: Record<string, any>) => {
+        const url = params ? `${endpoint}?${new URLSearchParams(params).toString()}` : endpoint;
+        return request<T>(url);
+    },
 
     post: <T>(endpoint: string, body: unknown) =>
         request<T>(endpoint, {
