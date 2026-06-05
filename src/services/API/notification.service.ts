@@ -1,10 +1,10 @@
 import { apiClient } from "../http";
-import type { CreateNotificationForm } from "../models";
+import type { CreateNotificationForm, Notification, PaginatedResponse, PaginationQuery } from "../models";
 
 
 export const notificationService = {
-    getAll: () =>
-        apiClient.get<Notification[]>('/notification'),
+    getAll: (params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<Notification>>('/notification', params),
 
     markAsRead: (id: string) =>
         apiClient.patch<Notification>(`/notification/${id}/read`),

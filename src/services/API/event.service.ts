@@ -1,10 +1,10 @@
 import { apiClient } from "../http";
-import type { CreateEventForm, UpdateEventForm } from "../models";
+import type { Event, CreateEventForm, UpdateEventForm, PaginatedResponse, PaginationQuery } from "../models";
 
 
 export const eventService = {
-    getAll: () =>
-        apiClient.get<Event[]>('/event'),
+    getAll: (params?: PaginationQuery) =>
+        apiClient.get<PaginatedResponse<Event>>('/event', params),
 
     getById: (id: string) =>
         apiClient.get<Event>(`/event/${id}`),

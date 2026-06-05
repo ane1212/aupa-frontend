@@ -7,6 +7,8 @@ body {
   padding: 0;
   overflow-y: hidden;
   height: 100%;
+  background: #f3f5f8;
+  color: #33343b;
 }
 
 * {
@@ -820,6 +822,12 @@ p {
   padding: var(--mp);
   gap: var(--mp);
 
+  .sv-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0 0 var(--mp);
+  }
+
   .sv-tabs {
     display: flex;
     border-bottom: 1px solid #e0e0e0;
@@ -839,6 +847,21 @@ p {
     color: #888;
     cursor: pointer;
     touch-action: manipulation;
+
+    &.active {
+      color: inherit;
+      font-weight: 600;
+      border-bottom-color: #ef342a;
+    }
+  }
+
+  .sv-filters {
+    display: flex;
+    gap: calc(var(--mp) / 2);
+    overflow-x: auto;
+    padding-bottom: calc(var(--mp) / 2);
+    scrollbar-width: none;
+    flex-shrink: 0;
 
     &.active {
       font-weight: 600;
@@ -894,6 +917,122 @@ p {
     font-weight: 700;
     color: #333;
     letter-spacing: 0.05em;
+  }
+
+  .sv-see-all {
+    background: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.72rem;
+    color: #22c55e;
+    cursor: pointer;
+    padding: 0;
+    touch-action: manipulation;
+  }
+
+  .sv-place-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--mp);
+  }
+
+  .sv-place-card {
+    display: flex;
+    align-items: center;
+    gap: var(--mp);
+  }
+
+  .sv-img-placeholder {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    border: 1.5px solid #ccc;
+    background-image:
+      linear-gradient(to bottom right,
+        transparent calc(50% - 0.5px),
+        #ccc calc(50% - 0.5px),
+        #ccc calc(50% + 0.5px),
+        transparent calc(50% + 0.5px)),
+      linear-gradient(to bottom left,
+        transparent calc(50% - 0.5px),
+        #ccc calc(50% - 0.5px),
+        #ccc calc(50% + 0.5px),
+        transparent calc(50% + 0.5px));
+
+    &.small {
+      width: 52px;
+      height: 52px;
+    }
+  }
+
+  .sv-place-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .sv-place-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sv-place-meta {
+    font-size: 0.72rem;
+    color: #555;
+  }
+
+  .sv-place-dist {
+    font-size: 0.7rem;
+    color: #9c9292;
+  }
+
+  .sv-place-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+
+  .sv-score-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .sv-score-badge {
+    background-color: #22c55e;
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.82rem;
+    padding: 3px 8px;
+    border-radius: 5px;
+  }
+
+  .sv-bookmark {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin: -10px;
+    color: #9c9292;
+    display: flex;
+    align-items: center;
+    touch-action: manipulation;
+  }
+
+  .sv-score-label {
+    font-size: 0.6rem;
+    color: #9c9292;
+    text-align: center;
   }
 
   .sv-trip {
@@ -2183,34 +2322,43 @@ boarding-language-options,
 }
 
 .lp-confetti span:nth-child(1) {
-  top: -14px; right: -22px;
+  top: -14px;
+  right: -22px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #facc15;
 }
+
 .lp-confetti span:nth-child(2) {
-  top: 8px; right: -42px;
+  top: 8px;
+  right: -42px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #f472b6;
   transform: rotate(30deg);
 }
+
 .lp-confetti span:nth-child(3) {
-  top: -18px; left: -28px;
+  top: -18px;
+  left: -28px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #60a5fa;
   transform: rotate(-20deg);
 }
+
 .lp-confetti span:nth-child(4) {
-  bottom: 8px; left: -38px;
+  bottom: 8px;
+  left: -38px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #a78bfa;
   transform: rotate(15deg);
 }
+
 .lp-confetti span:nth-child(5) {
-  bottom: -12px; right: -18px;
+  bottom: -12px;
+  right: -18px;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
   border-bottom: 14px solid #34d399;
