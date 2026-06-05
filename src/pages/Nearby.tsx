@@ -15,15 +15,19 @@ const Nearby = () => {
 
     return (
         <div className="nearby">
-            <h2 className="nearby-title">Places near you</h2>
-            <CategoryFilters
-                categories={categories}
-                activeCategory={activeCategory}
-                onCategoryChange={setActiveCategory}
-            />
-            <PlacesList places={filtered} />
-            <NearbyMap />
-            <SearchBar value={query} onChange={setQuery} />
+            <div className="nearby-scroll">
+                <h2 className="nearby-title">Places near you</h2>
+                <CategoryFilters
+                    categories={categories}
+                    activeCategory={activeCategory}
+                    onCategoryChange={setActiveCategory}
+                />
+                <PlacesList places={filtered} />
+            </div>
+            <div className="nearby-bottom">
+                <NearbyMap places={filtered} />
+                <SearchBar value={query} onChange={setQuery} />
+            </div>
         </div>
     );
 };
