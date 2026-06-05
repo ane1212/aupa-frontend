@@ -2504,3 +2504,204 @@ p {
   background: #c8cdd6;
   cursor: not-allowed;
 }
+/* ── Map View ────────────────────────────────────────────────── */
+
+/* mobile-first: frame arriba, sidebar abajo */
+.mapview {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  background: #f3f5f8;
+}
+
+.map-frame {
+  flex: 1;
+  width: 100%;
+  border: 0;
+  min-height: 0;
+}
+
+/* sidebar: info card anclada al fondo en mobile */
+.mapview-sidebar {
+  flex-shrink: 0;
+}
+
+/* back btn: flota sobre el mapa via position absolute en .mapview */
+.mapview-back {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 1000;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #33343b;
+  cursor: pointer;
+}
+
+.mapview-back-label {
+  display: none;
+}
+
+.mapview-external {
+  display: none;
+}
+
+.map-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #fff;
+  border-top: 1px solid #eaedf1;
+}
+
+.map-card-icon {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #fef2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-card-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #33343b;
+  background: transparent;
+  margin-bottom: 2px;
+}
+
+.map-card-subtitle {
+  font-size: 0.8rem;
+  color: #526071;
+  background: transparent;
+}
+
+/* ── desktop ≥ 768px: grid de dos columnas ── */
+@media (min-width: 768px) {
+  .mapview {
+    display: grid;
+    grid-template-areas: "sidebar frame";
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .map-frame {
+    grid-area: frame;
+    flex: none;
+    height: 100%;
+  }
+
+  .mapview-sidebar {
+    grid-area: sidebar;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 28px 24px;
+    background: #fff;
+    border-right: 1px solid #eaedf1;
+    overflow-y: auto;
+  }
+
+  .mapview-back {
+    position: static;
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    justify-content: flex-start;
+    gap: 6px;
+    padding: 0;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #526071;
+  }
+
+  .mapview-back:hover {
+    color: #33343b;
+  }
+
+  .mapview-back-label {
+    display: inline;
+    background: transparent;
+  }
+
+  .mapview-external {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #1c73ff;
+    text-decoration: none;
+    background: transparent;
+    margin-top: auto;
+  }
+
+  .mapview-external:hover {
+    text-decoration: underline;
+  }
+
+  .map-card {
+    flex-direction: column;
+    align-items: flex-start;
+    border-top: none;
+    padding: 0;
+    background: transparent;
+    gap: 10px;
+  }
+
+  .map-card-icon {
+    width: 46px;
+    height: 46px;
+  }
+
+  .map-card-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+
+  .map-card-subtitle {
+    font-size: 0.88rem;
+  }
+}
+
+/* ── Map markers ─────────────────────────────────────────────── */
+.map-place-marker {
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 0;
+  background: #f2494d;
+  transform: rotate(-45deg);
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+.map-user-marker {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1c73ff;
+  border: 2.5px solid #fff;
+  box-shadow: 0 0 0 5px rgba(28, 115, 255, 0.22);
+  animation: map-user-pulse 2s ease-in-out infinite;
+}
+
+@keyframes map-user-pulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(28, 115, 255, 0.22); }
+  50%       { box-shadow: 0 0 0 9px rgba(28, 115, 255, 0.08); }
+}
