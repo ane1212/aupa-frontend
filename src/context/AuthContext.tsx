@@ -21,24 +21,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        if (token) {
-            setIsLoading(true)
-            fetchProfile()
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            try {
+                setUser(JSON.parse(storedUser));
+            } catch {
+                setUser(null);
+            }
         } else {
-            setIsLoading(false)
+            setUser(null);
         }
-    }, [token])
-
-    const fetchProfile = async () => {
-        try {
-            const user = await userService.getProfile()
-            setUser(user)
-        } catch {
-            setUser(null)
-        } finally {
-            setIsLoading(false)
-        }
-    }
+    }, [token]);
 
     const login = async (data: LoginForm) => {
         const res = await authService.login(data)

@@ -10,6 +10,7 @@ export { default as Experiences } from './Experiences';
 export { default as Home } from './Home';
 export { default as Login } from './Login';
 export { default as Nearby } from './Nearby';
+export { default as Onboarding } from './Onboarding';
 export { default as Profile } from './Profile';
 export { default as Register } from './Register';
 export { default as Saved } from './Saved';
