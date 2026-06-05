@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import PasswordInput from '../components/ui/PasswordInput';
 import { CircleUser, Mail } from 'lucide-react';
 import footer from '../assets/redfooter.png'
 import TermsLink from '../components/ui/TermsLink';
 import AuthLink from '../components/ui/AuthLink';
-import { useNavigate, Link } from 'react-router-dom';
-import { authService, userService } from '../services/API';
+import { useNavigate } from 'react-router-dom';
+import { authService } from '../services/API';
+import { useAuth } from '../context';
 import TopLogo from '../components/ui/TopLogo';
 
 interface RegisterFormData {
@@ -16,7 +18,9 @@ interface RegisterFormData {
 }
 
 const Register: React.FC = () => {
+  
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
     email: '',
@@ -67,21 +71,13 @@ const Register: React.FC = () => {
         passwordRepeat: formData.confirmPassword,
       });
 
-      const { token } = await authService.login({
+      await login({
         email: formData.email,
         password: formData.password,
       });
 
-      localStorage.setItem('token', token);
-      const user = await userService.getProfile();
-      localStorage.setItem('user', JSON.stringify({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      }));
-
       setErrorMessage('Logged in successfully');
-      navigate('/home');
+      navigate('/onboarding');
     } catch {
       setErrorMessage('Registration failed');
     }
