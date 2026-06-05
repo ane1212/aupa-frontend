@@ -12,4 +12,6 @@ export interface Place {
     distance: string;
     walkTime: string;
     score: number;
+    lat: number;
+    lng: number;
 }
