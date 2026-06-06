@@ -1,0 +1,265 @@
+@import './variables.css';
+
+/* Styles for Local role section using design tokens (Forced Light Mode) */
+
+.local-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Fixed height to enable scrolling in main content */
+  overflow: hidden; /* Prevents whole layout from scrolling */
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.local-main-content {
+  flex: 1;
+  padding-bottom: 80px; /* Space for bottom navigation */
+  overflow-y: auto; /* Enables scroll on main body */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Header */
+.local-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.local-header-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Bottom Navigation */
+.local-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 72px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 50;
+  padding: 0 1rem;
+}
+
+.local-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #94a3b8; /* Cool grey for inactive */
+  font-size: 0.65rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  position: relative;
+  height: 100%;
+  padding: 4px 8px;
+}
+
+.local-nav-item:hover {
+  color: var(--color-G, #22c55e); /* Hover state turns green */
+}
+
+.local-nav-item.active {
+  color: var(--color-G, #22c55e); /* Active state is green to match wireframes */
+}
+
+.local-nav-item-icon {
+  margin-bottom: 4px;
+  transition: transform 0.2s ease;
+}
+
+.local-nav-item:active .local-nav-item-icon {
+  transform: scale(0.95);
+}
+
+/* Central "+" Action Button (Matches the mockup's circular gray button with plus) */
+.local-nav-center-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #94a3b8;
+  color: white !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  padding: 0 !important;
+}
+
+.local-nav-center-btn:hover {
+  background-color: var(--color-G, #22c55e);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.local-nav-center-btn.active {
+  background-color: var(--color-G, #22c55e);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+/* Page Container styling */
+.local-page-container {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+/* Home / Dashboard styles */
+.local-home-hero {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.local-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.local-stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.local-stat-val {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.local-stat-label {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Listing Styles */
+.local-event-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  gap: 1rem;
+}
+
+.local-event-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: #e2e8f0;
+}
+
+.local-event-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.local-event-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.local-event-date {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 4px;
+}
+
+.local-event-badge {
+  align-self: flex-start;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 9999px;
+}
+
+.local-badge-active {
+  background-color: #dcfce7;
+  color: #15803d;
+}
+
+.local-badge-inactive {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Form Styles */
+.local-form-group {
+  margin-bottom: 1.25rem;
+}
+
+.local-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.local-input, .local-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: white;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+  color: #0f172a;
+}
+
+.local-input:focus, .local-textarea:focus {
+  border-color: var(--color-G, #22c55e);
+}
+
+.local-btn {
+  background: var(--color-G, #22c55e);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+
+.local-btn:hover {
+  opacity: 0.9;
+}

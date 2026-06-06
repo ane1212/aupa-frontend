@@ -31,6 +31,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         } else {
             setUser(null);
         }
+        setIsLoading(false);
     }, [token]);
 
     const login = async (data: LoginForm) => {
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             id: user.id,
             name: user.name,
             email: user.email,
+            role: user.role,
         }))
         setUser(user)
         setIsLoading(false)

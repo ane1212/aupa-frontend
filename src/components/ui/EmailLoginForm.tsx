@@ -61,10 +61,15 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
                 id: user.id,
                 name: user.name,
                 email: user.email,
+                role: user.role,
             }));
 
             setErrorMessage('Logged in successfully');
-            navigate('/home');
+            if (user.role === 'local') {
+                navigate('/local/home');
+            } else {
+                navigate('/home');
+            }
         } catch {
             setErrorMessage('Invalid credentials');
         }

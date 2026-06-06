@@ -39,24 +39,26 @@ const PlaceMap = ({ lat, lng, name }: PlaceMapProps) => {
 
         navigator.geolocation.getCurrentPosition(
             ({ coords }) => {
-                const { latitude, longitude } = coords;
+                if (mapRef.current) {
+                    const { latitude, longitude } = coords;
 
-                const userIcon = L.divIcon({
-                    html: '<div class="map-user-marker"></div>',
-                    className: '',
-                    iconSize: [18, 18],
-                    iconAnchor: [9, 9],
-                });
+                    const userIcon = L.divIcon({
+                        html: '<div class="map-user-marker"></div>',
+                        className: '',
+                        iconSize: [18, 18],
+                        iconAnchor: [9, 9],
+                    });
 
-                L.marker([latitude, longitude], { icon: userIcon })
-                    .addTo(map)
-                    .bindPopup('You are here');
+                    L.marker([latitude, longitude], { icon: userIcon })
+                        .addTo(map)
+                        .bindPopup('You are here');
 
-                const bounds = L.latLngBounds(
-                    [lat, lng],
-                    [latitude, longitude],
-                );
-                map.fitBounds(bounds, { padding: [60, 60], maxZoom: 16 });
+                    const bounds = L.latLngBounds(
+                        [lat, lng],
+                        [latitude, longitude],
+                    );
+                    map.fitBounds(bounds, { padding: [60, 60], maxZoom: 16 });
+                }
             },
             () => { /* permiso denegado — sólo se muestra el marcador del lugar */ },
             { enableHighAccuracy: true, timeout: 8000 },
