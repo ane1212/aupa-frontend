@@ -17,3 +17,10 @@ export { default as Saved } from './Saved';
 export { default as LocalPartner } from './LocalPartner';
 export { default as DashboardLogin } from './Dashboard/Auth/DashboardLogin';
 export { default as MapView } from './MapView';
+export { default as LocalHome } from './Locals/Home';
+export { default as LocalListing } from './Locals/Listing';
+export { default as LocalCreateEvent } from './Locals/Create';
+export { default as LocalExperiences } from './Locals/Experiences';
+export { default as LocalProfile } from './Locals/Profile';
+export { default as LocalDetail } from './Locals/Detail';
+

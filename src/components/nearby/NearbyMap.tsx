@@ -33,15 +33,17 @@ const NearbyMap = ({ places }: NearbyMapProps) => {
         // Posición del usuario
         navigator.geolocation?.getCurrentPosition(
             ({ coords }) => {
-                const userIcon = L.divIcon({
-                    html: '<div class="map-user-marker"></div>',
-                    className: '',
-                    iconSize: [14, 14],
-                    iconAnchor: [7, 7],
-                });
-                L.marker([coords.latitude, coords.longitude], { icon: userIcon })
-                    .addTo(map)
-                    .bindPopup('You are here');
+                if (mapRef.current) {
+                    const userIcon = L.divIcon({
+                        html: '<div class="map-user-marker"></div>',
+                        className: '',
+                        iconSize: [14, 14],
+                        iconAnchor: [7, 7],
+                    });
+                    L.marker([coords.latitude, coords.longitude], { icon: userIcon })
+                        .addTo(map)
+                        .bindPopup('You are here');
+                }
             },
             () => {},
             { enableHighAccuracy: true, timeout: 8000 },

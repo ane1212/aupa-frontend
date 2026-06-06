@@ -1,10 +1,12 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage, DashboardLogin, Onboarding, MapView } from "../pages";
+import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage, DashboardLogin, Onboarding, MapView, LocalHome, LocalListing, LocalCreateEvent, LocalExperiences, LocalProfile, LocalDetail } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import AuthenticatedRoute from "../components/layout/AuthenticatedRoute";
 import SuperAdminRoute from "../components/layout/SuperAdminRoute";
+import LocalLayout from "../components/layout/LocalLayout";
+import LocalRoute from "../components/layout/LocalRoute";
 
 const router = createBrowserRouter([
   {
@@ -52,6 +54,24 @@ const router = createBrowserRouter([
   {
     path: "/map",
     element: <MapView />,
+  },
+  {
+    path: "/local",
+    element: (
+      <LocalRoute>
+        <LocalLayout />
+      </LocalRoute>
+    ),
+    children: [
+      { index: true, element: <Navigate to="/local/home" /> },
+      { path: "home", element: <LocalHome /> },
+      { path: "listing", element: <LocalListing /> },
+      { path: "create", element: <LocalCreateEvent /> },
+      { path: "edit/:id", element: <LocalCreateEvent /> },
+      { path: "experiences", element: <LocalExperiences /> },
+      { path: "profile", element: <LocalProfile /> },
+      { path: "detail/:id", element: <LocalDetail /> },
+    ],
   },
   {
     path: "/",

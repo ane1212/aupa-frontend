@@ -1,17 +1,18 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Share2, Clock, MapPin, Bookmark, Plus } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { eventService } from '../services/API';
 import { useAuth } from '../context';
-import { getAppCopy } from '../i18n/copy';
 
 interface Stop {
-    id: number;
+    id: number | string;
     name: string;
     type: string;
     neighborhood: string;
 }
 
 interface DetailData {
-    id: number;
+    id: number | string;
     name: string;
     category: string;
     subtitle: string;
@@ -85,12 +86,62 @@ const detailDb: DetailData[] = [
 ];
 
 const Detail = () => {
-    const { user } = useAuth();
-    const copy = getAppCopy(user?.language);
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const { user } = useAuth();
 
-    const item = detailDb.find(d => d.id === Number(id));
+    const [item, setItem] = useState<DetailData | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchDetail = async () => {
+            if (!id) return;
+
+            // 1. Intentar buscar en la base de datos estática local
+            const staticItem = detailDb.find(d => d.id === Number(id));
+            if (staticItem) {
+                setItem(staticItem);
+                setLoading(false);
+                return;
+            }
+
+            // 2. Si no es un ID numérico estático, buscar en la API del backend
+            try {
+                const event = await eventService.getById(id);
+                if (event) {
+                    setItem({
+                        id: event.id,
+                        name: event.title,
+                        category: 'Event',
+                        subtitle: event.address || 'Ubicación no especificada',
+                        score: 95,
+                        duration: `${event.startTime} ${event.endTime ? `- ${event.endTime}` : ''}`,
+                        stops: 1,
+                        budget: event.price === 0 ? 'Gratis' : `${event.price}€`,
+                        description: event.description || 'Sin descripción detallada.',
+                        places: [
+                            { id: event.id, name: event.title, type: 'Evento', neighborhood: event.address || '' }
+                        ]
+                    });
+                }
+            } catch (error) {
+                console.error("Error al obtener detalles del evento desde API:", error);
+                setItem(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchDetail();
+    }, [id]);
+
+    if (loading) {
+        return (
+            <div className="detail" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-green-500"></div>
+            </div>
+        );
+    }
 
     if (!item) {
         return (
@@ -99,7 +150,7 @@ const Detail = () => {
                     <button className="detail-hero-btn detail-hero-back" onClick={() => navigate(-1)}>
                         <ChevronLeft size={20} />
                     </button>
-                    <p style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>{copy.detail.notFound}</p>
+                    <p style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>Item not found</p>
                 </div>
             </div>
         );
@@ -136,7 +187,7 @@ const Detail = () => {
                         </div>
                         <div className="detail-score">
                             <span className="detail-score-badge">{item.score}</span>
-                            <span className="detail-score-label">{copy.detail.localScore}</span>
+                            <span className="detail-score-label">Local Score</span>
                         </div>
                     </div>
 
@@ -146,48 +197,54 @@ const Detail = () => {
                             <Clock size={14} />
                             <span>{item.duration}</span>
                         </div>
-                        <div className="detail-stat">
-                            <MapPin size={14} />
-                            <span>{item.stops} {item.stops === 1 ? copy.detail.stop : copy.detail.stops}</span>
-                        </div>
+                        {item.category !== 'Event' && (
+                            <div className="detail-stat">
+                                <MapPin size={14} />
+                                <span>{item.stops} {item.stops === 1 ? 'stop' : 'stops'}</span>
+                            </div>
+                        )}
                         <div className="detail-stat">
                             <span className="detail-budget">{item.budget}</span>
-                            <span>{copy.detail.budget}</span>
+                            <span>Budget</span>
                         </div>
                     </div>
 
                     {/* Description */}
                     <p className="detail-description">{item.description}</p>
 
-                    {/* You'll visit */}
-                    <div className="detail-visits">
-                        <h2 className="detail-section-title">{copy.detail.youllVisit}</h2>
-                        <ul className="detail-stops">
-                            {item.places.map((place, idx) => (
-                                <li key={place.id} className="detail-stop">
-                                    <span className="detail-stop-num">{idx + 1}</span>
-                                    <div>
-                                        <p className="detail-stop-name">{place.name}</p>
-                                        <p className="detail-stop-sub">{place.type} · {place.neighborhood}</p>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                    {/* You'll visit (Only for experiences, not events) */}
+                    {item.category !== 'Event' && (
+                        <div className="detail-visits">
+                            <h2 className="detail-section-title">You'll visit</h2>
+                            <ul className="detail-stops">
+                                {item.places.map((place, idx) => (
+                                    <li key={place.id} className="detail-stop">
+                                        <span className="detail-stop-num">{idx + 1}</span>
+                                        <div>
+                                            <p className="detail-stop-name">{place.name}</p>
+                                            <p className="detail-stop-sub">{place.type} · {place.neighborhood}</p>
+                                        </div>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </div>
 
-            {/* Sticky action bar */}
-            <div className="detail-actions">
-                <button className="detail-btn-save">
-                    <Bookmark size={16} />
-                    {copy.detail.save}
-                </button>
-                <button className="detail-btn-trip">
-                    <Plus size={16} />
-                    {copy.detail.addToTrip}
-                </button>
-            </div>
+            {/* Sticky action bar (Only shown for non-locals) */}
+            {user?.role !== 'local' && (
+                <div className="detail-actions">
+                    <button className="detail-btn-save">
+                        <Bookmark size={16} />
+                        Save
+                    </button>
+                    <button className="detail-btn-trip">
+                        <Plus size={16} />
+                        Add to My Trip
+                    </button>
+                </div>
+            )}
         </div>
     );
 };
