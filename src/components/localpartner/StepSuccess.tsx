@@ -1,10 +1,12 @@
 import { Check } from 'lucide-react';
+import type { AppCopy } from '../../i18n/copy';
 
 interface StepSuccessProps {
     onDone: () => void;
+    lp: AppCopy['localPartner'];
 }
 
-const StepSuccess = ({ onDone }: StepSuccessProps) => (
+const StepSuccess = ({ onDone, lp }: StepSuccessProps) => (
     <div className="lp-page">
         <div className="lp-success">
             <div className="lp-success-icon-wrap">
@@ -20,18 +22,14 @@ const StepSuccess = ({ onDone }: StepSuccessProps) => (
                 </div>
             </div>
 
-            <h1 className="lp-success-title">Application Submitted</h1>
-            <p className="lp-success-desc">
-                Thank you for applying to become an Aupa! partner.
-            </p>
-            <p className="lp-success-desc">
-                We will review your information and notify you once your account has been approved.
-            </p>
+            <h1 className="lp-success-title">{lp.successTitle}</h1>
+            <p className="lp-success-desc">{lp.successDesc1}</p>
+            <p className="lp-success-desc">{lp.successDesc2}</p>
         </div>
 
         <div className="lp-bottom lp-bottom--success">
             <button className="lp-btn" onClick={onDone}>
-                Back to Home
+                {lp.successBackHome}
             </button>
         </div>
     </div>

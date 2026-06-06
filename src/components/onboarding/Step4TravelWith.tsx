@@ -44,7 +44,7 @@ const Step4TravelWith: React.FC<Step4TravelWithProps> = ({
     <div className="onboarding-step">
       <h2>{copy.onboarding.step4Title}</h2>
       <span className="onboarding-subtitle">{copy.onboarding.step4Subtitle}</span>
-      <div className="onboarding-category-grid">
+      <div className="onboarding-option-list">
         {categories.map((cat) => (
           <button
             key={cat.id}

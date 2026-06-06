@@ -40,7 +40,7 @@ const Step3Duration: React.FC<Step3DurationProps> = ({
     <div className="onboarding-step">
       <h2>{copy.onboarding.step3Title}</h2>
       <span className="onboarding-subtitle">{copy.onboarding.step3Subtitle}</span>
-      <div className="onboarding-category-grid">
+      <div className="onboarding-option-list">
         {categories.map((cat) => (
           <button
             key={cat.id}

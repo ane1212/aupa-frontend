@@ -135,9 +135,8 @@ const Onboarding: React.FC = () => {
   };
 
   return (
-    <div className="register">
+    <div className="register onboarding-page">
       <div className="register-header">
-        <TopLogo />
         <h2>{copy.onboarding.introTitle}</h2>
         <span>{copy.onboarding.introSubtitle}</span>
       </div>
@@ -148,7 +147,7 @@ const Onboarding: React.FC = () => {
           ))}
         </div>
       </div>
-      
+
       {currentStep === 1 && (
         <Step1Language
           selectedLanguage={selectedLanguage}
@@ -156,7 +155,7 @@ const Onboarding: React.FC = () => {
           onNext={handleNext}
         />
       )}
-      
+
       {currentStep === 2 && (
         <Step2Categories
           categories={step2Categories}
@@ -167,7 +166,7 @@ const Onboarding: React.FC = () => {
           onDeletePreference={deletePreference}
         />
       )}
-      
+
       {currentStep === 3 && (
         <Step3Duration
           categories={step3Categories}
@@ -178,7 +177,7 @@ const Onboarding: React.FC = () => {
           onDeletePreference={deletePreference}
         />
       )}
-      
+
       {currentStep === 4 && (
         <Step4TravelWith
           categories={step4Categories}

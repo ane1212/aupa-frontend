@@ -56,6 +56,75 @@ export type AppCopy = {
     step4Skip: string;
     step4Finish: string;
   };
+  nearby: {
+    title: string;
+    searchPlaceholder: string;
+  };
+  experiences: {
+    browseByVibe: string;
+    topExperiences: string;
+    noResults: string;
+    searchPlaceholder: string;
+  };
+  saved: {
+    title: string;
+    tabSaved: string;
+    tabTrip: string;
+    filterAll: string;
+    filterPlaces: string;
+    filterFood: string;
+    filterBars: string;
+    tripProgress: string;
+    tripCompleted: string;
+    viewOnMaps: string;
+    delete: string;
+    moveToSaved: string;
+    noItems: string;
+    catFood: string;
+    catBars: string;
+    catExperiences: string;
+    catPlaces: string;
+  };
+  detail: {
+    localScore: string;
+    stop: string;
+    stops: string;
+    budget: string;
+    youllVisit: string;
+    save: string;
+    addToTrip: string;
+    notFound: string;
+  };
+  localPartner: {
+    introTitle: string;
+    introSubtitle: string;
+    benefit1Title: string; benefit1Desc: string;
+    benefit2Title: string; benefit2Desc: string;
+    benefit3Title: string; benefit3Desc: string;
+    categoryTitle: string;
+    categorySubtitle: string;
+    categorySpecify: string;
+    catRestaurant: string; catBars: string; catCoffeeShop: string;
+    catMuseum: string; catAttraction: string; catShops: string; catOther: string;
+    infoTitle: string;
+    infoSubtitle: string;
+    fieldName: string; fieldNamePlaceholder: string;
+    fieldAddress: string; fieldAddressPlaceholder: string;
+    fieldPhone: string; fieldPhonePlaceholder: string;
+    fieldWebsite: string; fieldWebsitePlaceholder: string;
+    fieldDesc: string; fieldDescPlaceholder: string;
+    verifyTitle: string;
+    verifySubtitle: string;
+    verifyUploadLabel: string;
+    verifyReviewNote: string;
+    successTitle: string;
+    successDesc1: string;
+    successDesc2: string;
+    successBackHome: string;
+    continue: string;
+    errorConflict: string;
+    errorGeneral: string;
+  };
 };
 
 export const APP_COPY: Record<LanguageType, AppCopy> = {
@@ -102,6 +171,75 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Skip: 'Skip',
       step4Finish: 'Finish',
     },
+    nearby: {
+      title: 'Places near you',
+      searchPlaceholder: 'Where do you want to go?',
+    },
+    experiences: {
+      browseByVibe: 'Browse by vibe',
+      topExperiences: 'Top experiences',
+      noResults: 'No experiences found.',
+      searchPlaceholder: 'Search experiences',
+    },
+    saved: {
+      title: 'Saved',
+      tabSaved: 'Saved',
+      tabTrip: 'My Trip',
+      filterAll: 'All',
+      filterPlaces: 'Places',
+      filterFood: 'Food',
+      filterBars: 'Bars',
+      tripProgress: 'Your Trip Progress',
+      tripCompleted: '{count} of {total} completed',
+      viewOnMaps: 'View on maps',
+      delete: 'Delete',
+      moveToSaved: 'Move to Saved',
+      noItems: 'No items saved in this category.',
+      catFood: 'FOOD',
+      catBars: 'BARS',
+      catExperiences: 'EXPERIENCES',
+      catPlaces: 'PLACES',
+    },
+    detail: {
+      localScore: 'Local Score',
+      stop: 'stop',
+      stops: 'stops',
+      budget: 'Budget',
+      youllVisit: "You'll visit",
+      save: 'Save',
+      addToTrip: 'Add to My Trip',
+      notFound: 'Item not found',
+    },
+    localPartner: {
+      introTitle: 'Why become a Local Partner?',
+      introSubtitle: 'Join Aupa Partners and unlock tools to grow your business.',
+      benefit1Title: 'Showcase your business', benefit1Desc: 'Appear in local experiences and search results.',
+      benefit2Title: 'Reach more travelers', benefit2Desc: 'Connect with thousands of people visiting Bilbao.',
+      benefit3Title: 'Get valuable insights', benefit3Desc: 'Track views, saves and customer engagements.',
+      categoryTitle: 'What best describes you?',
+      categorySubtitle: 'Choose the category that fits your business or organization.',
+      categorySpecify: 'Specify:',
+      catRestaurant: 'Restaurant', catBars: 'Bars', catCoffeeShop: 'Coffee Shop',
+      catMuseum: 'Museum', catAttraction: 'Attraction', catShops: 'Shops', catOther: 'Other',
+      infoTitle: 'Tell us about your business',
+      infoSubtitle: 'This information will appear on your partner profile.',
+      fieldName: 'Business name', fieldNamePlaceholder: 'Bar El Globo',
+      fieldAddress: 'Address', fieldAddressPlaceholder: 'Casco Viejo, Bilbao',
+      fieldPhone: 'Phone number', fieldPhonePlaceholder: '+ 34 600 968 685',
+      fieldWebsite: 'Website', fieldWebsitePlaceholder: 'www.barelglobo.com',
+      fieldDesc: 'Short description', fieldDescPlaceholder: 'Describe your business…',
+      verifyTitle: 'Verify your business',
+      verifySubtitle: 'Help us verify that you are the owner or representative of this business.',
+      verifyUploadLabel: 'Upload proof of ownership',
+      verifyReviewNote: 'Your application will be reviewed within 2-3 business days.',
+      successTitle: 'Application Submitted',
+      successDesc1: 'Thank you for applying to become an Aupa! partner.',
+      successDesc2: 'We will review your information and notify you once your account has been approved.',
+      successBackHome: 'Back to Home',
+      continue: 'Continue',
+      errorConflict: 'You already have a registered or pending business.',
+      errorGeneral: 'There was an error submitting the form. Please try again.',
+    },
   },
   es: {
     nav: { home: 'Inicio', nearby: 'Cerca', experiences: 'Experiencias', saved: 'Guardado', profile: 'Perfil' },
@@ -145,6 +283,75 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Subtitle: 'Elige solo 1',
       step4Skip: 'Saltar',
       step4Finish: 'Finalizar',
+    },
+    nearby: {
+      title: 'Lugares cerca de ti',
+      searchPlaceholder: '¿A dónde quieres ir?',
+    },
+    experiences: {
+      browseByVibe: 'Explorar por ambiente',
+      topExperiences: 'Mejores experiencias',
+      noResults: 'No se encontraron experiencias.',
+      searchPlaceholder: 'Buscar experiencias',
+    },
+    saved: {
+      title: 'Guardado',
+      tabSaved: 'Guardado',
+      tabTrip: 'Mi viaje',
+      filterAll: 'Todo',
+      filterPlaces: 'Lugares',
+      filterFood: 'Comida',
+      filterBars: 'Bares',
+      tripProgress: 'Progreso de tu viaje',
+      tripCompleted: '{count} de {total} completados',
+      viewOnMaps: 'Ver en mapa',
+      delete: 'Eliminar',
+      moveToSaved: 'Mover a guardados',
+      noItems: 'No hay elementos guardados en esta categoría.',
+      catFood: 'COMIDA',
+      catBars: 'BARES',
+      catExperiences: 'EXPERIENCIAS',
+      catPlaces: 'LUGARES',
+    },
+    detail: {
+      localScore: 'Puntuación local',
+      stop: 'parada',
+      stops: 'paradas',
+      budget: 'Presupuesto',
+      youllVisit: 'Visitarás',
+      save: 'Guardar',
+      addToTrip: 'Añadir a mi viaje',
+      notFound: 'Elemento no encontrado',
+    },
+    localPartner: {
+      introTitle: '¿Por qué ser Local Partner?',
+      introSubtitle: 'Únete a Aupa Partners y desbloquea herramientas para hacer crecer tu negocio.',
+      benefit1Title: 'Muestra tu negocio', benefit1Desc: 'Aparece en experiencias locales y resultados de búsqueda.',
+      benefit2Title: 'Llega a más viajeros', benefit2Desc: 'Conéctate con miles de personas que visitan Bilbao.',
+      benefit3Title: 'Obtén información valiosa', benefit3Desc: 'Rastrea visitas, guardados e interacciones con clientes.',
+      categoryTitle: '¿Qué te describe mejor?',
+      categorySubtitle: 'Elige la categoría que mejor se adapte a tu negocio u organización.',
+      categorySpecify: 'Especifica:',
+      catRestaurant: 'Restaurante', catBars: 'Bares', catCoffeeShop: 'Cafetería',
+      catMuseum: 'Museo', catAttraction: 'Atracción', catShops: 'Tiendas', catOther: 'Otro',
+      infoTitle: 'Cuéntanos sobre tu negocio',
+      infoSubtitle: 'Esta información aparecerá en tu perfil de socio.',
+      fieldName: 'Nombre del negocio', fieldNamePlaceholder: 'Bar El Globo',
+      fieldAddress: 'Dirección', fieldAddressPlaceholder: 'Casco Viejo, Bilbao',
+      fieldPhone: 'Teléfono', fieldPhonePlaceholder: '+ 34 600 968 685',
+      fieldWebsite: 'Sitio web', fieldWebsitePlaceholder: 'www.barelglobo.com',
+      fieldDesc: 'Descripción corta', fieldDescPlaceholder: 'Describe tu negocio…',
+      verifyTitle: 'Verifica tu negocio',
+      verifySubtitle: 'Ayúdanos a verificar que eres el propietario o representante de este negocio.',
+      verifyUploadLabel: 'Sube prueba de propiedad',
+      verifyReviewNote: 'Tu solicitud será revisada en 2-3 días hábiles.',
+      successTitle: 'Solicitud enviada',
+      successDesc1: 'Gracias por solicitar convertirte en socio de Aupa!.',
+      successDesc2: 'Revisaremos tu información y te avisaremos cuando tu cuenta sea aprobada.',
+      successBackHome: 'Volver al inicio',
+      continue: 'Continuar',
+      errorConflict: 'Ya tienes un local registrado o pendiente de verificación.',
+      errorGeneral: 'Hubo un error al enviar el formulario. Inténtalo de nuevo.',
     },
   },
   eu: {
@@ -190,6 +397,75 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Skip: 'Saltatu',
       step4Finish: 'Amaitu',
     },
+    nearby: {
+      title: 'Inguruko lekuak',
+      searchPlaceholder: 'Nora joan nahi duzu?',
+    },
+    experiences: {
+      browseByVibe: 'Aurkitu giroaren arabera',
+      topExperiences: 'Esperientzia onenak',
+      noResults: 'Ez da esperientziarik aurkitu.',
+      searchPlaceholder: 'Bilatu esperientziak',
+    },
+    saved: {
+      title: 'Gordeta',
+      tabSaved: 'Gordeta',
+      tabTrip: 'Nire bidaia',
+      filterAll: 'Guztiak',
+      filterPlaces: 'Lekuak',
+      filterFood: 'Janaria',
+      filterBars: 'Taberna',
+      tripProgress: 'Zure bidaiaren aurrerapena',
+      tripCompleted: '{count}/{total} osatu',
+      viewOnMaps: 'Ikusi mapan',
+      delete: 'Ezabatu',
+      moveToSaved: 'Gorde',
+      noItems: 'Ez dago kategoria honetan gordeta.',
+      catFood: 'JANARIA',
+      catBars: 'TABERNA',
+      catExperiences: 'ESPERIENTZIAK',
+      catPlaces: 'LEKUAK',
+    },
+    detail: {
+      localScore: 'Tokiko puntuazioa',
+      stop: 'geldialdia',
+      stops: 'geldialdiak',
+      budget: 'Aurrekontua',
+      youllVisit: 'Bisitatuko duzu',
+      save: 'Gorde',
+      addToTrip: 'Nire bidaian gehitu',
+      notFound: 'Ez da aurkitu',
+    },
+    localPartner: {
+      introTitle: 'Zergatik tokiko bazkide bihurtu?',
+      introSubtitle: 'Sartu Aupa Partners-en eta desblokeatu tresnak zure negozioa hazteko.',
+      benefit1Title: 'Erakutsi zure negozioa', benefit1Desc: 'Agertu tokiko esperientzietan eta bilaketa-emaitzetan.',
+      benefit2Title: 'Bidaiari gehiagora iritsi', benefit2Desc: 'Lotu Bilbo bisitatzen duten milaka pertsonarekin.',
+      benefit3Title: 'Lortu informazio baliotsua', benefit3Desc: 'Jarraitu bisitei, gordaketei eta bezero-interakzioei.',
+      categoryTitle: 'Zerk deskribatzen zaitu hobekien?',
+      categorySubtitle: 'Aukeratu zure negozio edo erakundeari egokitzen zaion kategoria.',
+      categorySpecify: 'Zehaztu:',
+      catRestaurant: 'Jatetxea', catBars: 'Taberna', catCoffeeShop: 'Kafetegia',
+      catMuseum: 'Museoa', catAttraction: 'Erakarpena', catShops: 'Dendak', catOther: 'Beste bat',
+      infoTitle: 'Kontatu zure negozioari buruz',
+      infoSubtitle: 'Informazio hau zure bazkide-profilean agertuko da.',
+      fieldName: 'Negozioaren izena', fieldNamePlaceholder: 'Bar El Globo',
+      fieldAddress: 'Helbidea', fieldAddressPlaceholder: 'Casco Viejo, Bilbao',
+      fieldPhone: 'Telefono-zenbakia', fieldPhonePlaceholder: '+ 34 600 968 685',
+      fieldWebsite: 'Webgunea', fieldWebsitePlaceholder: 'www.barelglobo.com',
+      fieldDesc: 'Deskripzio laburra', fieldDescPlaceholder: 'Deskribatu zure negozioa…',
+      verifyTitle: 'Egiaztatu zure negozioa',
+      verifySubtitle: 'Lagundu iezaguzu egiaztazen negozio honen jabea edo ordezkaria zarela.',
+      verifyUploadLabel: 'Igo jabetza-frogagiria',
+      verifyReviewNote: 'Zure eskaerak 2-3 lan-egunetan aztertuko da.',
+      successTitle: 'Eskaera bidalia',
+      successDesc1: 'Eskerrik asko Aupa! bazkide bihurtzeko eskaera egiteagatik.',
+      successDesc2: 'Zure informazioa aztertuko dugu eta jakinaraziko dizugu zure kontua onartu denean.',
+      successBackHome: 'Hasierara itzuli',
+      continue: 'Jarraitu',
+      errorConflict: 'Jadanik badaukazu erregistratutako edo egiaztapen zain dagoen negozio bat.',
+      errorGeneral: 'Errorea formularioa bidaltzean. Saiatu berriz.',
+    },
   },
   fr: {
     nav: { home: 'Accueil', nearby: 'Autour', experiences: 'Expériences', saved: 'Enregistré', profile: 'Profil' },
@@ -233,6 +509,75 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Subtitle: 'Choisissez-en 1',
       step4Skip: 'Passer',
       step4Finish: 'Terminer',
+    },
+    nearby: {
+      title: 'Lieux près de vous',
+      searchPlaceholder: 'Où voulez-vous aller ?',
+    },
+    experiences: {
+      browseByVibe: 'Parcourir par ambiance',
+      topExperiences: 'Meilleures expériences',
+      noResults: 'Aucune expérience trouvée.',
+      searchPlaceholder: 'Rechercher des expériences',
+    },
+    saved: {
+      title: 'Enregistré',
+      tabSaved: 'Enregistré',
+      tabTrip: 'Mon voyage',
+      filterAll: 'Tout',
+      filterPlaces: 'Lieux',
+      filterFood: 'Nourriture',
+      filterBars: 'Bars',
+      tripProgress: 'Progression de votre voyage',
+      tripCompleted: '{count} sur {total} complété(s)',
+      viewOnMaps: 'Voir sur la carte',
+      delete: 'Supprimer',
+      moveToSaved: 'Déplacer vers Enregistré',
+      noItems: 'Aucun élément dans cette catégorie.',
+      catFood: 'NOURRITURE',
+      catBars: 'BARS',
+      catExperiences: 'EXPÉRIENCES',
+      catPlaces: 'LIEUX',
+    },
+    detail: {
+      localScore: 'Score local',
+      stop: 'arrêt',
+      stops: 'arrêts',
+      budget: 'Budget',
+      youllVisit: 'Vous visiterez',
+      save: 'Enregistrer',
+      addToTrip: 'Ajouter à mon voyage',
+      notFound: 'Élément introuvable',
+    },
+    localPartner: {
+      introTitle: 'Pourquoi devenir Local Partner ?',
+      introSubtitle: 'Rejoignez Aupa Partners et accédez à des outils pour développer votre activité.',
+      benefit1Title: 'Mettez en valeur votre entreprise', benefit1Desc: 'Apparaissez dans les expériences locales et les résultats de recherche.',
+      benefit2Title: 'Atteignez plus de voyageurs', benefit2Desc: 'Connectez-vous avec des milliers de personnes visitant Bilbao.',
+      benefit3Title: 'Obtenez des insights précieux', benefit3Desc: 'Suivez les vues, les enregistrements et les interactions clients.',
+      categoryTitle: 'Qu\'est-ce qui vous décrit le mieux ?',
+      categorySubtitle: 'Choisissez la catégorie qui correspond à votre entreprise ou organisation.',
+      categorySpecify: 'Précisez :',
+      catRestaurant: 'Restaurant', catBars: 'Bars', catCoffeeShop: 'Café',
+      catMuseum: 'Musée', catAttraction: 'Attraction', catShops: 'Boutiques', catOther: 'Autre',
+      infoTitle: 'Parlez-nous de votre entreprise',
+      infoSubtitle: 'Ces informations apparaîtront sur votre profil partenaire.',
+      fieldName: 'Nom de l\'entreprise', fieldNamePlaceholder: 'Bar El Globo',
+      fieldAddress: 'Adresse', fieldAddressPlaceholder: 'Casco Viejo, Bilbao',
+      fieldPhone: 'Numéro de téléphone', fieldPhonePlaceholder: '+ 34 600 968 685',
+      fieldWebsite: 'Site web', fieldWebsitePlaceholder: 'www.barelglobo.com',
+      fieldDesc: 'Description courte', fieldDescPlaceholder: 'Décrivez votre entreprise…',
+      verifyTitle: 'Vérifiez votre entreprise',
+      verifySubtitle: 'Aidez-nous à vérifier que vous êtes le propriétaire ou le représentant de cette entreprise.',
+      verifyUploadLabel: 'Téléchargez une preuve de propriété',
+      verifyReviewNote: 'Votre demande sera examinée dans 2-3 jours ouvrables.',
+      successTitle: 'Demande soumise',
+      successDesc1: 'Merci de postuler pour devenir partenaire Aupa!.',
+      successDesc2: 'Nous examinerons vos informations et vous notifierons dès que votre compte sera approuvé.',
+      successBackHome: 'Retour à l\'accueil',
+      continue: 'Continuer',
+      errorConflict: 'Vous avez déjà une entreprise enregistrée ou en attente de vérification.',
+      errorGeneral: 'Une erreur s\'est produite lors de l\'envoi du formulaire. Veuillez réessayer.',
     },
   },
 };

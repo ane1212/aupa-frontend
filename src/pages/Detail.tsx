@@ -1,5 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { ChevronLeft, Share2, Clock, MapPin, Bookmark, Plus } from 'lucide-react';
+import { useAuth } from '../context';
+import { getAppCopy } from '../i18n/copy';
 
 interface Stop {
     id: number;
@@ -83,6 +85,8 @@ const detailDb: DetailData[] = [
 ];
 
 const Detail = () => {
+    const { user } = useAuth();
+    const copy = getAppCopy(user?.language);
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
 
@@ -95,7 +99,7 @@ const Detail = () => {
                     <button className="detail-hero-btn detail-hero-back" onClick={() => navigate(-1)}>
                         <ChevronLeft size={20} />
                     </button>
-                    <p style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>Item not found</p>
+                    <p style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>{copy.detail.notFound}</p>
                 </div>
             </div>
         );
@@ -132,7 +136,7 @@ const Detail = () => {
                         </div>
                         <div className="detail-score">
                             <span className="detail-score-badge">{item.score}</span>
-                            <span className="detail-score-label">Local Score</span>
+                            <span className="detail-score-label">{copy.detail.localScore}</span>
                         </div>
                     </div>
 
@@ -144,11 +148,11 @@ const Detail = () => {
                         </div>
                         <div className="detail-stat">
                             <MapPin size={14} />
-                            <span>{item.stops} {item.stops === 1 ? 'stop' : 'stops'}</span>
+                            <span>{item.stops} {item.stops === 1 ? copy.detail.stop : copy.detail.stops}</span>
                         </div>
                         <div className="detail-stat">
                             <span className="detail-budget">{item.budget}</span>
-                            <span>Budget</span>
+                            <span>{copy.detail.budget}</span>
                         </div>
                     </div>
 
@@ -157,7 +161,7 @@ const Detail = () => {
 
                     {/* You'll visit */}
                     <div className="detail-visits">
-                        <h2 className="detail-section-title">You'll visit</h2>
+                        <h2 className="detail-section-title">{copy.detail.youllVisit}</h2>
                         <ul className="detail-stops">
                             {item.places.map((place, idx) => (
                                 <li key={place.id} className="detail-stop">
@@ -177,11 +181,11 @@ const Detail = () => {
             <div className="detail-actions">
                 <button className="detail-btn-save">
                     <Bookmark size={16} />
-                    Save
+                    {copy.detail.save}
                 </button>
                 <button className="detail-btn-trip">
                     <Plus size={16} />
-                    Add to My Trip
+                    {copy.detail.addToTrip}
                 </button>
             </div>
         </div>
