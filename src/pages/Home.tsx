@@ -9,6 +9,7 @@ import {
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
 import type { LanguageType } from '../services/models';
+import NotificationPanel from '../components/layout/NotificationPanel';
 
 const homeContent: Record<LanguageType, {
   recommendations: { title: string; distance: string; score: number }[];
