@@ -14,7 +14,7 @@ const Nearby = () => {
             [p.name, p.type, p.neighborhood].some(field =>
                 field.toLowerCase().includes(query.toLowerCase())
             )
-          )
+        )
         : places;
 
     return (
@@ -26,7 +26,7 @@ const Nearby = () => {
                 onCategoryChange={setActiveCategory}
             />
             <PlacesList places={filtered} />
-            <NearbyMap />
+            <NearbyMap places={filtered} />
             <SearchBar value={query} onChange={setQuery} placeholder={copy.nearby.searchPlaceholder} />
         </div>
     );
