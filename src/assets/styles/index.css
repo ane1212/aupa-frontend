@@ -772,45 +772,32 @@ p {
   height: 155px;
   border-radius: 8px;
   flex-shrink: 0;
-  position: relative;
   overflow: hidden;
-  margin: calc(var(--mp) / 2) 0;
-  background-color: #e3dbd0;
-  background-image:
-    repeating-linear-gradient(to bottom,
-      transparent, transparent 28px,
-      #f5f0ea 28px, #f5f0ea 34px),
-    repeating-linear-gradient(to right,
-      transparent, transparent 42px,
-      #f5f0ea 42px, #f5f0ea 48px);
-
-  &::before {
-    content: '';
-    position: absolute;
-    bottom: 18%;
-    left: 8%;
-    width: 26%;
-    height: 32%;
-    background-color: #b8d49e;
-    border-radius: 3px;
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 18%;
-    width: 82%;
-    height: 7px;
-    background-color: #e8c840;
-  }
+  z-index: 0;
 }
 
 .nearby {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.nearby-scroll {
+  flex: 1;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  height: 100%;
-  padding: var(--mp);
+  padding: var(--mp) var(--mp) 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--mp);
+}
+
+.nearby-bottom {
+  flex-shrink: 0;
+  padding: 0 var(--mp) var(--mp);
+  display: flex;
+  flex-direction: column;
   gap: var(--mp);
 }
 

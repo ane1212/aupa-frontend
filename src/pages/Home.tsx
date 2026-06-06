@@ -96,9 +96,7 @@ const Home = () => {
       <header className="home-hero">
         <div className="home-topbar">
           <img className="logo" src={logo} alt="Aupa" />
-          <button className="icon-button" type="button" aria-label="Notifications">
-            <Bell size={24} fill="currentColor" />
-          </button>
+          <NotificationPanel />
         </div>
 
         <h1>Aupa, {user?.name ?? copy.home.titleSuffix}!</h1>
