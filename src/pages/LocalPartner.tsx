@@ -5,8 +5,12 @@ import {
 } from '../components/localpartner';
 import type { PartnerFormData, PartnerStep } from '../components/localpartner';
 import { localService } from '../services/API';
+import { useAuth } from '../context';
+import { getAppCopy } from '../i18n/copy';
 
 const LocalPartner = () => {
+    const { user } = useAuth();
+    const lp = getAppCopy(user?.language).localPartner;
     const navigate = useNavigate();
     const [step, setStep] = useState<PartnerStep>(0);
     const [files, setFiles] = useState<File[]>([]);
@@ -40,9 +44,9 @@ const LocalPartner = () => {
             } catch (err: any) {
                 console.error("Error submitting form:", err);
                 if (err?.status === 409 || err?.message === 'CONFLICT' || err?.error === 'CONFLICT') {
-                    alert("Ya tienes un local registrado o pendiente de verificación.");
+                    alert(lp.errorConflict);
                 } else {
-                    alert("Hubo un error al enviar el formulario. Inténtalo de nuevo.");
+                    alert(lp.errorGeneral);
                 }
             } finally {
                 setIsSubmitting(false);
@@ -63,7 +67,7 @@ const LocalPartner = () => {
         4: true,
     };
 
-    if (step === 0) return <StepIntro onNext={next} onBack={back} />;
+    if (step === 0) return <StepIntro onNext={next} onBack={back} lp={lp} />;
     if (step === 1) return (
         <StepCategory
             value={formData.category}
@@ -73,6 +77,7 @@ const LocalPartner = () => {
             onNext={next}
             onBack={back}
             disabled={!isValid[1]}
+            lp={lp}
         />
     );
     if (step === 2) return (
@@ -82,6 +87,7 @@ const LocalPartner = () => {
             onNext={next}
             onBack={back}
             disabled={!isValid[2]}
+            lp={lp}
         />
     );
     if (step === 3) return (
@@ -91,9 +97,10 @@ const LocalPartner = () => {
             onNext={next}
             onBack={back}
             disabled={!isValid[3] || isSubmitting}
+            lp={lp}
         />
     );
-    return <StepSuccess onDone={() => navigate('/home')} />;
+    return <StepSuccess onDone={() => navigate('/home')} lp={lp} />;
 };
 
 export default LocalPartner;

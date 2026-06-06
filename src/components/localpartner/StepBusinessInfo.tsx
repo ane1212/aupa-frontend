@@ -1,5 +1,6 @@
 import type { PartnerFormData } from './types';
 import PartnerLayout from './PartnerLayout';
+import type { AppCopy } from '../../i18n/copy';
 
 interface StepBusinessInfoProps {
     data: Pick<PartnerFormData, 'businessName' | 'address' | 'phone' | 'website' | 'description'>;
@@ -7,20 +8,21 @@ interface StepBusinessInfoProps {
     onNext: () => void;
     onBack: () => void;
     disabled?: boolean;
+    lp: AppCopy['localPartner'];
 }
 
-const fields: { key: keyof PartnerFormData; label: string; placeholder: string; multiline?: boolean }[] = [
-    { key: 'businessName', label: 'Business name', placeholder: 'Bar El Globo' },
-    { key: 'address', label: 'Address', placeholder: 'Casco Viejo, Bilbao' },
-    { key: 'phone', label: 'Phone number', placeholder: '+ 34 600 968 685' },
-    { key: 'website', label: 'Website', placeholder: 'www.barelglobo.com' },
-    { key: 'description', label: 'Short description', placeholder: 'Describe your business…', multiline: true },
-];
-
-const StepBusinessInfo = ({ data, onChange, onNext, onBack, disabled }: StepBusinessInfoProps) => (
-    <PartnerLayout onBack={onBack} onNext={onNext} disabled={disabled}>
-        <h1 className="lp-title">Tell us about your business</h1>
-        <p className="lp-subtitle">This information will appear on your partner profile.</p>
+const StepBusinessInfo = ({ data, onChange, onNext, onBack, disabled, lp }: StepBusinessInfoProps) => {
+    const fields: { key: keyof PartnerFormData; label: string; placeholder: string; multiline?: boolean }[] = [
+        { key: 'businessName', label: lp.fieldName, placeholder: lp.fieldNamePlaceholder },
+        { key: 'address', label: lp.fieldAddress, placeholder: lp.fieldAddressPlaceholder },
+        { key: 'phone', label: lp.fieldPhone, placeholder: lp.fieldPhonePlaceholder },
+        { key: 'website', label: lp.fieldWebsite, placeholder: lp.fieldWebsitePlaceholder },
+        { key: 'description', label: lp.fieldDesc, placeholder: lp.fieldDescPlaceholder, multiline: true },
+    ];
+    return (
+    <PartnerLayout onBack={onBack} onNext={onNext} disabled={disabled} btnLabel={lp.continue}>
+        <h1 className="lp-title">{lp.infoTitle}</h1>
+        <p className="lp-subtitle">{lp.infoSubtitle}</p>
 
         <div className="lp-form">
             {fields.map(({ key, label, placeholder, multiline }) => (
@@ -48,6 +50,7 @@ const StepBusinessInfo = ({ data, onChange, onNext, onBack, disabled }: StepBusi
             ))}
         </div>
     </PartnerLayout>
-);
+    );
+};
 
 export default StepBusinessInfo;

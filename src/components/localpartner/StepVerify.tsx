@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { Upload } from 'lucide-react';
 import PartnerLayout from './PartnerLayout';
+import type { AppCopy } from '../../i18n/copy';
 
 interface StepVerifyProps {
     files: File[];
@@ -8,9 +9,10 @@ interface StepVerifyProps {
     onNext: () => void;
     onBack: () => void;
     disabled?: boolean;
+    lp: AppCopy['localPartner'];
 }
 
-const StepVerify = ({ files, onFilesChange, onNext, onBack, disabled }: StepVerifyProps) => {
+const StepVerify = ({ files, onFilesChange, onNext, onBack, disabled, lp }: StepVerifyProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,13 +22,11 @@ const StepVerify = ({ files, onFilesChange, onNext, onBack, disabled }: StepVeri
     };
 
     return (
-        <PartnerLayout onBack={onBack} onNext={onNext} disabled={disabled}>
-            <h1 className="lp-title">Verify your business</h1>
-            <p className="lp-subtitle">
-                Help us verify that you are the owner or representative of this business.
-            </p>
+        <PartnerLayout onBack={onBack} onNext={onNext} disabled={disabled} btnLabel={lp.continue}>
+            <h1 className="lp-title">{lp.verifyTitle}</h1>
+            <p className="lp-subtitle">{lp.verifySubtitle}</p>
 
-            <p className="lp-upload-label">Upload proof of ownership</p>
+            <p className="lp-upload-label">{lp.verifyUploadLabel}</p>
             <div className="lp-upload-boxes">
                 {[0, 1].map(i => (
                     <div
@@ -54,9 +54,7 @@ const StepVerify = ({ files, onFilesChange, onNext, onBack, disabled }: StepVeri
                 onChange={handleFileChange}
             />
 
-            <p className="lp-review-note">
-                Your application will be reviewed within 2-3 business days.
-            </p>
+            <p className="lp-review-note">{lp.verifyReviewNote}</p>
         </PartnerLayout>
     );
 };

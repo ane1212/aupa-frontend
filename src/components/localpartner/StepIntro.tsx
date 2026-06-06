@@ -1,30 +1,39 @@
-import { benefits } from './data';
+import { LayoutList, Megaphone, BarChart3 } from 'lucide-react';
 import PartnerLayout from './PartnerLayout';
+import type { AppCopy } from '../../i18n/copy';
 
 interface StepIntroProps {
     onNext: () => void;
     onBack: () => void;
+    lp: AppCopy['localPartner'];
 }
 
-const StepIntro = ({ onNext, onBack }: StepIntroProps) => (
-    <PartnerLayout onBack={onBack} onNext={onNext}>
-        <h1 className="lp-title">Why become a Local Partner?</h1>
-        <p className="lp-subtitle">Join Aupa Partners and unlock tools to grow your business.</p>
+const StepIntro = ({ onNext, onBack, lp }: StepIntroProps) => {
+    const benefits = [
+        { Icon: LayoutList, title: lp.benefit1Title, desc: lp.benefit1Desc },
+        { Icon: Megaphone, title: lp.benefit2Title, desc: lp.benefit2Desc },
+        { Icon: BarChart3, title: lp.benefit3Title, desc: lp.benefit3Desc },
+    ];
+    return (
+    <PartnerLayout onBack={onBack} onNext={onNext} btnLabel={lp.continue}>
+        <h1 className="lp-title">{lp.introTitle}</h1>
+        <p className="lp-subtitle">{lp.introSubtitle}</p>
 
         <ul className="lp-benefits">
-            {benefits.map(({ icon: Icon, title, description }) => (
+            {benefits.map(({ Icon, title, desc }) => (
                 <li key={title} className="lp-benefit">
                     <div className="lp-benefit-icon">
                         <Icon size={22} color="#000" />
                     </div>
                     <div className="lp-benefit-text">
                         <strong>{title}</strong>
-                        <span>{description}</span>
+                        <span>{desc}</span>
                     </div>
                 </li>
             ))}
         </ul>
     </PartnerLayout>
-);
+    );
+};
 
 export default StepIntro;

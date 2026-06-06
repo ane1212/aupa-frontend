@@ -3,6 +3,7 @@ import { LANGUAGE_OPTIONS } from './onboarding.constants';
 import { userService } from '../../services/API';
 import { useAuth } from '../../context';
 import type { LanguageType } from '../../services/models';
+import { getAppCopy } from '../../i18n/copy';
 
 interface Step1LanguageProps {
   selectedLanguage: string;
@@ -15,7 +16,8 @@ const Step1Language: React.FC<Step1LanguageProps> = ({
   setSelectedLanguage,
   onNext,
 }) => {
-  const { user } = useAuth();
+  const { user, refreshUser } = useAuth();
+  const copy = getAppCopy(user?.language);
 
   useEffect(() => {
     if (!selectedLanguage && user?.language) {
@@ -33,13 +35,7 @@ const Step1Language: React.FC<Step1LanguageProps> = ({
     setSelectedLanguage(langCode);
     try {
       await userService.updateProfile({ language: langCode as LanguageType });
-      // Refrescar el user del contexto
-      const updatedUser = await userService.getProfile();
-      localStorage.setItem('user', JSON.stringify({
-        id: updatedUser.id,
-        name: updatedUser.name,
-        email: updatedUser.email,
-      }));
+      await refreshUser();
     } catch {
       console.error('Failed to update language');
     }
@@ -47,8 +43,8 @@ const Step1Language: React.FC<Step1LanguageProps> = ({
 
   return (
     <div className="onboarding-step">
-      <h2>Choose your language</h2>
-      <span className="onboarding-subtitle">You can change this in the Settings</span>
+      <h2>{copy.onboarding.step1Title}</h2>
+      <span className="onboarding-subtitle">{copy.onboarding.step1Subtitle}</span>
       <div className="onboarding-options">
         {LANGUAGE_OPTIONS.map((lang) => (
           <button
@@ -61,7 +57,7 @@ const Step1Language: React.FC<Step1LanguageProps> = ({
         ))}
       </div>
       <button className="onboarding-next-btn" onClick={onNext} disabled={!selectedLanguage}>
-        Next <span aria-hidden="true">→</span>
+        {copy.onboarding.step1Next} <span aria-hidden="true">→</span>
       </button>
     </div>
   );

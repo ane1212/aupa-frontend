@@ -1,6 +1,8 @@
 import React from 'react';
 import type { CategoryOption } from './onboarding.types';
 import { MAX_STEP2_SELECTIONS } from './onboarding.constants';
+import { useAuth } from '../../context';
+import { getAppCopy } from '../../i18n/copy';
 
 interface Step2CategoriesProps {
   categories: CategoryOption[];
@@ -19,6 +21,8 @@ const Step2Categories: React.FC<Step2CategoriesProps> = ({
   onNext,
   onDeletePreference,
 }) => {
+  const { user } = useAuth();
+  const copy = getAppCopy(user?.language);
   const handleSelect = async (catId: string) => {
     const isSelected = selections.includes(catId);
     
@@ -33,8 +37,8 @@ const Step2Categories: React.FC<Step2CategoriesProps> = ({
 
   return (
     <div className="onboarding-step">
-      <h2>What are you looking for?</h2>
-      <span className="onboarding-subtitle">Choose maximum of {MAX_STEP2_SELECTIONS}</span>
+      <h2>{copy.onboarding.step2Title}</h2>
+      <span className="onboarding-subtitle">{copy.onboarding.step2Subtitle}</span>
       <div className="onboarding-category-grid">
         {categories.map((cat) => {
           const isSelected = selections.includes(cat.id);
@@ -54,7 +58,7 @@ const Step2Categories: React.FC<Step2CategoriesProps> = ({
         })}
       </div>
       <button className="onboarding-next-btn" onClick={onNext} disabled={selections.length === 0}>
-        Next <span aria-hidden="true">→</span>
+        {copy.onboarding.step2Next} <span aria-hidden="true">→</span>
       </button>
     </div>
   );
