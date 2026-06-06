@@ -3,9 +3,10 @@ import PasswordInput from './PasswordInput';
 import { Mail, ArrowLeft } from 'lucide-react';
 import footer from '../../assets/redfooter.png';
 import AuthLink from './AuthLink';
-import { authService, userService } from '../../services/API';
 import { useNavigate } from 'react-router-dom';
 import TopLogo from './TopLogo';
+import { useAuth } from '../../context';
+import { UserRole } from '../../services/models';
 
 interface LoginFormData {
     email: string;
@@ -18,6 +19,7 @@ interface EmailLoginFormProps {
 
 const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const [formData, setFormData] = useState<LoginFormData>({
         email: '',
         password: '',
@@ -49,23 +51,9 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
         }
 
         try {
-            const { token } = await authService.login({
-                email: formData.email,
-                password: formData.password,
-            });
-
-            localStorage.setItem('token', token);
-            
-            const user = await userService.getProfile();
-            localStorage.setItem('user', JSON.stringify({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-            }));
-
+            const loggedUser = await login({ email: formData.email, password: formData.password });
             setErrorMessage('Logged in successfully');
-            if (user.role === 'local') {
+            if (loggedUser.role === UserRole.LOCAL) {
                 navigate('/local/home');
             } else {
                 navigate('/home');

@@ -8,7 +8,7 @@ interface AuthContextType {
     token: string | null
     isLoading: boolean
     isAuthenticated: boolean
-    login: (data: LoginForm) => Promise<void>
+    login: (data: LoginForm) => Promise<User>
     register: (data: RegisterForm) => Promise<void>
     refreshUser: () => Promise<User | null>
     logout: () => void
@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }))
         setUser(user)
         setIsLoading(false)
+        return user
     }
 
     const register = async (data: RegisterForm) => {
