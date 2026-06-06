@@ -2,12 +2,14 @@ interface TripProgressProps {
     completedCount: number;
     total: number;
     pct: number;
+    title: string;
+    completedTemplate: string;
 }
 
-const TripProgress = ({ completedCount, total, pct }: TripProgressProps) => (
+const TripProgress = ({ completedCount, total, pct, title, completedTemplate }: TripProgressProps) => (
     <div className="sv-progress-card">
-        <p className="sv-progress-title">Your Trip Progress</p>
-        <p className="sv-progress-sub">{completedCount} of {total} completed</p>
+        <p className="sv-progress-title">{title}</p>
+        <p className="sv-progress-sub">{completedTemplate.replace('{count}', String(completedCount)).replace('{total}', String(total))}</p>
         <div className="sv-progress-row">
             <div className="sv-progress-track">
                 <div className="sv-progress-fill" style={{ width: `${pct}%` }} />

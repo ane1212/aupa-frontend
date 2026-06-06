@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { ExperienceCard, SearchBar, SectionHeader, VibeCard } from '../components/experiences';
+import { useAuth } from '../context';
+import { getAppCopy } from '../i18n/copy';
 
 interface Vibe {
     id: number;
@@ -31,6 +33,8 @@ const topExperiences: Experience[] = [
 ];
 
 const Experiences = () => {
+    const { user } = useAuth();
+    const copy = getAppCopy(user?.language);
     const [query, setQuery] = useState('');
 
     const filtered = query.trim()
@@ -42,7 +46,7 @@ const Experiences = () => {
     return (
         <div className="experiences">
 
-            <SectionHeader title="Browse by vibe" onAction={() => {}} />
+            <SectionHeader title={copy.experiences.browseByVibe} onAction={() => {}} />
 
             <div className="exp-vibe-grid">
                 {vibes.map(({ id, label, bg }) => (
@@ -50,20 +54,20 @@ const Experiences = () => {
                 ))}
             </div>
 
-            <h2 className="exp-title exp-top-title">Top experiences</h2>
+            <h2 className="exp-title exp-top-title">{copy.experiences.topExperiences}</h2>
 
             <ul className="exp-list">
                 {filtered.length > 0 ? filtered.map(exp => (
                     <ExperienceCard key={exp.id} {...exp} />
                 )) : (
-                    <li className="exp-no-results">No experiences found.</li>
+                    <li className="exp-no-results">{copy.experiences.noResults}</li>
                 )}
             </ul>
 
             <SearchBar
                 value={query}
                 onChange={setQuery}
-                placeholder="Search experiences"
+                placeholder={copy.experiences.searchPlaceholder}
             />
 
         </div>

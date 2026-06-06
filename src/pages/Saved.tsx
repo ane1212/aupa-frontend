@@ -5,8 +5,12 @@ import {
     filterDefs, savedItems, initialTripItems, TRIP_CATEGORY_MAP, PLACE_COORDS,
 } from '../components/saved';
 import type { Tab, Filter, TripItem, SavedItem } from '../components/saved';
+import { useAuth } from '../context';
+import { getAppCopy } from '../i18n/copy';
 
 const Saved = () => {
+    const { user } = useAuth();
+    const copy = getAppCopy(user?.language);
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState<Tab>('saved');
     const [activeFilter, setActiveFilter] = useState<Filter>('all');
@@ -15,6 +19,20 @@ const Saved = () => {
     const [savedList, setSavedList] = useState<SavedItem[]>(savedItems);
     const [openMenuId, setOpenMenuId] = useState<number | null>(null);
     const [menuPos, setMenuPos] = useState({ top: 0, right: 0 });
+
+    const translatedFilterDefs = [
+        { ...filterDefs[0], label: copy.saved.filterAll },
+        { ...filterDefs[1], label: copy.saved.filterPlaces },
+        { ...filterDefs[2], label: copy.saved.filterFood },
+        { ...filterDefs[3], label: copy.saved.filterBars },
+    ];
+
+    const categoryLabels: Record<string, string> = {
+        food: copy.saved.catFood,
+        bars: copy.saved.catBars,
+        experiences: copy.saved.catExperiences,
+        places: copy.saved.catPlaces,
+    };
 
     useEffect(() => {
         if (openMenuId === null) return;
@@ -80,12 +98,27 @@ const Saved = () => {
 
     return (
         <div className="saved">
-            <h2 className="sv-title">Saved</h2>
+            <h2 className="sv-title">{copy.saved.title}</h2>
 
-            <SavedTabs activeTab={activeTab} onTabChange={setActiveTab} />
-            <FilterChips filterDefs={filterDefs} activeFilter={activeFilter} onFilterChange={setActiveFilter} />
+            <SavedTabs
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+                labels={{ saved: copy.saved.tabSaved, trip: copy.saved.tabTrip }}
+            />
+            <FilterChips
+                filterDefs={translatedFilterDefs}
+                activeFilter={activeFilter}
+                onFilterChange={setActiveFilter}
+            />
 
-            {activeTab === 'saved' && <SavedContent visible={visible} />}
+            {activeTab === 'saved' && (
+                <SavedContent
+                    visible={visible}
+                    categoryLabels={categoryLabels}
+                    noItems={copy.saved.noItems}
+                    seeAll={copy.saved.filterAll}
+                />
+            )}
 
             {activeTab === 'trip' && (
                 <TripList
@@ -96,6 +129,9 @@ const Saved = () => {
                     onToggle={toggle}
                     onMenuOpen={openMenu}
                     onNavigate={id => navigate(`/detail/${id}`)}
+                    progressTitle={copy.saved.tripProgress}
+                    completedTemplate={copy.saved.tripCompleted}
+                    addItemLabel={copy.saved.tabTrip}
                 />
             )}
 
@@ -106,6 +142,11 @@ const Saved = () => {
                     onViewOnMaps={viewOnMaps}
                     onDelete={deleteItem}
                     onMoveToSaved={moveToSaved}
+                    labels={{
+                        viewOnMaps: copy.saved.viewOnMaps,
+                        delete: copy.saved.delete,
+                        moveToSaved: copy.saved.moveToSaved,
+                    }}
                 />
             )}
         </div>

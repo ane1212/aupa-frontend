@@ -10,9 +10,11 @@ import Step4TravelWith from '../components/onboarding/Step4TravelWith';
 import type { Category, CategoryOption, OnboardingStep, Preference } from '../components/onboarding/onboarding.types';
 import { STEP2_NAMES, STEP3_NAMES, STEP4_NAMES, CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants';
 import { Bookmark } from 'lucide-react';
+import { getAppCopy } from '../i18n/copy';
 
 const Onboarding: React.FC = () => {
   const { user } = useAuth();
+  const copy = getAppCopy(user?.language);
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<OnboardingStep>(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +32,8 @@ const Onboarding: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const allCategories = await categoryService.getAll();
+        const categoriesResponse = await categoryService.getAll({ limit: 100 });
+        const allCategories = categoriesResponse.data ?? [];
 
         const step2Cats = allCategories
           .filter((cat: Category) => STEP2_NAMES.includes(cat.name))
@@ -63,8 +66,8 @@ const Onboarding: React.FC = () => {
         setStep4Categories(step4Cats);
 
         try {
-          const userPreferences = await preferenceService.getByUser(user!.id);
-          const prefs = userPreferences as Preference[];
+          const userPreferences = await preferenceService.getByUser(user!.id, { limit: 100 });
+          const prefs: Preference[] = userPreferences.data ?? [];
 
           const prefMapTemp: Record<string, string> = {};
           prefs.forEach((p) => prefMapTemp[p.categoryId] = p.id);
@@ -73,15 +76,15 @@ const Onboarding: React.FC = () => {
 
           setStep2Selections(
             step2Cats
-              .filter((cat) => selectedCategoryIds.includes(cat.id))
+              .filter((cat: Category) => selectedCategoryIds.includes(cat.id))
               .slice(0, 3)
-              .map((cat) => cat.id)
+              .map((cat: Category) => cat.id)
           );
 
-          const step3Pref = step3Cats.find((cat) => selectedCategoryIds.includes(cat.id));
+          const step3Pref = step3Cats.find((cat: Category) => selectedCategoryIds.includes(cat.id));
           if (step3Pref) setStep3Selection(step3Pref.id);
 
-          const step4Pref = step4Cats.find((cat) => selectedCategoryIds.includes(cat.id));
+          const step4Pref = step4Cats.find((cat: Category) => selectedCategoryIds.includes(cat.id));
           if (step4Pref) setStep4Selection(step4Pref.id);
 
           setPrefMap(prefMapTemp);
@@ -132,11 +135,10 @@ const Onboarding: React.FC = () => {
   };
 
   return (
-    <div className="register">
+    <div className="register onboarding-page">
       <div className="register-header">
-        <TopLogo />
-        <h2>Let's get you started</h2>
-        <span>Tell us a bit about yourself</span>
+        <h2>{copy.onboarding.introTitle}</h2>
+        <span>{copy.onboarding.introSubtitle}</span>
       </div>
       <div className="onboarding-progress-container">
         <div className="onboarding-progress-bar">
@@ -145,7 +147,7 @@ const Onboarding: React.FC = () => {
           ))}
         </div>
       </div>
-      
+
       {currentStep === 1 && (
         <Step1Language
           selectedLanguage={selectedLanguage}
@@ -153,7 +155,7 @@ const Onboarding: React.FC = () => {
           onNext={handleNext}
         />
       )}
-      
+
       {currentStep === 2 && (
         <Step2Categories
           categories={step2Categories}
@@ -164,7 +166,7 @@ const Onboarding: React.FC = () => {
           onDeletePreference={deletePreference}
         />
       )}
-      
+
       {currentStep === 3 && (
         <Step3Duration
           categories={step3Categories}
@@ -175,7 +177,7 @@ const Onboarding: React.FC = () => {
           onDeletePreference={deletePreference}
         />
       )}
-      
+
       {currentStep === 4 && (
         <Step4TravelWith
           categories={step4Categories}

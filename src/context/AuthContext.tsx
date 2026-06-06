@@ -10,6 +10,7 @@ interface AuthContextType {
     isAuthenticated: boolean
     login: (data: LoginForm) => Promise<void>
     register: (data: RegisterForm) => Promise<void>
+    refreshUser: () => Promise<User | null>
     logout: () => void
 }
 
@@ -21,18 +22,42 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            try {
-                setUser(JSON.parse(storedUser));
-            } catch {
+        const loadUser = async () => {
+            if (!token) {
                 setUser(null);
+                setIsLoading(false);
+                return;
             }
-        } else {
-            setUser(null);
-        }
-        setIsLoading(false);
+
+            try {
+                const currentUser = await userService.getProfile();
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                setUser(currentUser);
+            } catch {
+                const storedUser = localStorage.getItem('user');
+                if (storedUser) {
+                    try {
+                        setUser(JSON.parse(storedUser));
+                    } catch {
+                        setUser(null);
+                    }
+                } else {
+                    setUser(null);
+                }
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadUser();
     }, [token]);
+
+    const refreshUser = async () => {
+        const updatedUser = await userService.getProfile()
+        localStorage.setItem('user', JSON.stringify(updatedUser))
+        setUser(updatedUser)
+        return updatedUser
+    }
 
     const login = async (data: LoginForm) => {
         const res = await authService.login(data)
@@ -69,6 +94,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             isAuthenticated: !!user,
             login,
             register,
+            refreshUser,
             logout
         }}>
             {children}

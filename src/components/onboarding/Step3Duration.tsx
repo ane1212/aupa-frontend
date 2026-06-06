@@ -1,5 +1,7 @@
 import React from 'react';
 import type { CategoryOption } from './onboarding.types';
+import { useAuth } from '../../context';
+import { getAppCopy } from '../../i18n/copy';
 
 interface Step3DurationProps {
   categories: CategoryOption[];
@@ -18,6 +20,8 @@ const Step3Duration: React.FC<Step3DurationProps> = ({
   onNext,
   onDeletePreference,
 }) => {
+  const { user } = useAuth();
+  const copy = getAppCopy(user?.language);
   const handleSelect = async (catId: string) => {
     if (selection === catId) {
       const prefId = prefMap[catId];
@@ -34,9 +38,9 @@ const Step3Duration: React.FC<Step3DurationProps> = ({
 
   return (
     <div className="onboarding-step">
-      <h2>How long are you staying?</h2>
-      <span className="onboarding-subtitle">Choose only 1</span>
-      <div className="onboarding-category-grid">
+      <h2>{copy.onboarding.step3Title}</h2>
+      <span className="onboarding-subtitle">{copy.onboarding.step3Subtitle}</span>
+      <div className="onboarding-option-list">
         {categories.map((cat) => (
           <button
             key={cat.id}
@@ -49,7 +53,7 @@ const Step3Duration: React.FC<Step3DurationProps> = ({
         ))}
       </div>
       <button className="onboarding-next-btn" onClick={onNext} disabled={!selection}>
-        Next <span aria-hidden="true">→</span>
+        {copy.onboarding.step3Next} <span aria-hidden="true">→</span>
       </button>
     </div>
   );
