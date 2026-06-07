@@ -55,6 +55,7 @@ export type AppCopy = {
     step4Subtitle: string;
     step4Skip: string;
     step4Finish: string;
+    categories: Record<string, string>;
   };
   nearby: {
     title: string;
@@ -125,6 +126,135 @@ export type AppCopy = {
     errorConflict: string;
     errorGeneral: string;
   };
+  localDash: {
+    verifiedPartner: string;
+    yourLocal: string;
+    noAddressSpecified: string;
+    noAddressRegistered: string;
+    free: string;
+    edit: string;
+    performance: string;
+    last7Days: string;
+    statViews: string;
+    statClicks: string;
+    statSavedRoutes: string;
+    statProfileVisits: string;
+    recentActivity: string;
+    actNewReview: string;
+    actReviewQuote: string;
+    actProfileUpdated: string;
+    actHoursChanged: string;
+    actEventApproved: string;
+    actEventVisible: string;
+    ago5h: string;
+    ago1d: string;
+    ago2d: string;
+    partnerStatus: string;
+    businessVerified: string;
+    businessVerifiedDesc: string;
+    activePosts: string;
+    activePostsDesc: string;
+    partnerSince: string;
+    memberSince: string;
+    accountAndBusiness: string;
+    ownerInfo: string;
+    ownerInfoDesc: string;
+    contactInfo: string;
+    emailLabel: string;
+    manageVerification: string;
+    manageVerificationDesc: string;
+    socialMedia: string;
+    socialMediaDesc: string;
+    helpCenter: string;
+    logout: string;
+    errNoLocal: string;
+    eventUpdated: string;
+    eventCreated: string;
+    errSaveEvent: string;
+    editEvent: string;
+    createNewEvent: string;
+    fieldTitle: string;
+    fieldTitlePlaceholder: string;
+    fieldDescription: string;
+    fieldDescriptionPlaceholder: string;
+    fieldDate: string;
+    fieldStartTime: string;
+    fieldPrice: string;
+    fieldCapacity: string;
+    fieldEventAddress: string;
+    fieldEventAddressPlaceholder: string;
+    fieldImageUrl: string;
+    fieldImageUrlPlaceholder: string;
+    saving: string;
+    saveChanges: string;
+    publishEvent: string;
+    invitationAccepted: string;
+    experiencesTitle: string;
+    createExperience: string;
+    tabMyExperiences: string;
+    tabInvitations: string;
+    stops: string;
+    partners: string;
+    statusApproved: string;
+    statusUnderReview: string;
+    statusDraft: string;
+    live: string;
+    noInvitations: string;
+    organizedBy: string;
+    invitedOn: string;
+    accept: string;
+    decline: string;
+    newExperienceDefault: string;
+    createLocalExperience: string;
+    expTypeTitle: string;
+    expTypeSubtitle: string;
+    expBusinessTitle: string;
+    expBusinessDesc: string;
+    expCollabTitle: string;
+    expCollabDesc: string;
+    expTitleStep: string;
+    expTitleSubtitle: string;
+    expTitleLabel: string;
+    expTitlePlaceholder: string;
+    expShortDesc: string;
+    expDescPlaceholder: string;
+    expDetailsTitle: string;
+    expDetailsSubtitle: string;
+    expCategory: string;
+    expDuration: string;
+    expAvailability: string;
+    expPriceRange: string;
+    expLanguages: string;
+    expPhotos: string;
+    expInviteTitle: string;
+    expInviteSubtitle: string;
+    expSearchPartners: string;
+    expSuggestedPartners: string;
+    continueBtn: string;
+    skipForNow: string;
+    errLoadingData: string;
+    myEvents: string;
+    eventsOf: string;
+    loadingLocal: string;
+    createEventBtn: string;
+    noEvents: string;
+    createFirstEvent: string;
+    noImage: string;
+    active: string;
+    inactive: string;
+    toggleStatus: string;
+    unspecifiedLocation: string;
+    noDescription: string;
+    notFound: string;
+    eventDetailsTitle: string;
+    eventPublished: string;
+    labelDate: string;
+    labelSchedule: string;
+    labelPrice: string;
+    labelCapacity: string;
+    labelLocation: string;
+    people: string;
+  };
 };
 
 export const APP_COPY: Record<LanguageType, AppCopy> = {
@@ -170,6 +300,15 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Subtitle: 'Choose only 1',
       step4Skip: 'Skip',
       step4Finish: 'Finish',
+      categories: {
+        food: 'Food', culture: 'Culture', nature: 'Nature', bars: 'Bars',
+        local_favorites: 'Local Faves', shopping: 'Shopping', coffee_shops: 'Cafés',
+        walking_tours: 'Walking', family_friendly: 'Family', vegetarian_vegan: 'Veg & Vegan',
+        history: 'History', festivals_events: 'Events', beaches: 'Beaches',
+        nightlife: 'Nightlife', budget_friendly: 'Budget',
+        oneday: 'One day', threedays: '3 days', oneweek: 'One week', longstay: 'Long stay',
+        solo: 'Solo', partner: 'Partner', friends: 'Friends', family: 'Family',
+      },
     },
     nearby: {
       title: 'Places near you',
@@ -240,6 +379,135 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       errorConflict: 'You already have a registered or pending business.',
       errorGeneral: 'There was an error submitting the form. Please try again.',
     },
+    localDash: {
+      verifiedPartner: 'Verified Partner',
+      yourLocal: 'Your Business',
+      noAddressSpecified: 'Address not specified',
+      noAddressRegistered: 'No address registered',
+      free: 'Free',
+      edit: 'Edit',
+      performance: 'Performance',
+      last7Days: 'Last 7 days',
+      statViews: 'Views',
+      statClicks: 'Clicks',
+      statSavedRoutes: 'Saved to Routes',
+      statProfileVisits: 'Profile Visits',
+      recentActivity: 'Recent Activity',
+      actNewReview: 'New review received',
+      actReviewQuote: '"Great atmosphere and excellent pintxos!"',
+      actProfileUpdated: 'Profile updated',
+      actHoursChanged: 'Opening hours were changed',
+      actEventApproved: 'Event "Pinto Crawl" approved',
+      actEventVisible: "It's now visible to users",
+      ago5h: '5h ago',
+      ago1d: '1d ago',
+      ago2d: '2d ago',
+      partnerStatus: 'Partner Status',
+      businessVerified: 'Verified Business',
+      businessVerifiedDesc: 'Your business is verified on Aupa.',
+      activePosts: 'Active Posts',
+      activePostsDesc: 'Your events are visible to the public.',
+      partnerSince: 'Partner Since',
+      memberSince: 'Member since May 2026',
+      accountAndBusiness: 'Account & Business',
+      ownerInfo: 'Owner Information',
+      ownerInfoDesc: 'Name, role and profile details',
+      contactInfo: 'Contact Information',
+      emailLabel: 'Email',
+      manageVerification: 'Manage Verification',
+      manageVerificationDesc: 'Documents and status of your verification',
+      socialMedia: 'Social Media',
+      socialMediaDesc: 'Instagram, Facebook and Website',
+      helpCenter: 'Help Center',
+      logout: 'Log Out',
+      errNoLocal: 'Error: No business associated with your account was found.',
+      eventUpdated: 'Event updated successfully!',
+      eventCreated: 'Event created successfully!',
+      errSaveEvent: 'Error saving the event on the server.',
+      editEvent: 'Edit Event',
+      createNewEvent: 'Create New Event',
+      fieldTitle: 'Event Title *',
+      fieldTitlePlaceholder: 'E.g. Wine tasting, Live music...',
+      fieldDescription: 'Description',
+      fieldDescriptionPlaceholder: 'Describe the event, what it includes, etc.',
+      fieldDate: 'Date *',
+      fieldStartTime: 'Start Time *',
+      fieldPrice: 'Price (€)',
+      fieldCapacity: 'Capacity',
+      fieldEventAddress: 'Event Address',
+      fieldEventAddressPlaceholder: 'Event address',
+      fieldImageUrl: 'Image URL',
+      fieldImageUrlPlaceholder: 'https://example.com/image.jpg',
+      saving: 'Saving...',
+      saveChanges: 'Save Changes',
+      publishEvent: 'Publish Event',
+      invitationAccepted: 'Invitation accepted. You are now part of this experience.',
+      experiencesTitle: 'Experiences',
+      createExperience: 'Create Experience',
+      tabMyExperiences: 'My Experiences',
+      tabInvitations: 'Invitations',
+      stops: 'stops',
+      partners: 'partners',
+      statusApproved: 'Approved',
+      statusUnderReview: 'Under Review',
+      statusDraft: 'Draft',
+      live: 'Live',
+      noInvitations: 'You have no pending invitations.',
+      organizedBy: 'Organized by',
+      invitedOn: 'Invited on',
+      accept: 'Accept',
+      decline: 'Decline',
+      newExperienceDefault: 'New Experience',
+      createLocalExperience: 'Create local experience',
+      expTypeTitle: 'What kind of experience do you want to create?',
+      expTypeSubtitle: 'Choose how you would like to build your experience.',
+      expBusinessTitle: 'My business experience',
+      expBusinessDesc: 'Create an experience organized solely by your business.',
+      expCollabTitle: 'Collaborative experience',
+      expCollabDesc: 'Create an experience together with other local businesses.',
+      expTitleStep: 'Give your experience a title',
+      expTitleSubtitle: 'A great title helps travelers understand what it is about.',
+      expTitleLabel: 'Title',
+      expTitlePlaceholder: 'E.g. Pintxo Masterclass',
+      expShortDesc: 'Short description',
+      expDescPlaceholder: 'Learn the art of crafting authentic Basque pintxos with our chef...',
+      expDetailsTitle: 'Add details about your experience',
+      expDetailsSubtitle: 'Share key information travelers should know.',
+      expCategory: 'Category',
+      expDuration: 'Duration',
+      expAvailability: 'When is it available?',
+      expPriceRange: 'Price Range',
+      expLanguages: 'Languages',
+      expPhotos: 'Photos',
+      expInviteTitle: 'Invite partners (optional)',
+      expInviteSubtitle: 'Collaborate with other local businesses to create a shared experience.',
+      expSearchPartners: 'Search partners...',
+      expSuggestedPartners: 'Suggested Partners',
+      continueBtn: 'Continue',
+      skipForNow: 'Skip for now',
+      errLoadingData: 'Could not load the information. Showing sample data.',
+      myEvents: 'My Events',
+      eventsOf: 'Events from {name}',
+      loadingLocal: 'Loading business...',
+      createEventBtn: 'Create Event',
+      noEvents: "You don't have any published events yet.",
+      createFirstEvent: 'Create my first event',
+      noImage: 'No Image',
+      active: 'Active',
+      inactive: 'Inactive',
+      toggleStatus: 'Toggle Status',
+      unspecifiedLocation: 'Location not specified',
+      noDescription: 'No detailed description.',
+      notFound: 'Item not found',
+      eventDetailsTitle: 'Event Details (Business)',
+      eventPublished: 'Published Event',
+      labelDate: 'Date',
+      labelSchedule: 'Schedule',
+      labelPrice: 'Price',
+      labelCapacity: 'Capacity',
+      labelLocation: 'Location',
+      people: 'people',
+    },
   },
   es: {
     nav: { home: 'Inicio', nearby: 'Cerca', experiences: 'Experiencias', saved: 'Guardado', profile: 'Perfil' },
@@ -283,6 +551,15 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Subtitle: 'Elige solo 1',
       step4Skip: 'Saltar',
       step4Finish: 'Finalizar',
+      categories: {
+        food: 'Comida', culture: 'Cultura', nature: 'Naturaleza', bars: 'Bares',
+        local_favorites: 'Locales', shopping: 'Compras', coffee_shops: 'Cafeterías',
+        walking_tours: 'A pie', family_friendly: 'Familiar', vegetarian_vegan: 'Vegetariano',
+        history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
+        nightlife: 'Nocturna', budget_friendly: 'Económico',
+        oneday: 'Un día', threedays: '3 días', oneweek: 'Una semana', longstay: 'Larga estancia',
+        solo: 'Solo/a', partner: 'En pareja', friends: 'Amigos', family: 'Familia',
+      },
     },
     nearby: {
       title: 'Lugares cerca de ti',
@@ -353,6 +630,135 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       errorConflict: 'Ya tienes un local registrado o pendiente de verificación.',
       errorGeneral: 'Hubo un error al enviar el formulario. Inténtalo de nuevo.',
     },
+    localDash: {
+      verifiedPartner: 'Socio Verificado',
+      yourLocal: 'Tu Local',
+      noAddressSpecified: 'Dirección no especificada',
+      noAddressRegistered: 'Sin dirección registrada',
+      free: 'Gratis',
+      edit: 'Editar',
+      performance: 'Rendimiento',
+      last7Days: 'Últimos 7 días',
+      statViews: 'Visualizaciones',
+      statClicks: 'Clics',
+      statSavedRoutes: 'Guardado en Rutas',
+      statProfileVisits: 'Visitas Perfil',
+      recentActivity: 'Actividad Reciente',
+      actNewReview: 'Nueva reseña recibida',
+      actReviewQuote: '"¡Gran ambiente y excelentes pinchos!"',
+      actProfileUpdated: 'Perfil actualizado',
+      actHoursChanged: 'Se cambiaron los horarios de apertura',
+      actEventApproved: 'Evento "Pinto Crawl" aprobado',
+      actEventVisible: 'Ya está visible para los usuarios',
+      ago5h: 'Hace 5h',
+      ago1d: 'Hace 1d',
+      ago2d: 'Hace 2d',
+      partnerStatus: 'Estado de Socio',
+      businessVerified: 'Negocio Verificado',
+      businessVerifiedDesc: 'Tu local está verificado en Aupa.',
+      activePosts: 'Publicaciones Activas',
+      activePostsDesc: 'Tus eventos son visibles al público.',
+      partnerSince: 'Socio Desde',
+      memberSince: 'Miembro desde Mayo 2026',
+      accountAndBusiness: 'Cuenta y Negocio',
+      ownerInfo: 'Información del Propietario',
+      ownerInfoDesc: 'Nombre, rol y detalles del perfil',
+      contactInfo: 'Información de Contacto',
+      emailLabel: 'Email',
+      manageVerification: 'Gestionar Verificación',
+      manageVerificationDesc: 'Documentos y estado de tu verificación',
+      socialMedia: 'Redes Sociales',
+      socialMediaDesc: 'Instagram, Facebook y Sitio Web',
+      helpCenter: 'Centro de Ayuda',
+      logout: 'Cerrar Sesión',
+      errNoLocal: 'Error: No se encontró un local asociado a tu cuenta.',
+      eventUpdated: '¡Evento actualizado exitosamente!',
+      eventCreated: '¡Evento creado exitosamente!',
+      errSaveEvent: 'Error al guardar el evento en el servidor.',
+      editEvent: 'Editar Evento',
+      createNewEvent: 'Crear Nuevo Evento',
+      fieldTitle: 'Título del Evento *',
+      fieldTitlePlaceholder: 'Ej. Cata de vinos, Música en vivo...',
+      fieldDescription: 'Descripción',
+      fieldDescriptionPlaceholder: 'Describe el evento, qué incluye, etc.',
+      fieldDate: 'Fecha *',
+      fieldStartTime: 'Hora Inicio *',
+      fieldPrice: 'Precio (€)',
+      fieldCapacity: 'Capacidad',
+      fieldEventAddress: 'Dirección de Celebración',
+      fieldEventAddressPlaceholder: 'Dirección del evento',
+      fieldImageUrl: 'URL de Imagen',
+      fieldImageUrlPlaceholder: 'https://ejemplo.com/imagen.jpg',
+      saving: 'Guardando...',
+      saveChanges: 'Guardar Cambios',
+      publishEvent: 'Publicar Evento',
+      invitationAccepted: 'Invitación aceptada. Ahora eres parte de esta experiencia.',
+      experiencesTitle: 'Experiencias',
+      createExperience: 'Crear Experiencia',
+      tabMyExperiences: 'Mis Experiencias',
+      tabInvitations: 'Invitaciones',
+      stops: 'paradas',
+      partners: 'socios',
+      statusApproved: 'Aprobada',
+      statusUnderReview: 'En Revisión',
+      statusDraft: 'Borrador',
+      live: 'En Vivo',
+      noInvitations: 'No tienes invitaciones pendientes.',
+      organizedBy: 'Organizado por',
+      invitedOn: 'Invitado el',
+      accept: 'Aceptar',
+      decline: 'Rechazar',
+      newExperienceDefault: 'Nueva Experiencia',
+      createLocalExperience: 'Crear experiencia local',
+      expTypeTitle: '¿Qué tipo de experiencia quieres crear?',
+      expTypeSubtitle: 'Elige cómo te gustaría construir tu experiencia.',
+      expBusinessTitle: 'Mi experiencia de negocio',
+      expBusinessDesc: 'Crea una experiencia organizada únicamente por tu negocio.',
+      expCollabTitle: 'Experiencia colaborativa',
+      expCollabDesc: 'Crea una experiencia conjuntamente con otros negocios locales.',
+      expTitleStep: 'Dale un título a tu experiencia',
+      expTitleSubtitle: 'Un gran título ayuda a los viajeros a entender de qué se trata.',
+      expTitleLabel: 'Título',
+      expTitlePlaceholder: 'Ej. Pintxo Masterclass',
+      expShortDesc: 'Descripción corta',
+      expDescPlaceholder: 'Aprende el arte de elaborar auténticos pinchos vascos con nuestro chef...',
+      expDetailsTitle: 'Añade detalles sobre tu experiencia',
+      expDetailsSubtitle: 'Comparte información clave que los viajeros deben saber.',
+      expCategory: 'Categoría',
+      expDuration: 'Duración',
+      expAvailability: '¿Cuándo está disponible?',
+      expPriceRange: 'Rango de Precio',
+      expLanguages: 'Idiomas',
+      expPhotos: 'Fotos',
+      expInviteTitle: 'Invitar socios (opcional)',
+      expInviteSubtitle: 'Colabora con otros negocios locales para crear una experiencia compartida.',
+      expSearchPartners: 'Buscar socios...',
+      expSuggestedPartners: 'Socios Sugeridos',
+      continueBtn: 'Continuar',
+      skipForNow: 'Omitir por ahora',
+      errLoadingData: 'No se pudo cargar la información. Mostrando datos simulados.',
+      myEvents: 'Mis Eventos',
+      eventsOf: 'Eventos de {name}',
+      loadingLocal: 'Cargando local...',
+      createEventBtn: 'Crear Evento',
+      noEvents: 'No tienes eventos publicados todavía.',
+      createFirstEvent: 'Crear mi primer evento',
+      noImage: 'Sin Imagen',
+      active: 'Activo',
+      inactive: 'Inactivo',
+      toggleStatus: 'Cambiar Estado',
+      unspecifiedLocation: 'Ubicación no especificada',
+      noDescription: 'Sin descripción detallada.',
+      notFound: 'Elemento no encontrado',
+      eventDetailsTitle: 'Detalles del Evento (Local)',
+      eventPublished: 'Evento Publicado',
+      labelDate: 'Fecha',
+      labelSchedule: 'Horario',
+      labelPrice: 'Precio',
+      labelCapacity: 'Capacidad',
+      labelLocation: 'Ubicación',
+      people: 'personas',
+    },
   },
   eu: {
     nav: { home: 'Hasiera', nearby: 'Inguruak', experiences: 'Esperientziak', saved: 'Gordeta', profile: 'Profila' },
@@ -396,6 +802,15 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Subtitle: 'Hautatu bakarra',
       step4Skip: 'Saltatu',
       step4Finish: 'Amaitu',
+      categories: {
+        food: 'Janaria', culture: 'Kultura', nature: 'Natura', bars: 'Tabernak',
+        local_favorites: 'Bertakoak', shopping: 'Erosketak', coffee_shops: 'Kafetegiak',
+        walking_tours: 'Oinez', family_friendly: 'Familia', vegetarian_vegan: 'Begetarianoa',
+        history: 'Historia', festivals_events: 'Festak', beaches: 'Hondartzak',
+        nightlife: 'Gaueko bizitza', budget_friendly: 'Aurrekontua',
+        oneday: 'Egun bat', threedays: '3 egun', oneweek: 'Aste bat', longstay: 'Egonaldi luzea',
+        solo: 'Bakarrik', partner: 'Bikotea', friends: 'Lagunak', family: 'Familia',
+      },
     },
     nearby: {
       title: 'Inguruko lekuak',
@@ -466,6 +881,135 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       errorConflict: 'Jadanik badaukazu erregistratutako edo egiaztapen zain dagoen negozio bat.',
       errorGeneral: 'Errorea formularioa bidaltzean. Saiatu berriz.',
     },
+    localDash: {
+      verifiedPartner: 'Bazkide Egiaztatua',
+      yourLocal: 'Zure Lokala',
+      noAddressSpecified: 'Helbidea zehaztu gabe',
+      noAddressRegistered: 'Helbiderik erregistratu gabe',
+      free: 'Doan',
+      edit: 'Editatu',
+      performance: 'Errendimendua',
+      last7Days: 'Azken 7 egunak',
+      statViews: 'Bisualizazioak',
+      statClicks: 'Klikak',
+      statSavedRoutes: 'Ibilbideetan Gordeta',
+      statProfileVisits: 'Profil Bisitak',
+      recentActivity: 'Azken Jarduera',
+      actNewReview: 'Iritzi berria jasota',
+      actReviewQuote: '"Giro bikaina eta pintxo bikainak!"',
+      actProfileUpdated: 'Profila eguneratuta',
+      actHoursChanged: 'Irekitze ordutegiak aldatu dira',
+      actEventApproved: '"Pinto Crawl" ekitaldia onartuta',
+      actEventVisible: 'Dagoeneko erabiltzaileentzat ikusgai dago',
+      ago5h: 'Duela 5o',
+      ago1d: 'Duela 1e',
+      ago2d: 'Duela 2e',
+      partnerStatus: 'Bazkide Egoera',
+      businessVerified: 'Negozio Egiaztatua',
+      businessVerifiedDesc: 'Zure lokala Aupa-n egiaztatuta dago.',
+      activePosts: 'Argitalpen Aktiboak',
+      activePostsDesc: 'Zure ekitaldiak publikoarentzat ikusgai daude.',
+      partnerSince: 'Bazkide Noiztik',
+      memberSince: 'Kide 2026ko Maiatzetik',
+      accountAndBusiness: 'Kontua eta Negozioa',
+      ownerInfo: 'Jabearen Informazioa',
+      ownerInfoDesc: 'Izena, rola eta profileko xehetasunak',
+      contactInfo: 'Harremanetarako Informazioa',
+      emailLabel: 'Emaila',
+      manageVerification: 'Kudeatu Egiaztapena',
+      manageVerificationDesc: 'Zure egiaztapenaren dokumentuak eta egoera',
+      socialMedia: 'Sare Sozialak',
+      socialMediaDesc: 'Instagram, Facebook eta Webgunea',
+      helpCenter: 'Laguntza Gunea',
+      logout: 'Saioa Itxi',
+      errNoLocal: 'Errorea: Ez da zure kontuari lotutako lokalik aurkitu.',
+      eventUpdated: 'Ekitaldia ondo eguneratu da!',
+      eventCreated: 'Ekitaldia ondo sortu da!',
+      errSaveEvent: 'Errorea ekitaldia zerbitzarian gordetzean.',
+      editEvent: 'Editatu Ekitaldia',
+      createNewEvent: 'Sortu Ekitaldi Berria',
+      fieldTitle: 'Ekitaldiaren Izenburua *',
+      fieldTitlePlaceholder: 'Adib. Ardo dastaketa, Zuzeneko musika...',
+      fieldDescription: 'Deskribapena',
+      fieldDescriptionPlaceholder: 'Deskribatu ekitaldia, zer barne hartzen duen, etab.',
+      fieldDate: 'Data *',
+      fieldStartTime: 'Hasiera Ordua *',
+      fieldPrice: 'Prezioa (€)',
+      fieldCapacity: 'Edukiera',
+      fieldEventAddress: 'Ospakizun Helbidea',
+      fieldEventAddressPlaceholder: 'Ekitaldiaren helbidea',
+      fieldImageUrl: 'Irudiaren URLa',
+      fieldImageUrlPlaceholder: 'https://adibidea.com/irudia.jpg',
+      saving: 'Gordetzen...',
+      saveChanges: 'Gorde Aldaketak',
+      publishEvent: 'Argitaratu Ekitaldia',
+      invitationAccepted: 'Gonbidapena onartuta. Orain esperientzia honen parte zara.',
+      experiencesTitle: 'Esperientziak',
+      createExperience: 'Sortu Esperientzia',
+      tabMyExperiences: 'Nire Esperientziak',
+      tabInvitations: 'Gonbidapenak',
+      stops: 'geldialdi',
+      partners: 'bazkide',
+      statusApproved: 'Onartuta',
+      statusUnderReview: 'Berrikuspenean',
+      statusDraft: 'Zirriborroa',
+      live: 'Zuzenean',
+      noInvitations: 'Ez duzu gonbidapen pendienterik.',
+      organizedBy: 'Antolatzailea:',
+      invitedOn: 'Gonbidatua:',
+      accept: 'Onartu',
+      decline: 'Ezetsi',
+      newExperienceDefault: 'Esperientzia Berria',
+      createLocalExperience: 'Sortu tokiko esperientzia',
+      expTypeTitle: 'Zer-nolako esperientzia sortu nahi duzu?',
+      expTypeSubtitle: 'Aukeratu nola eraiki nahi duzun zure esperientzia.',
+      expBusinessTitle: 'Nire negozio esperientzia',
+      expBusinessDesc: 'Sortu zure negozioak soilik antolatutako esperientzia bat.',
+      expCollabTitle: 'Esperientzia kolaboratiboa',
+      expCollabDesc: 'Sortu esperientzia bat beste tokiko negozio batzuekin batera.',
+      expTitleStep: 'Eman izenburu bat zure esperientziari',
+      expTitleSubtitle: 'Izenburu on batek bidaiariei zertaz doan ulertzen laguntzen die.',
+      expTitleLabel: 'Izenburua',
+      expTitlePlaceholder: 'Adib. Pintxo Masterclass',
+      expShortDesc: 'Deskribapen laburra',
+      expDescPlaceholder: 'Ikasi benetako euskal pintxoak egiteko artea gure sukaldariarekin...',
+      expDetailsTitle: 'Gehitu xehetasunak zure esperientziari buruz',
+      expDetailsSubtitle: 'Partekatu bidaiariek jakin beharreko funtsezko informazioa.',
+      expCategory: 'Kategoria',
+      expDuration: 'Iraupena',
+      expAvailability: 'Noiz dago eskuragarri?',
+      expPriceRange: 'Prezio Tartea',
+      expLanguages: 'Hizkuntzak',
+      expPhotos: 'Argazkiak',
+      expInviteTitle: 'Gonbidatu bazkideak (aukerakoa)',
+      expInviteSubtitle: 'Lankidetzan aritu beste tokiko negozioekin esperientzia partekatu bat sortzeko.',
+      expSearchPartners: 'Bilatu bazkideak...',
+      expSuggestedPartners: 'Gomendatutako Bazkideak',
+      continueBtn: 'Jarraitu',
+      skipForNow: 'Saltatu oraingoz',
+      errLoadingData: 'Ezin izan da informazioa kargatu. Datu simulatuak erakusten.',
+      myEvents: 'Nire Ekitaldiak',
+      eventsOf: '{name}-(r)en ekitaldiak',
+      loadingLocal: 'Lokala kargatzen...',
+      createEventBtn: 'Sortu Ekitaldia',
+      noEvents: 'Ez duzu ekitaldirik argitaratu oraindik.',
+      createFirstEvent: 'Sortu nire lehen ekitaldia',
+      noImage: 'Irudirik Ez',
+      active: 'Aktibo',
+      inactive: 'Inaktibo',
+      toggleStatus: 'Aldatu Egoera',
+      unspecifiedLocation: 'Kokapena zehaztu gabe',
+      noDescription: 'Deskribapen zehatzik gabe.',
+      notFound: 'Elementua ez da aurkitu',
+      eventDetailsTitle: 'Ekitaldiaren Xehetasunak (Lokala)',
+      eventPublished: 'Argitaratutako Ekitaldia',
+      labelDate: 'Data',
+      labelSchedule: 'Ordutegia',
+      labelPrice: 'Prezioa',
+      labelCapacity: 'Edukiera',
+      labelLocation: 'Kokapena',
+      people: 'pertsona',
+    },
   },
   fr: {
     nav: { home: 'Accueil', nearby: 'Autour', experiences: 'Expériences', saved: 'Enregistré', profile: 'Profil' },
@@ -509,6 +1053,15 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       step4Subtitle: 'Choisissez-en 1',
       step4Skip: 'Passer',
       step4Finish: 'Terminer',
+      categories: {
+        food: 'Cuisine', culture: 'Culture', nature: 'Nature', bars: 'Bars',
+        local_favorites: 'Coups de cœur', shopping: 'Shopping', coffee_shops: 'Cafés',
+        walking_tours: 'À pied', family_friendly: 'Famille', vegetarian_vegan: 'Végétarien',
+        history: 'Histoire', festivals_events: 'Événements', beaches: 'Plages',
+        nightlife: 'Vie nocturne', budget_friendly: 'Budget',
+        oneday: 'Une journée', threedays: '3 jours', oneweek: 'Une semaine', longstay: 'Long séjour',
+        solo: 'Seul(e)', partner: 'En couple', friends: 'Amis', family: 'Famille',
+      },
     },
     nearby: {
       title: 'Lieux près de vous',
@@ -578,6 +1131,135 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       continue: 'Continuer',
       errorConflict: 'Vous avez déjà une entreprise enregistrée ou en attente de vérification.',
       errorGeneral: 'Une erreur s\'est produite lors de l\'envoi du formulaire. Veuillez réessayer.',
+    },
+    localDash: {
+      verifiedPartner: 'Partenaire Vérifié',
+      yourLocal: 'Votre Établissement',
+      noAddressSpecified: 'Adresse non spécifiée',
+      noAddressRegistered: 'Aucune adresse enregistrée',
+      free: 'Gratuit',
+      edit: 'Modifier',
+      performance: 'Performance',
+      last7Days: '7 derniers jours',
+      statViews: 'Vues',
+      statClicks: 'Clics',
+      statSavedRoutes: 'Enregistré dans les itinéraires',
+      statProfileVisits: 'Visites du profil',
+      recentActivity: 'Activité Récente',
+      actNewReview: 'Nouvel avis reçu',
+      actReviewQuote: '"Super ambiance et excellents pintxos !"',
+      actProfileUpdated: 'Profil mis à jour',
+      actHoursChanged: "Les horaires d'ouverture ont été modifiés",
+      actEventApproved: 'Événement "Pinto Crawl" approuvé',
+      actEventVisible: 'Il est désormais visible par les utilisateurs',
+      ago5h: 'Il y a 5h',
+      ago1d: 'Il y a 1j',
+      ago2d: 'Il y a 2j',
+      partnerStatus: 'Statut de Partenaire',
+      businessVerified: 'Établissement Vérifié',
+      businessVerifiedDesc: 'Votre établissement est vérifié sur Aupa.',
+      activePosts: 'Publications Actives',
+      activePostsDesc: 'Vos événements sont visibles par le public.',
+      partnerSince: 'Partenaire Depuis',
+      memberSince: 'Membre depuis mai 2026',
+      accountAndBusiness: 'Compte et Établissement',
+      ownerInfo: 'Informations du Propriétaire',
+      ownerInfoDesc: 'Nom, rôle et détails du profil',
+      contactInfo: 'Coordonnées',
+      emailLabel: 'E-mail',
+      manageVerification: 'Gérer la Vérification',
+      manageVerificationDesc: 'Documents et statut de votre vérification',
+      socialMedia: 'Réseaux Sociaux',
+      socialMediaDesc: 'Instagram, Facebook et Site Web',
+      helpCenter: "Centre d'Aide",
+      logout: 'Se Déconnecter',
+      errNoLocal: "Erreur : Aucun établissement associé à votre compte n'a été trouvé.",
+      eventUpdated: 'Événement mis à jour avec succès !',
+      eventCreated: 'Événement créé avec succès !',
+      errSaveEvent: "Erreur lors de l'enregistrement de l'événement sur le serveur.",
+      editEvent: "Modifier l'Événement",
+      createNewEvent: 'Créer un Nouvel Événement',
+      fieldTitle: "Titre de l'Événement *",
+      fieldTitlePlaceholder: 'Ex. Dégustation de vins, Musique live...',
+      fieldDescription: 'Description',
+      fieldDescriptionPlaceholder: "Décrivez l'événement, ce qu'il inclut, etc.",
+      fieldDate: 'Date *',
+      fieldStartTime: 'Heure de Début *',
+      fieldPrice: 'Prix (€)',
+      fieldCapacity: 'Capacité',
+      fieldEventAddress: "Adresse de l'Événement",
+      fieldEventAddressPlaceholder: "Adresse de l'événement",
+      fieldImageUrl: "URL de l'Image",
+      fieldImageUrlPlaceholder: 'https://exemple.com/image.jpg',
+      saving: 'Enregistrement...',
+      saveChanges: 'Enregistrer les Modifications',
+      publishEvent: "Publier l'Événement",
+      invitationAccepted: 'Invitation acceptée. Vous faites maintenant partie de cette expérience.',
+      experiencesTitle: 'Expériences',
+      createExperience: 'Créer une Expérience',
+      tabMyExperiences: 'Mes Expériences',
+      tabInvitations: 'Invitations',
+      stops: 'arrêts',
+      partners: 'partenaires',
+      statusApproved: 'Approuvée',
+      statusUnderReview: 'En Révision',
+      statusDraft: 'Brouillon',
+      live: 'En Direct',
+      noInvitations: "Vous n'avez aucune invitation en attente.",
+      organizedBy: 'Organisé par',
+      invitedOn: 'Invité le',
+      accept: 'Accepter',
+      decline: 'Refuser',
+      newExperienceDefault: 'Nouvelle Expérience',
+      createLocalExperience: 'Créer une expérience locale',
+      expTypeTitle: "Quel type d'expérience voulez-vous créer ?",
+      expTypeSubtitle: 'Choisissez comment vous souhaitez construire votre expérience.',
+      expBusinessTitle: 'Mon expérience commerciale',
+      expBusinessDesc: 'Créez une expérience organisée uniquement par votre établissement.',
+      expCollabTitle: 'Expérience collaborative',
+      expCollabDesc: "Créez une expérience conjointement avec d'autres établissements locaux.",
+      expTitleStep: 'Donnez un titre à votre expérience',
+      expTitleSubtitle: "Un bon titre aide les voyageurs à comprendre de quoi il s'agit.",
+      expTitleLabel: 'Titre',
+      expTitlePlaceholder: 'Ex. Masterclass de Pintxos',
+      expShortDesc: 'Description courte',
+      expDescPlaceholder: "Apprenez l'art de préparer d'authentiques pintxos basques avec notre chef...",
+      expDetailsTitle: 'Ajoutez des détails sur votre expérience',
+      expDetailsSubtitle: 'Partagez les informations clés que les voyageurs doivent connaître.',
+      expCategory: 'Catégorie',
+      expDuration: 'Durée',
+      expAvailability: 'Quand est-ce disponible ?',
+      expPriceRange: 'Gamme de Prix',
+      expLanguages: 'Langues',
+      expPhotos: 'Photos',
+      expInviteTitle: 'Inviter des partenaires (optionnel)',
+      expInviteSubtitle: "Collaborez avec d'autres établissements locaux pour créer une expérience partagée.",
+      expSearchPartners: 'Rechercher des partenaires...',
+      expSuggestedPartners: 'Partenaires Suggérés',
+      continueBtn: 'Continuer',
+      skipForNow: 'Ignorer pour le moment',
+      errLoadingData: 'Impossible de charger les informations. Affichage de données simulées.',
+      myEvents: 'Mes Événements',
+      eventsOf: 'Événements de {name}',
+      loadingLocal: "Chargement de l'établissement...",
+      createEventBtn: 'Créer un Événement',
+      noEvents: "Vous n'avez encore aucun événement publié.",
+      createFirstEvent: 'Créer mon premier événement',
+      noImage: 'Aucune Image',
+      active: 'Actif',
+      inactive: 'Inactif',
+      toggleStatus: 'Changer le Statut',
+      unspecifiedLocation: 'Emplacement non spécifié',
+      noDescription: 'Aucune description détaillée.',
+      notFound: 'Élément introuvable',
+      eventDetailsTitle: "Détails de l'Événement (Établissement)",
+      eventPublished: 'Événement Publié',
+      labelDate: 'Date',
+      labelSchedule: 'Horaire',
+      labelPrice: 'Prix',
+      labelCapacity: 'Capacité',
+      labelLocation: 'Emplacement',
+      people: 'personnes',
     },
   },
 };

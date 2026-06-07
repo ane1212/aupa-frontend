@@ -4,10 +4,14 @@ import type { Local, Event } from '../../../services/models';
 import LocalEventCard from './components/LocalEventCard';
 import { Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context';
+import { getAppCopy } from '../../../i18n/copy';
 
 const LocalListing: React.FC = () => {
     const navigate = useNavigate();
-    
+    const { user } = useAuth();
+    const t = getAppCopy(user?.language).localDash;
+
     const [local, setLocal] = useState<Local | null>(null);
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -34,7 +38,7 @@ const LocalListing: React.FC = () => {
                 }
             } catch (err: any) {
                 console.error("Error cargando eventos del local:", err);
-                setError("No se pudo cargar la información. Mostrando datos simulados.");
+                setError(t.errLoadingData);
                 
                 // Fallback / simulación con tipado correcto en caso de que no haya backend corriendo
                 const mockLocalId = local?.id || "mock-local-123";
@@ -116,9 +120,9 @@ const LocalListing: React.FC = () => {
         <div className="local-page-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
                 <div>
-                    <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>Mis Eventos</h1>
+                    <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>{t.myEvents}</h1>
                     <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
-                        {local ? `Eventos de ${local.name}` : 'Cargando local...'}
+                        {local ? t.eventsOf.replace('{name}', local.name) : t.loadingLocal}
                       </p>
                 </div>
                 <button 
@@ -138,7 +142,7 @@ const LocalListing: React.FC = () => {
                     }}
                 >
                     <Plus size={16} />
-                    <span>Crear Evento</span>
+                    <span>{t.createEventBtn}</span>
                 </button>
             </div>
 
@@ -151,13 +155,13 @@ const LocalListing: React.FC = () => {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {events.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '3rem 1rem', background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
-                        <p style={{ margin: '0 0 1rem 0', color: '#64748b' }}>No tienes eventos publicados todavía.</p>
-                        <button 
+                        <p style={{ margin: '0 0 1rem 0', color: '#64748b' }}>{t.noEvents}</p>
+                        <button
                             onClick={() => navigate('/local/create')}
-                            className="local-btn" 
+                            className="local-btn"
                             style={{ maxWidth: '200px', margin: '0 auto' }}
                         >
-                            Crear mi primer evento
+                            {t.createFirstEvent}
                         </button>
                     </div>
                 ) : (

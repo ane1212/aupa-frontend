@@ -2,6 +2,8 @@ import React from 'react';
 import type { Event } from '../../../../services/models';
 import { Calendar, MapPin, Tag } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../../../context';
+import { getAppCopy } from '../../../../i18n/copy';
 
 interface LocalEventCardProps {
     event: Event;
@@ -9,6 +11,8 @@ interface LocalEventCardProps {
 }
 
 const LocalEventCard: React.FC<LocalEventCardProps> = ({ event, onToggleActive }) => {
+    const { user } = useAuth();
+    const t = getAppCopy(user?.language).localDash;
     return (
         <Link 
             to={`/local/detail/${event.id}`} 
@@ -19,7 +23,7 @@ const LocalEventCard: React.FC<LocalEventCardProps> = ({ event, onToggleActive }
                 <img src={event.image} alt={event.title} className="local-event-img" />
             ) : (
                 <div className="local-event-img" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#e2e8f0', color: '#94a3b8' }}>
-                    Sin Imagen
+                    {t.noImage}
                 </div>
             )}
             <div className="local-event-info">
@@ -27,7 +31,7 @@ const LocalEventCard: React.FC<LocalEventCardProps> = ({ event, onToggleActive }
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <h3 className="local-event-title">{event.title}</h3>
                         <span className={`local-event-badge ${event.active ? 'local-badge-active' : 'local-badge-inactive'}`}>
-                            {event.active ? 'Activo' : 'Inactivo'}
+                            {event.active ? t.active : t.inactive}
                         </span>
                     </div>
                     
@@ -51,7 +55,7 @@ const LocalEventCard: React.FC<LocalEventCardProps> = ({ event, onToggleActive }
                     )}
                     <span style={{ fontSize: '0.75rem', color: '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
                         <Tag size={12} />
-                        {event.price === 0 ? 'Gratis' : `${event.price}€`}
+                        {event.price === 0 ? t.free : `${event.price}€`}
                     </span>
                 </div>
 
@@ -71,7 +75,7 @@ const LocalEventCard: React.FC<LocalEventCardProps> = ({ event, onToggleActive }
                             textDecoration: 'none'
                         }}
                     >
-                        Editar
+                        {t.edit}
                     </Link>
                     {onToggleActive && (
                         <button 
@@ -90,7 +94,7 @@ const LocalEventCard: React.FC<LocalEventCardProps> = ({ event, onToggleActive }
                                 padding: 0
                             }}
                         >
-                            Cambiar Estado
+                            {t.toggleStatus}
                         </button>
                     )}
                 </div>

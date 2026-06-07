@@ -403,10 +403,11 @@ p {
         .login-type {
           display: flex;
           flex-direction: row;
-          flex-wrap: wrap;
+          flex-wrap: nowrap;
           align-content: center;
-          justify-content: space-around;
+          justify-content: center;
           align-items: center;
+          gap: 10px;
         }
 
         .login-icon {
@@ -472,6 +473,92 @@ p {
         text-decoration: none;
       }
     }
+  }
+}
+
+/* ── Auth responsive (≥ 540px) ─────────────────────────────────── */
+@media (min-width: 540px) {
+  /* Fondo completo centrado */
+  .auth {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 3rem 1rem;
+    box-sizing: border-box;
+    background: #f3f5f8;
+  }
+
+  /* Card centrada */
+  .auth .register,
+  .auth .login {
+    max-width: 440px;
+    width: 100%;
+    min-height: auto;
+    border-radius: 16px;
+    box-shadow: 0 4px 32px rgba(0, 0, 0, 0.10);
+    padding: 2.5rem 2.5rem 0;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    overflow: hidden;
+    background: #ffffff;
+  }
+
+  /* Logo: tamaño fijo, no relativo al viewport */
+  .auth .logo {
+    width: 150px;
+    margin-top: 0.25rem;
+    align-self: center;
+  }
+
+  /* h2: sin margin-top excesivo */
+  .auth .register h2,
+  .auth .login h2 {
+    margin-top: 0.25rem;
+  }
+
+  /* Inputs y botones: llenar el ancho del card
+     Especificidad 4 clases para superar el CSS anidado original */
+  .auth .register .register-form .account-container,
+  .auth .login .register-form .account-container {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .auth .register .register-form .input-wrapper,
+  .auth .login .register-form .input-wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .auth .register .register-form .password-container,
+  .auth .login .register-form .password-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .auth .register .register-form .account-btn,
+  .auth .login .register-form .account-btn {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* Footer decorativo al fondo del card */
+  .auth .register > img.footer,
+  .auth .login > img.footer {
+    width: 100%;
+    margin-top: 1.5rem;
+    display: block;
+  }
+
+  /* Onboarding mantiene su layout propio (no card) */
+  .auth .register.onboarding-page {
+    max-width: 520px;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 20px 32px;
+    background: transparent;
+    overflow: visible;
   }
 }
 
@@ -2941,4 +3028,190 @@ p {
 @keyframes map-user-pulse {
   0%, 100% { box-shadow: 0 0 0 5px rgba(28, 115, 255, 0.22); }
   50%       { box-shadow: 0 0 0 9px rgba(28, 115, 255, 0.08); }
+}
+
+/* ── RESPONSIVE (usuario) ─────────────────────────────────────────── */
+
+/* Sidebar brand — oculto en móvil, visible en desktop */
+.app-sidebar-brand {
+  display: none;
+}
+
+/* ── Tablet (≥ 768px) ─────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .app {
+    max-width: 768px;
+  }
+
+  .home {
+    padding: 28px 2rem 18px;
+  }
+
+  .recommendation-card {
+    flex: 0 0 26%;
+  }
+}
+
+/* ── Desktop (≥ 1024px) ───────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .app {
+    max-width: none;
+    margin: 0;
+  }
+
+  /* Nav → sidebar izquierdo fijo */
+  .app > nav {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: auto;
+    bottom: 0;
+    width: 240px;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding: 0;
+    border-top: none;
+    border-right: 1px solid #e4e7ec;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 0;
+    z-index: 50;
+  }
+
+  /* Brand en la cabecera del sidebar */
+  .app-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 1.25rem 1.5rem;
+    height: 68px;
+    border-bottom: 1px solid #e4e7ec;
+    flex-shrink: 0;
+  }
+
+  .app-sidebar-brand-name {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0f172a;
+  }
+
+  /* Links → fila icono + texto */
+  .app > nav > a {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 0.85rem 1.5rem;
+    min-width: unset;
+    width: 100%;
+    border-radius: 0;
+    border-left: 3px solid transparent;
+    height: auto;
+  }
+
+  .app > nav > a span {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .app > nav > a.active {
+    background: rgba(239, 52, 42, 0.06);
+    border-left: 3px solid var(--color-J);
+    color: var(--color-J);
+  }
+
+  .app > nav > a:hover:not(.active) {
+    background: rgba(0, 0, 0, 0.03);
+    color: var(--color-J);
+  }
+
+  /* Contenido desplazado a la derecha del sidebar */
+  .app-main {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    justify-content: flex-start;
+  }
+
+  /* Páginas con max-width propio */
+  .home {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 2rem 2.5rem 18px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .nearby {
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .nearby-scroll {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .nearby-bottom {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+
+  .nearby-map {
+    height: 200px;
+  }
+
+  .experiences {
+    max-width: 860px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .saved {
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2rem 2.5rem 20px;
+  }
+
+  .profile {
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2rem 2.5rem 20px;
+  }
+}
+
+/* ── Large Desktop (≥ 1280px) ────────────────────────────────────── */
+@media (min-width: 1280px) {
+  .app > nav {
+    width: 260px;
+  }
+
+  .app-main {
+    margin-left: 260px;
+    width: calc(100% - 260px);
+  }
+
+  .home {
+    max-width: 1100px;
+    padding: 2rem 3rem 18px;
+  }
+
+  .nearby,
+  .experiences {
+    max-width: 980px;
+  }
+
+  .saved,
+  .profile {
+    max-width: 860px;
+    padding: 2rem 3rem 20px;
+  }
 }

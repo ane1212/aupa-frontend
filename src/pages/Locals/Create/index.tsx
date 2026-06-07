@@ -3,9 +3,13 @@ import { localService, eventService } from '../../../services/API';
 import type { Local, CreateEventForm } from '../../../services/models';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Calendar, Clock, Euro, MapPin, Users } from 'lucide-react';
+import { useAuth } from '../../../context';
+import { getAppCopy } from '../../../i18n/copy';
 
 const LocalCreateEvent: React.FC = () => {
     const navigate = useNavigate();
+    const { user } = useAuth();
+    const t = getAppCopy(user?.language).localDash;
     const { id } = useParams<{ id: string }>();
     const isEditMode = !!id;
 
@@ -71,7 +75,7 @@ const LocalCreateEvent: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!local) {
-            setMessage({ type: 'error', text: 'Error: No se encontró un local asociado a tu cuenta.' });
+            setMessage({ type: 'error', text: t.errNoLocal });
             return;
         }
 
@@ -89,7 +93,7 @@ const LocalCreateEvent: React.FC = () => {
             if (isEditMode && id) {
                 // Connect to the PUT /event/:id endpoint in backend
                 await eventService.update(id, cleanForm);
-                setMessage({ type: 'success', text: '¡Evento actualizado exitosamente!' });
+                setMessage({ type: 'success', text: t.eventUpdated });
             } else {
                 // POST /event
                 const eventData: CreateEventForm = {
@@ -97,7 +101,7 @@ const LocalCreateEvent: React.FC = () => {
                     localId: local.id
                 };
                 await eventService.create(eventData);
-                setMessage({ type: 'success', text: '¡Evento creado exitosamente!' });
+                setMessage({ type: 'success', text: t.eventCreated });
             }
 
             setTimeout(() => {
@@ -105,7 +109,7 @@ const LocalCreateEvent: React.FC = () => {
             }, 1500);
         } catch (err) {
             console.error("Error saving event:", err);
-            setMessage({ type: 'error', text: 'Error al guardar el evento en el servidor.' });
+            setMessage({ type: 'error', text: t.errSaveEvent });
         } finally {
             setSubmitting(false);
         }
@@ -121,7 +125,7 @@ const LocalCreateEvent: React.FC = () => {
 
     return (
         <div className="local-page-container">
-            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem' }}>{isEditMode ? 'Editar Evento' : 'Crear Nuevo Evento'}</h1>
+            <h1 style={{ fontSize: '1.5rem', fontWeight: 800, marginBottom: '1.5rem' }}>{isEditMode ? t.editEvent : t.createNewEvent}</h1>
 
             {message && (
                 <div style={{ 
@@ -139,34 +143,34 @@ const LocalCreateEvent: React.FC = () => {
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', background: 'white', padding: '1.5rem', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                 <div className="local-form-group">
-                    <label className="local-label">Título del Evento *</label>
-                    <input 
-                        type="text" 
-                        name="title" 
-                        required 
-                        value={form.title} 
-                        onChange={handleChange} 
-                        className="local-input" 
-                        placeholder="Ej. Cata de vinos, Música en vivo..."
+                    <label className="local-label">{t.fieldTitle}</label>
+                    <input
+                        type="text"
+                        name="title"
+                        required
+                        value={form.title}
+                        onChange={handleChange}
+                        className="local-input"
+                        placeholder={t.fieldTitlePlaceholder}
                     />
                 </div>
 
                 <div className="local-form-group">
-                    <label className="local-label">Descripción</label>
-                    <textarea 
-                        name="description" 
+                    <label className="local-label">{t.fieldDescription}</label>
+                    <textarea
+                        name="description"
                         rows={3}
-                        value={form.description || ''} 
-                        onChange={handleChange} 
-                        className="local-textarea" 
-                        placeholder="Describe el evento, qué incluye, etc."
+                        value={form.description || ''}
+                        onChange={handleChange}
+                        className="local-textarea"
+                        placeholder={t.fieldDescriptionPlaceholder}
                     />
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div className="local-form-group">
                         <label className="local-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Calendar size={14} /> Fecha *
+                            <Calendar size={14} /> {t.fieldDate}
                         </label>
                         <input 
                             type="date" 
@@ -180,7 +184,7 @@ const LocalCreateEvent: React.FC = () => {
 
                     <div className="local-form-group">
                         <label className="local-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Clock size={14} /> Hora Inicio *
+                            <Clock size={14} /> {t.fieldStartTime}
                         </label>
                         <input 
                             type="time" 
@@ -196,7 +200,7 @@ const LocalCreateEvent: React.FC = () => {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                     <div className="local-form-group">
                         <label className="local-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Euro size={14} /> Precio (€)
+                            <Euro size={14} /> {t.fieldPrice}
                         </label>
                         <input 
                             type="number" 
@@ -210,7 +214,7 @@ const LocalCreateEvent: React.FC = () => {
 
                     <div className="local-form-group">
                         <label className="local-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Users size={14} /> Capacidad
+                            <Users size={14} /> {t.fieldCapacity}
                         </label>
                         <input 
                             type="number" 
@@ -225,27 +229,27 @@ const LocalCreateEvent: React.FC = () => {
 
                 <div className="local-form-group">
                     <label className="local-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                        <MapPin size={14} /> Dirección de Celebración
+                        <MapPin size={14} /> {t.fieldEventAddress}
                     </label>
-                    <input 
-                        type="text" 
-                        name="address" 
-                        value={form.address || ''} 
-                        onChange={handleChange} 
-                        className="local-input" 
-                        placeholder="Dirección del evento"
+                    <input
+                        type="text"
+                        name="address"
+                        value={form.address || ''}
+                        onChange={handleChange}
+                        className="local-input"
+                        placeholder={t.fieldEventAddressPlaceholder}
                     />
                 </div>
 
                 <div className="local-form-group">
-                    <label className="local-label">URL de Imagen</label>
-                    <input 
-                        type="text" 
-                        name="image" 
-                        value={form.image || ''} 
-                        onChange={handleChange} 
-                        className="local-input" 
-                        placeholder="https://ejemplo.com/imagen.jpg"
+                    <label className="local-label">{t.fieldImageUrl}</label>
+                    <input
+                        type="text"
+                        name="image"
+                        value={form.image || ''}
+                        onChange={handleChange}
+                        className="local-input"
+                        placeholder={t.fieldImageUrlPlaceholder}
                     />
                 </div>
 
@@ -255,7 +259,7 @@ const LocalCreateEvent: React.FC = () => {
                     className="local-btn" 
                     style={{ marginTop: '1rem', background: 'var(--color-G, #22c55e)' }}
                 >
-                    {submitting ? 'Guardando...' : (isEditMode ? 'Guardar Cambios' : 'Publicar Evento')}
+                    {submitting ? t.saving : (isEditMode ? t.saveChanges : t.publishEvent)}
                 </button>
             </form>
         </div>

@@ -48,7 +48,7 @@ const Step3Duration: React.FC<Step3DurationProps> = ({
             onClick={() => handleSelect(cat.id)}
           >
             <cat.icon size={24} />
-            <span>{cat.description}</span>
+            <span>{copy.onboarding.categories[cat.name] ?? cat.description}</span>
           </button>
         ))}
       </div>
