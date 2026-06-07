@@ -10,36 +10,12 @@ import { getAppCopy, LANGUAGE_NAMES } from '../i18n/copy';
 
 interface PreferenceChip {
   key: string;
+  name: string;
   label: string;
   icon: LucideIcon;
   tone: string;
 }
 
-const categoryLabels: Record<string, string> = {
-  food: 'Food',
-  culture: 'Culture',
-  nature: 'Nature',
-  bars: 'Bars',
-  local_favorites: 'Local experiences',
-  shopping: 'Shopping',
-  coffee_shops: 'Coffee shops',
-  walking_tours: 'Walking',
-  family_friendly: 'Family friendly',
-  vegetarian_vegan: 'Vegetarian',
-  history: 'History',
-  festivals_events: 'Events',
-  beaches: 'Beaches',
-  nightlife: 'Nightlife',
-  budget_friendly: 'Budget friendly',
-  oneday: 'One day',
-  threedays: 'Three days',
-  oneweek: 'One week',
-  longstay: 'Long stay',
-  solo: 'Solo',
-  partner: 'Partner',
-  friends: 'Friends',
-  family: 'Family',
-};
 
 const categoryTones = ['pink', 'green', 'cream', 'blue', 'cream'];
 
@@ -49,7 +25,7 @@ const buildOptions = (categories: Category[], names: string[]) => {
     .map((cat: Category) => ({
       id: cat.id,
       name: cat.name,
-      description: cat.description ?? categoryLabels[cat.name] ?? cat.name.replaceAll('_', ' '),
+      description: cat.description ?? cat.name.replaceAll('_', ' '),
       icon: CATEGORY_ICON_MAP[cat.name] || Bookmark,
     }));
 };
@@ -123,7 +99,8 @@ const Profile = () => {
 
         return {
           key: category.id,
-          label: categoryLabels[category.name] ?? category.name.replaceAll('_', ' '),
+          name: category.name as string,
+          label: category.name as string,
           icon: CATEGORY_ICON_MAP[category.name] ?? Bookmark,
           tone: categoryTones[index % categoryTones.length],
         };
@@ -228,7 +205,7 @@ const Profile = () => {
               disabled={!canSelect && !isSelected}
             >
               <item.icon size={20} />
-              <span>{item.description}</span>
+              <span>{copy.onboarding.categories[item.name] ?? item.description}</span>
             </button>
           );
         })}
@@ -318,10 +295,10 @@ const Profile = () => {
         {!isEditingPreferences ? (
           preferences.length > 0 ? (
             <div className="profile-preferences">
-              {preferences.map(({ key, label, icon: Icon, tone }) => (
+              {preferences.map(({ key, name, icon: Icon, tone }) => (
                 <span className={'profile-chip ' + tone} key={key}>
                   <Icon size={15} />
-                  {label}
+                  {copy.onboarding.categories[name] ?? name.replaceAll('_', ' ')}
                 </span>
               ))}
             </div>
