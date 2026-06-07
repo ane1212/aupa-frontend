@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { House, MapPin, Star, Heart, CircleUser } from 'lucide-react';
 import { useAuth } from '../../context';
 import { getAppCopy } from '../../i18n/copy';
+import logoTrimmed from '../../assets/logo-trimmed.png';
 
 interface NavItem {
     to: string;
@@ -36,6 +37,10 @@ const NavBar = () => {
 
     return (
         <nav>
+            <div className="app-sidebar-brand">
+                <img src={logoTrimmed} alt="Aupa" style={{ height: '28px' }} />
+                <span className="app-sidebar-brand-name">Aupa</span>
+            </div>
             {navItems.map((item) => (
                 <NavBarItem key={item.to} {...item} />
             ))}

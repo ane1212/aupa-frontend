@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Search, Plus, Check } from 'lucide-react';
 import type { Experience } from '../index';
+import { useAuth } from '../../../../context';
+import { getAppCopy } from '../../../../i18n/copy';
 
 interface CreateExperienceFormProps {
     onSave: (experience: Omit<Experience, 'id'>) => void;
@@ -8,6 +10,8 @@ interface CreateExperienceFormProps {
 }
 
 const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onCancel }) => {
+    const { user } = useAuth();
+    const t = getAppCopy(user?.language).localDash;
     const [step, setStep] = useState<number>(1);
     
     // Form States
@@ -54,7 +58,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
 
     const handleSubmit = () => {
         onSave({
-            title: title || 'Nueva Experiencia',
+            title: title || t.newExperienceDefault,
             stops: type === 'business' ? 1 : selectedPartners.length + 1,
             partners: type === 'business' ? 1 : selectedPartners.length + 1,
             status: 'Under Review',
@@ -73,14 +77,14 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                     >
                         <ArrowLeft size={20} />
                     </button>
-                    <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>Crear experiencia local</span>
+                    <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: 600 }}>{t.createLocalExperience}</span>
                 </div>
 
                 {/* STEP 1: What kind of experience */}
                 {step === 1 && (
                     <div>
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>¿Qué tipo de experiencia quieres crear?</h2>
-                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>Elige cómo te gustaría construir tu experiencia.</p>
+                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>{t.expTypeTitle}</h2>
+                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>{t.expTypeSubtitle}</p>
                         
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                             <div 
@@ -94,8 +98,8 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                                     transition: 'all 0.2s'
                                 }}
                             >
-                                <h3 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 700, color: type === 'business' ? '#15803d' : '#0f172a' }}>Mi experiencia de negocio</h3>
-                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>Crea una experiencia organizada únicamente por tu negocio.</p>
+                                <h3 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 700, color: type === 'business' ? '#15803d' : '#0f172a' }}>{t.expBusinessTitle}</h3>
+                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>{t.expBusinessDesc}</p>
                             </div>
 
                             <div 
@@ -109,8 +113,8 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                                     transition: 'all 0.2s'
                                 }}
                             >
-                                <h3 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 700, color: type === 'collaborative' ? '#15803d' : '#0f172a' }}>Experiencia colaborativa</h3>
-                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>Crea una experiencia conjuntamente con otros negocios locales.</p>
+                                <h3 style={{ margin: '0 0 4px 0', fontSize: '0.95rem', fontWeight: 700, color: type === 'collaborative' ? '#15803d' : '#0f172a' }}>{t.expCollabTitle}</h3>
+                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>{t.expCollabDesc}</p>
                             </div>
                         </div>
                     </div>
@@ -119,15 +123,15 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                 {/* STEP 2: Title and Description */}
                 {step === 2 && (
                     <div>
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>Dale un título a tu experiencia</h2>
-                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>Un gran título ayuda a los viajeros a entender de qué se trata.</p>
-                        
+                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>{t.expTitleStep}</h2>
+                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>{t.expTitleSubtitle}</p>
+
                         <div className="local-form-group">
-                            <label className="local-label">Título</label>
-                            <input 
+                            <label className="local-label">{t.expTitleLabel}</label>
+                            <input
                                 type="text"
                                 maxLength={60}
-                                placeholder="Ej. Pintxo Masterclass"
+                                placeholder={t.expTitlePlaceholder}
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 className="local-input"
@@ -138,11 +142,11 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                         </div>
 
                         <div className="local-form-group" style={{ marginTop: '1rem' }}>
-                            <label className="local-label">Descripción corta</label>
-                            <textarea 
+                            <label className="local-label">{t.expShortDesc}</label>
+                            <textarea
                                 rows={4}
                                 maxLength={150}
-                                placeholder="Aprende el arte de elaborar auténticos pinchos vascos con nuestro chef..."
+                                placeholder={t.expDescPlaceholder}
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                                 className="local-textarea"
@@ -157,11 +161,11 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                 {/* STEP 3: Details */}
                 {step === 3 && (
                     <div>
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>Añade detalles sobre tu experiencia</h2>
-                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>Comparte información clave que los viajeros deben saber.</p>
-                        
+                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>{t.expDetailsTitle}</h2>
+                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>{t.expDetailsSubtitle}</p>
+
                         <div className="local-form-group">
-                            <label className="local-label">Categoría</label>
+                            <label className="local-label">{t.expCategory}</label>
                             <select 
                                 value={category} 
                                 onChange={(e) => setCategory(e.target.value)}
@@ -175,7 +179,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                         </div>
 
                         <div className="local-form-group">
-                            <label className="local-label">Duración</label>
+                            <label className="local-label">{t.expDuration}</label>
                             <select 
                                 value={duration} 
                                 onChange={(e) => setDuration(e.target.value)}
@@ -189,7 +193,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                         </div>
 
                         <div className="local-form-group">
-                            <label className="local-label">¿Cuándo está disponible?</label>
+                            <label className="local-label">{t.expAvailability}</label>
                             <select 
                                 value={availability} 
                                 onChange={(e) => setAvailability(e.target.value)}
@@ -205,7 +209,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
 
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                             <div className="local-form-group">
-                                <label className="local-label">Rango de Precio</label>
+                                <label className="local-label">{t.expPriceRange}</label>
                                 <input 
                                     type="text"
                                     value={priceRange}
@@ -216,7 +220,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                             </div>
 
                             <div className="local-form-group">
-                                <label className="local-label">Idiomas</label>
+                                <label className="local-label">{t.expLanguages}</label>
                                 <select 
                                     value={language} 
                                     onChange={(e) => setLanguage(e.target.value)}
@@ -232,7 +236,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                         </div>
 
                         <div className="local-form-group">
-                            <label className="local-label">Fotos</label>
+                            <label className="local-label">{t.expPhotos}</label>
                             <div style={{ display: 'flex', gap: '8px' }}>
                                 <div style={{ width: '70px', height: '70px', border: '1px solid #cbd5e1', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#f1f5f9', cursor: 'pointer' }}>
                                     <Plus size={20} color="#94a3b8" />
@@ -248,14 +252,14 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                 {/* STEP 4: Invite partners */}
                 {step === 4 && (
                     <div>
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>Invitar socios (opcional)</h2>
-                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>Colabora con otros negocios locales para crear una experiencia compartida.</p>
+                        <h2 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem' }}>{t.expInviteTitle}</h2>
+                        <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>{t.expInviteSubtitle}</p>
                         
                         <div style={{ position: 'relative', marginBottom: '1.5rem' }}>
                             <Search size={16} color="#94a3b8" style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)' }} />
                             <input 
                                 type="text"
-                                placeholder="Buscar socios..."
+                                placeholder={t.expSearchPartners}
                                 value={searchPartner}
                                 onChange={(e) => setSearchPartner(e.target.value)}
                                 className="local-input"
@@ -263,7 +267,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                             />
                         </div>
 
-                        <h3 style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>Socios Sugeridos</h3>
+                        <h3 style={{ fontSize: '0.8rem', fontWeight: 700, color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>{t.expSuggestedPartners}</h3>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {suggestedPartners.map(partner => (
                                 <div 
@@ -301,7 +305,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                     className="local-btn"
                     style={{ background: 'var(--color-G, #22c55e)', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px' }}
                 >
-                    Continuar
+                    {t.continueBtn}
                 </button>
                 
                 {step === 4 && (
@@ -320,7 +324,7 @@ const CreateExperienceForm: React.FC<CreateExperienceFormProps> = ({ onSave, onC
                             marginTop: '1rem' 
                         }}
                     >
-                        Omitir por ahora
+                        {t.skipForNow}
                     </button>
                 )}
             </div>

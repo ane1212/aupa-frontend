@@ -52,6 +52,12 @@ const LocalLayout = () => {
             </main>
 
             <nav className="local-bottom-nav">
+                {/* Logo shown only in desktop sidebar */}
+                <div className="local-sidebar-brand">
+                    <img src={logoTrimmed} alt="Aupa" style={{ height: '28px' }} />
+                    <span className="local-header-title">Aupa Partner</span>
+                </div>
+
                 <NavLink to="/local/home" className={({ isActive }) => `local-nav-item ${isActive ? 'active' : ''}`}>
                     <LayoutDashboard size={22} className="local-nav-item-icon" />
                     <span>Home</span>
@@ -63,7 +69,8 @@ const LocalLayout = () => {
                 </NavLink>
 
                 <NavLink to="/local/create" className={({ isActive }) => `local-nav-item local-nav-center-btn ${isActive ? 'active' : ''}`}>
-                    <Plus size={28} />
+                    <Plus size={22} />
+                    <span className="local-nav-create-label" style={{ display: 'none' }}>Crear</span>
                 </NavLink>
 
                 <NavLink to="/local/experiences" className={({ isActive }) => `local-nav-item ${isActive ? 'active' : ''}`}>

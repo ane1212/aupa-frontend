@@ -8,9 +8,9 @@ import {
 
 export const LANGUAGE_OPTIONS = [
   { code: 'en', label: 'English' },
-  { code: 'eu', label: 'Euskera' },
-  { code: 'fr', label: 'French' },
-  { code: 'es', label: 'Spanish' },
+  { code: 'eu', label: 'Euskara' },
+  { code: 'fr', label: 'Français' },
+  { code: 'es', label: 'Español' },
 ];
 
 export const STEP2_NAMES = [

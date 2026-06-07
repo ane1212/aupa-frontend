@@ -52,7 +52,7 @@ const Step2Categories: React.FC<Step2CategoriesProps> = ({
               disabled={!canSelect && !isSelected}
             >
               <cat.icon size={24} />
-              <span>{cat.description}</span>
+              <span>{copy.onboarding.categories[cat.name] ?? cat.description}</span>
             </button>
           );
         })}

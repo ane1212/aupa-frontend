@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Plus, Check, X, Users, MapPin } from 'lucide-react';
 import CreateExperienceForm from './components/CreateExperienceForm';
+import { useAuth } from '../../../context';
+import { getAppCopy } from '../../../i18n/copy';
 
 export interface Experience {
     id: string;
@@ -21,6 +23,8 @@ interface Invitation {
 }
 
 const LocalExperiences: React.FC = () => {
+    const { user } = useAuth();
+    const t = getAppCopy(user?.language).localDash;
     const [activeTab, setActiveTab] = useState<'my' | 'invitations'>('my');
     const [isCreating, setIsCreating] = useState<boolean>(false);
 
@@ -37,7 +41,7 @@ const LocalExperiences: React.FC = () => {
 
     const handleAcceptInvitation = (id: string) => {
         setInvitations(prev => prev.filter(inv => inv.id !== id));
-        alert('Invitación aceptada. Ahora eres parte de esta experiencia.');
+        alert(t.invitationAccepted);
     };
 
     const handleDeclineInvitation = (id: string) => {
@@ -65,7 +69,7 @@ const LocalExperiences: React.FC = () => {
     return (
         <div className="local-page-container">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>Experiencias</h1>
+                <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>{t.experiencesTitle}</h1>
                 {activeTab === 'my' && (
                     <button 
                         style={{ 
@@ -84,7 +88,7 @@ const LocalExperiences: React.FC = () => {
                         onClick={() => setIsCreating(true)}
                     >
                         <Plus size={16} />
-                        <span>Crear Experiencia</span>
+                        <span>{t.createExperience}</span>
                     </button>
                 )}
             </div>
@@ -106,7 +110,7 @@ const LocalExperiences: React.FC = () => {
                         marginBottom: '-2px'
                     }}
                 >
-                    Mis Experiencias ({experiences.length})
+                    {t.tabMyExperiences} ({experiences.length})
                 </button>
                 <button 
                     onClick={() => setActiveTab('invitations')}
@@ -123,7 +127,7 @@ const LocalExperiences: React.FC = () => {
                         marginBottom: '-2px'
                     }}
                 >
-                    Invitaciones ({invitations.length})
+                    {t.tabInvitations} ({invitations.length})
                 </button>
             </div>
 
@@ -135,10 +139,10 @@ const LocalExperiences: React.FC = () => {
                                 <h3 style={{ margin: '0 0 6px 0', fontSize: '1rem', fontWeight: 700 }}>{exp.title}</h3>
                                 <div style={{ display: 'flex', gap: '12px', fontSize: '0.75rem', color: '#64748b' }}>
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                        <MapPin size={12} /> {exp.stops} paradas
+                                        <MapPin size={12} /> {exp.stops} {t.stops}
                                     </span>
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                        <Users size={12} /> {exp.partners} socios
+                                        <Users size={12} /> {exp.partners} {t.partners}
                                     </span>
                                 </div>
                             </div>
@@ -151,12 +155,12 @@ const LocalExperiences: React.FC = () => {
                                     background: exp.status === 'Approved' ? '#dcfce7' : exp.status === 'Under Review' ? '#fef3c7' : '#f1f5f9',
                                     color: exp.status === 'Approved' ? '#15803d' : exp.status === 'Under Review' ? '#d97706' : '#64748b'
                                 }}>
-                                    {exp.status === 'Approved' ? 'Aprobada' : exp.status === 'Under Review' ? 'En Revisión' : 'Borrador'}
+                                    {exp.status === 'Approved' ? t.statusApproved : exp.status === 'Under Review' ? t.statusUnderReview : t.statusDraft}
                                 </span>
                                 {exp.isLive && (
                                     <span style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.7rem', color: '#16a34a', fontWeight: 600 }}>
                                         <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#16a34a' }}></span>
-                                        En Vivo
+                                        {t.live}
                                     </span>
                                 )}
                             </div>
@@ -167,7 +171,7 @@ const LocalExperiences: React.FC = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {invitations.length === 0 ? (
                         <div style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
-                            No tienes invitaciones pendientes.
+                            {t.noInvitations}
                         </div>
                     ) : (
                         invitations.map(inv => (
@@ -176,14 +180,14 @@ const LocalExperiences: React.FC = () => {
                                     <div>
                                         <h3 style={{ margin: '0 0 4px 0', fontSize: '1rem', fontWeight: 700 }}>{inv.title}</h3>
                                         <p style={{ margin: 0, fontSize: '0.75rem', color: '#64748b' }}>
-                                            Organizado por <span style={{ fontWeight: 600, color: '#0f172a' }}>{inv.organizer}</span>
+                                            {t.organizedBy} <span style={{ fontWeight: 600, color: '#0f172a' }}>{inv.organizer}</span>
                                         </p>
                                     </div>
-                                    <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>Invitado el {inv.date}</span>
+                                    <span style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{t.invitedOn} {inv.date}</span>
                                 </div>
                                 <div style={{ display: 'flex', gap: '12px', fontSize: '0.75rem', color: '#64748b', marginBottom: '1rem' }}>
-                                    <span>{inv.stops} paradas</span>
-                                    <span>{inv.partners} socios</span>
+                                    <span>{inv.stops} {t.stops}</span>
+                                    <span>{inv.partners} {t.partners}</span>
                                 </div>
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button 
@@ -205,7 +209,7 @@ const LocalExperiences: React.FC = () => {
                                         }}
                                     >
                                         <Check size={14} />
-                                        Aceptar
+                                        {t.accept}
                                     </button>
                                     <button 
                                         onClick={() => handleDeclineInvitation(inv.id)}
@@ -226,7 +230,7 @@ const LocalExperiences: React.FC = () => {
                                         }}
                                     >
                                         <X size={14} />
-                                        Rechazar
+                                        {t.decline}
                                     </button>
                                 </div>
                             </div>
