@@ -8,4 +8,4 @@ export * from './incident'
 export * from './comment'
 export * from './notification'
 export * from './local'
-
+export * from './recommendation'

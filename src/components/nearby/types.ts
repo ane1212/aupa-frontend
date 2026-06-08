@@ -8,7 +8,6 @@ export interface Place {
     id: number;
     name: string;
     type: string;
-    neighborhood: string;
     distance: string;
     walkTime: string;
     score: number;
