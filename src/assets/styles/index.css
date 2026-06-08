@@ -351,7 +351,7 @@ p {
   width: stretch;
   object-fit: cover;
   aspect-ratio: 2.1 / 1;
-  border-radius:3%;
+  border-radius: 3%;
 }
 
 .local-pick-card p {
@@ -360,7 +360,7 @@ p {
   font-size: 0.73rem;
   line-height: 1.35;
   font-weight: 500;
-  text-indent:10px;
+  text-indent: 10px;
 }
 
 .local-pick-card span {
@@ -1975,11 +1975,16 @@ p {
     justify-content: center;
     cursor: pointer;
     touch-action: manipulation;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
   }
 
-  .detail-hero-back { left: var(--mp); }
-  .detail-hero-share { right: var(--mp); }
+  .detail-hero-back {
+    left: var(--mp);
+  }
+
+  .detail-hero-share {
+    right: var(--mp);
+  }
 
   /* ── Body ── */
   .detail-body {
@@ -2056,7 +2061,10 @@ p {
     }
   }
 
-  .detail-stat-icon { flex-shrink: 0; color: #888; }
+  .detail-stat-icon {
+    flex-shrink: 0;
+    color: #888;
+  }
 
   .detail-stat-text {
     display: flex;
@@ -2077,7 +2085,9 @@ p {
     white-space: nowrap;
   }
 
-  .detail-budget { color: #1a1a1a; }
+  .detail-budget {
+    color: #1a1a1a;
+  }
 
   .detail-open-dot {
     width: 8px;
@@ -2086,8 +2096,13 @@ p {
     background: #ccc;
     flex-shrink: 0;
 
-    &.open { background: #22c55e; }
-    &.closed { background: #ef4444; }
+    &.open {
+      background: #22c55e;
+    }
+
+    &.closed {
+      background: #ef4444;
+    }
   }
 
   /* ── Section title ── */
@@ -2292,7 +2307,9 @@ p {
     padding-bottom: 4px;
     scrollbar-width: none;
 
-    &::-webkit-scrollbar { display: none; }
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   .detail-nearby-card {
@@ -2366,7 +2383,10 @@ p {
     padding-bottom: 14px;
     border-bottom: 1px solid #f0f0f0;
 
-    &:last-child { border-bottom: none; padding-bottom: 0; }
+    &:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
   }
 
   .detail-comment-head {
@@ -2467,7 +2487,9 @@ p {
     touch-action: manipulation;
     transition: background-color 0.15s, opacity 0.15s;
 
-    &.active { background-color: #2a9d5c; }
+    &.active {
+      background-color: #2a9d5c;
+    }
 
     &:disabled {
       opacity: 0.5;
@@ -2477,18 +2499,43 @@ p {
 
   /* ── Responsive ── */
   @media (min-width: 480px) {
-    .detail-hero { height: 270px; }
-    .detail-title { font-size: 1.55rem; }
+    .detail-hero {
+      height: 270px;
+    }
+
+    .detail-title {
+      font-size: 1.55rem;
+    }
   }
 
   @media (min-width: 768px) {
-    .detail-hero { height: 320px; }
-    .detail-title { font-size: 1.7rem; }
-    .detail-subtitle { font-size: 0.9rem; }
-    .detail-stat-main { font-size: 0.86rem; }
-    .detail-description { font-size: 0.88rem; }
-    .detail-stop-name { font-size: 0.92rem; }
-    .detail-stop-sub { font-size: 0.78rem; }
+    .detail-hero {
+      height: 320px;
+    }
+
+    .detail-title {
+      font-size: 1.7rem;
+    }
+
+    .detail-subtitle {
+      font-size: 0.9rem;
+    }
+
+    .detail-stat-main {
+      font-size: 0.86rem;
+    }
+
+    .detail-description {
+      font-size: 0.88rem;
+    }
+
+    .detail-stop-name {
+      font-size: 0.92rem;
+    }
+
+    .detail-stop-sub {
+      font-size: 0.78rem;
+    }
   }
 }
 
@@ -2499,6 +2546,8 @@ p {
   height: calc(100dvh - 60px);
   padding: var(--mp);
   gap: var(--mp);
+
+
 
   .exp-row-head {
     display: flex;
@@ -2676,7 +2725,7 @@ p {
     border-radius: 14px;
     padding: 14px 16px;
     margin-bottom: 12px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
   }
 
   .exp-trip-progress-header {
@@ -2770,7 +2819,10 @@ p {
     align-items: center;
     touch-action: none;
     cursor: grab;
-    &:active { cursor: grabbing; }
+
+    &:active {
+      cursor: grabbing;
+    }
   }
 
   .exp-trip-index {
@@ -3563,7 +3615,7 @@ p {
   cursor: not-allowed;
 }
 
-.footer{
+.footer {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -3941,7 +3993,7 @@ p {
   }
 
   .saved {
-    max-width: 760px;
+    max-width: 860px;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
@@ -3974,13 +4026,17 @@ p {
   }
 
   .nearby,
-  .experiences {
+  .experiences,
+  .saved {
     max-width: 980px;
   }
 
-  .saved,
   .profile {
     max-width: 860px;
+    padding: 2rem 3rem 20px;
+  }
+
+  .saved {
     padding: 2rem 3rem 20px;
   }
 
@@ -4062,6 +4118,7 @@ p {
 
 /* ── Desktop scroll ───────────────────────────────────────────── */
 @media (min-width: 768px) {
+
   html,
   body {
     overflow-y: auto;

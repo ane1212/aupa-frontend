@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ExperienceCard, SearchBar } from '../components/experiences';
 import { useAuth } from '../context';
-import { getAppCopy } from '../i18n/copy';
+import { getAppCopy, getCatLabel } from '../i18n/copy';
 import { itineraryService, eventService, favoriteService, categoryService } from '../services/API';
 import type { ItineraryItem } from '../services/API';
 import type { Event } from '../services/models';
@@ -15,14 +15,6 @@ import { CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants
 import { Bookmark } from 'lucide-react';
 import { categories as nearbyCategories } from './Nearby';
 
-const CATEGORY_LABELS: Record<string, string> = {
-    food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
-    culture: 'Cultura', nature: 'Naturaleza', shopping: 'Compras', nightlife: 'Noche',
-    coffee_shops: 'Cafeterías', walking_tours: 'Rutas', family_friendly: 'Familia',
-    history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
-    budget_friendly: 'Económico', local_favorites: 'Favoritos locales',
-    vegetarian_vegan: 'Vegano',
-};
 
 interface Experience {
     id: number | string;
@@ -302,7 +294,7 @@ const Experiences = () => {
                                 className={`category-chip${!activeCategory ? ' selected' : ''}`}
                                 onClick={() => { setActiveCategory(null); setPage(1); }}
                             >
-                                <span>Todos</span>
+                                <span>{copy?.saved?.filterAll ?? 'All'}</span>
                             </button>
                             {nearbyCategories.map(cat => {
                                 const Icon = CATEGORY_ICON_MAP[cat] || Bookmark;
@@ -313,7 +305,7 @@ const Experiences = () => {
                                         onClick={() => { setActiveCategory(activeCategory === cat ? null : cat); setPage(1); }}
                                     >
                                         <Icon size={15} />
-                                        <span>{CATEGORY_LABELS[cat] ?? cat}</span>
+                                        <span>{getCatLabel(cat, copy)}</span>
                                     </button>
                                 );
                             })}
@@ -330,6 +322,7 @@ const Experiences = () => {
                                 <ExperienceCard
                                     key={exp.id}
                                     {...exp}
+                                    lang={user?.language}
                                     saved={savedIds.has(String(exp.id))}
                                     onBookmark={() => handleBookmark(String(exp.id))}
                                 />

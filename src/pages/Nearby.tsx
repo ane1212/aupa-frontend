@@ -10,7 +10,7 @@ import { CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants
 import { Bookmark } from 'lucide-react';
 import NearbyMap from '../components/nearby/NearbyMap';
 import { useAuth } from '../context';
-import { getAppCopy } from '../i18n/copy';
+import { getAppCopy, getCatLabel } from '../i18n/copy';
 import type { Place } from '../components/nearby/types';
 import ExperienceCard from '../components/experiences/ExperienceCard';
 import SearchBar from '../components/experiences/SearchBar';
@@ -33,23 +33,6 @@ const Nearby = () => {
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
 
-    const categoryLabels: Record<string, string> = {
-        food: 'Food',
-        culture: 'Culture',
-        nature: 'Nature',
-        bars: 'Bars',
-        local_favorites: 'Local experiences',
-        shopping: 'Shopping',
-        coffee_shops: 'Coffee shops',
-        walking_tours: 'Walking',
-        family_friendly: 'Family friendly',
-        vegetarian_vegan: 'Vegetarian',
-        history: 'History',
-        festivals_events: 'Events',
-        beaches: 'Beaches',
-        nightlife: 'Nightlife',
-        budget_friendly: 'Budget friendly',
-    };
 
     useEffect(() => {
         const fetchRecommendations = async () => {
@@ -120,7 +103,7 @@ const Nearby = () => {
                         onClick={() => setActiveCategory(null)}
                     >
                         <Bookmark size={20} />
-                        <span>All</span>
+                        <span>{copy.saved.filterAll}</span>
                     </button>
 
                     {categories.map((category) => {
@@ -135,7 +118,7 @@ const Nearby = () => {
                                 onClick={() => setActiveCategory(isSelected ? null : category)}
                             >
                                 <Icon size={20} />
-                                <span>{categoryLabels[category] || category}</span>
+                                <span>{getCatLabel(category, copy)}</span>
                             </button>
                         );
                     })}
@@ -161,6 +144,7 @@ const Nearby = () => {
                                     price=""
                                     score={generateRandomScore(rec.id ?? rec.name)}
                                     category={rec.category}
+                                    lang={user?.language}
                                     distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
                                     onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
                                 />

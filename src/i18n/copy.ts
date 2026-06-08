@@ -313,6 +313,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
         walking_tours: 'Walking', family_friendly: 'Family', vegetarian_vegan: 'Veg & Vegan',
         history: 'History', festivals_events: 'Events', beaches: 'Beaches',
         nightlife: 'Nightlife', budget_friendly: 'Budget',
+        experiences: 'Experiences', places: 'Places',
         oneday: 'One day', threedays: '3 days', oneweek: 'One week', longstay: 'Long stay',
         solo: 'Solo', partner: 'Partner', friends: 'Friends', family: 'Family',
       },
@@ -569,6 +570,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
         walking_tours: 'A pie', family_friendly: 'Familiar', vegetarian_vegan: 'Vegetariano',
         history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
         nightlife: 'Nocturna', budget_friendly: 'Económico',
+        experiences: 'Experiencias', places: 'Lugares',
         oneday: 'Un día', threedays: '3 días', oneweek: 'Una semana', longstay: 'Larga estancia',
         solo: 'Solo/a', partner: 'En pareja', friends: 'Amigos', family: 'Familia',
       },
@@ -825,6 +827,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
         walking_tours: 'Oinez', family_friendly: 'Familia', vegetarian_vegan: 'Begetarianoa',
         history: 'Historia', festivals_events: 'Festak', beaches: 'Hondartzak',
         nightlife: 'Gaueko bizitza', budget_friendly: 'Aurrekontua',
+        experiences: 'Esperientziak', places: 'Lekuak',
         oneday: 'Egun bat', threedays: '3 egun', oneweek: 'Aste bat', longstay: 'Egonaldi luzea',
         solo: 'Bakarrik', partner: 'Bikotea', friends: 'Lagunak', family: 'Familia',
       },
@@ -1081,6 +1084,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
         walking_tours: 'À pied', family_friendly: 'Famille', vegetarian_vegan: 'Végétarien',
         history: 'Histoire', festivals_events: 'Événements', beaches: 'Plages',
         nightlife: 'Vie nocturne', budget_friendly: 'Budget',
+        experiences: 'Expériences', places: 'Lieux',
         oneday: 'Une journée', threedays: '3 jours', oneweek: 'Une semaine', longstay: 'Long séjour',
         solo: 'Seul(e)', partner: 'En couple', friends: 'Amis', family: 'Famille',
       },
@@ -1292,3 +1296,6 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
 export const getAppCopy = (language?: string | null) => {
   return (language && language in APP_COPY ? APP_COPY[language as LanguageType] : APP_COPY.en);
 };
+
+export const getCatLabel = (key: string, copy: AppCopy): string =>
+  copy.onboarding.categories[key] ?? key.replace(/_/g, ' ');

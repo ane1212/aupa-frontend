@@ -1,13 +1,6 @@
 import { Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-const CATEGORY_LABELS: Record<string, string> = {
-    food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
-    culture: 'Cultura', nature: 'Naturaleza', shopping: 'Compras', nightlife: 'Noche',
-    coffee_shops: 'Cafeterías', walking_tours: 'Rutas', family_friendly: 'Familia',
-    history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
-    budget_friendly: 'Económico', local_favorites: 'Favoritos locales',
-};
+import { getAppCopy, getCatLabel } from '../../i18n/copy';
 
 interface Props {
     id: number | string;
@@ -20,6 +13,7 @@ interface Props {
     category?: string;
     distance?: string;
     saved?: boolean;
+    lang?: string;
     onBookmark?: () => void;
     onClickCard?: () => void;
 }
@@ -37,9 +31,10 @@ const BookmarkFilled = () => (
     </svg>
 );
 
-const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, onBookmark, onClickCard }: Props) => {
+const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, lang, onBookmark, onClickCard }: Props) => {
     const navigate = useNavigate();
-    const catLabel = category ? (CATEGORY_LABELS[category] ?? category) : null;
+    const copy = getAppCopy(lang);
+    const catLabel = category ? getCatLabel(category, copy) : null;
     const timeMeta = [date, duration].filter(Boolean).join(' · ');
     const handleClick = onClickCard ?? (() => navigate(`/detail/${id}`));
     return (

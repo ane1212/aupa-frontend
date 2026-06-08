@@ -3,6 +3,7 @@ import { ChevronLeft, Share2, MapPin, Bookmark, Plus, Check, Clock, Star } from 
 import { useState, useEffect } from 'react';
 import { eventService, favoriteService, itineraryService, commentService, categoryService } from '../services/API';
 import { useAuth } from '../context';
+import { getAppCopy, getCatLabel, type AppCopy } from '../i18n/copy';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import type { Comment } from '../services/models';
@@ -26,13 +27,6 @@ const walkTime = (km: number) => {
     return m < 60 ? `${m} min a pie` : `${Math.floor(m / 60)}h ${m % 60}min a pie`;
 };
 
-const CATEGORY_LABELS: Record<string, string> = {
-    food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
-    culture: 'Cultura', nature: 'Naturaleza', shopping: 'Compras', nightlife: 'Noche',
-    coffee_shops: 'Cafeterías', walking_tours: 'Rutas', family_friendly: 'Familia',
-    history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
-    budget_friendly: 'Económico', local_favorites: 'Favoritos locales',
-};
 
 // ─── sub-components ───────────────────────────────────────────────────────────
 
@@ -49,14 +43,14 @@ const StarBar = ({ star, count, total }: { star: number; count: number; total: n
 
 interface NearbyItem { id: string; name: string; image?: string; categoryName?: string; price: number; distance?: string; }
 
-const NearbyCard = ({ item, onClick }: { item: NearbyItem; onClick: () => void }) => (
+const NearbyCard = ({ item, onClick, copy }: { item: NearbyItem; onClick: () => void; copy: AppCopy }) => (
     <div className="detail-nearby-card" onClick={onClick}>
         <div className="detail-nearby-img">
             {item.image ? <img src={item.image} alt={item.name} /> : <div className="detail-nearby-placeholder" />}
         </div>
         <p className="detail-nearby-name">{item.name}</p>
         <p className="detail-nearby-meta">
-            {item.categoryName ? (CATEGORY_LABELS[item.categoryName] ?? item.categoryName) : ''}
+            {item.categoryName ? getCatLabel(item.categoryName, copy) : ''}
             {item.distance ? ` · ${item.distance}` : ''}
         </p>
         <p className="detail-nearby-price">{item.price === 0 ? 'Gratis' : `€${item.price}`}</p>
@@ -102,6 +96,7 @@ const Detail = () => {
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const { user } = useAuth();
+    const copy = getAppCopy(user?.language);
 
     const [eventData, setEventData] = useState<any | null>(null);
     const [staticItem, setStaticItem] = useState<typeof staticItems[0] | null>(null);
@@ -162,7 +157,7 @@ const Detail = () => {
                     for (const c of (catsRes.value.data ?? [])) catMap[c.id] = c.name;
                 }
                 if (ev.categoryId && catMap[ev.categoryId]) {
-                    setCatLabel(CATEGORY_LABELS[catMap[ev.categoryId]] ?? catMap[ev.categoryId]);
+                    setCatLabel(getCatLabel(catMap[ev.categoryId], copy));
                 }
 
                 // Distance
@@ -458,6 +453,7 @@ const Detail = () => {
                                     <NearbyCard
                                         key={item.id}
                                         item={item}
+                                        copy={copy}
                                         onClick={() => navigate(`/detail/${item.id}`)}
                                     />
                                 ))}
