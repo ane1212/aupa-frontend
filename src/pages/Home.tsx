@@ -24,7 +24,7 @@ const Home = () => {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [localPicks, setLocalPicks] = useState<{
     name: string;
-    category: string;
+    sub_category: string;
     distance: string;
     image: string;
   }[]>([]);
@@ -52,7 +52,7 @@ const Home = () => {
 
         setLocalPicks(nearestRecs.slice(6, 12).map(rec => ({
           name: rec.name,
-          category: getAppCategoryFromSubcategory(rec.sub_category),
+          sub_category: rec.sub_category,
           distance: `${Math.floor((rec as any).distance_from_user || 0)}m`,
           image: getCategoryImage(rec.sub_category),
         })));
@@ -121,10 +121,10 @@ const Home = () => {
             <p>Loading...</p>
           ) : (
             localPicks.map((item, index) => (
-              <LocalPickCard
-                key={`${item.name}-${index}`}
-                name={item.name}
-                category={item.category}
+              <LocalPickCard 
+                key={`${item.name}-${index}`} 
+                name={item.name} 
+                category={item.sub_category} 
                 distance={item.distance}
                 image={item.image}
               />

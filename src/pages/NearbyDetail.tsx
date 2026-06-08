@@ -6,14 +6,8 @@ import { formatDistance, getUserLocation, TEST_LOCATION } from '../utils/locatio
 import { getCategoryImage } from '../utils/categoryImages';
 import { fastapiService } from '../services/API';
 import type { Recommendation } from '../services/models';
-
-const CATEGORY_LABELS: Record<string, string> = {
-    food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
-    culture: 'Cultura', nature: 'Naturaleza', shopping: 'Compras', nightlife: 'Noche',
-    coffee_shops: 'Cafeterías', walking_tours: 'Rutas', family_friendly: 'Familia',
-    history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
-    budget_friendly: 'Económico', local_favorites: 'Favoritos locales',
-};
+import { useAuth } from '../context';
+import { getAppCopy, getCatLabel } from '../i18n/copy';
 
 const StarRow = ({ rating, count, total }: { rating: number; count: number; total: number }) => (
     <div className="detail-star-row">
@@ -30,6 +24,8 @@ const NearbyDetail = () => {
     const navigate = useNavigate();
     const { state } = useLocation() as { state: { rec: Recommendation } | null };
     const rec = state?.rec;
+    const { user } = useAuth();
+    const copy = getAppCopy(user?.language);
 
     const [similar, setSimilar] = useState<Recommendation[]>([]);
 
@@ -65,11 +61,11 @@ const NearbyDetail = () => {
     );
 
     const score = generateRandomScore(rec.id ?? rec.name);
-    const catLabel = CATEGORY_LABELS[rec.category] ?? rec.category;
+    const catLabel = getCatLabel(rec.sub_category, copy);
     const distStr = rec.distance_from_user != null
         ? formatDistance(rec.distance_from_user / 1000)
         : undefined;
-    const heroImage = rec.image || getCategoryImage(rec.category);
+    const heroImage = rec.image || getCategoryImage(rec.sub_category);
 
     const reviews = rec.reviews ?? [];
     const avgRating = reviews.length > 0 && reviews.every(r => r.rating != null)
@@ -207,7 +203,7 @@ const NearbyDetail = () => {
                                         </div>
                                         <p className="detail-nearby-name">{item.name}</p>
                                         <p className="detail-nearby-meta">
-                                            {CATEGORY_LABELS[item.category] ?? item.category}
+                                            {getCatLabel(item.category, copy)}
                                             {item.distance_from_user != null
                                                 ? ` · ${formatDistance(item.distance_from_user / 1000)}`
                                                 : ''}

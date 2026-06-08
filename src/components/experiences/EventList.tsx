@@ -3,7 +3,7 @@ import { eventService, categoryService } from '../../services/API';
 import type { Event } from '../../services/models';
 import EventCard from './EventCard';
 
-const EventList: React.FC = () => {
+const EventList: React.FC<{ lang?: string }> = ({ lang }) => {
     const [events, setEvents] = useState<Event[]>([]);
     const [categoryMap, setCategoryMap] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const EventList: React.FC = () => {
     return (
         <ul className="exp-list">
             {events.map(event => (
-                <EventCard key={event.id} event={event} categoryName={event.categoryId ? categoryMap[event.categoryId] : undefined} />
+                <EventCard key={event.id} event={event} categoryName={event.categoryId ? categoryMap[event.categoryId] : undefined} lang={lang} />
             ))}
         </ul>
     );

@@ -1,76 +1,91 @@
 /**
  * Mapea categorías de FastAPI a categorías del frontend
+ * Actualizado con las nuevas categorías (June 2026)
+ * Mapea las descripciones humanas manteniendo case y símbolos originales
  */
 
 const CATEGORY_MAP: Record<string, string> = {
-    // FOOD
-    'restaurantes_asadores_sidrerias_bodegas_y_bares_de_pintxos': 'food',
+    // CULINARIO -> food
+    'Culinario': 'food',
+    'Restaurantes / Asadores / Sidrerías': 'food',
+    'Pastelerías y confiterías': 'food',
     'Gastronomía general': 'food',
-    'pastelerias_y_confiterias': 'food',
-    'queserias_conserveras_y_productores': 'food',
-    'tiendas_gourmet_y_enotecas': 'food',
+    'Platos típicos': 'food',
+    'Queserías / Conserveras / Productores': 'food',
     
-    // BARS
-    'bares_de_pintxos': 'bars',
+    // CULINARIO -> bars
+    'Bares de pintxos': 'bars',
     
-    // CULTURE
-    'museos_y_centros_de_interpretacion': 'culture',
+    // CULINARIO -> local_favorites
+    'Productos de la tierra': 'local_favorites',
+    
+    // CULTURAL -> culture
+    'Cultural': 'culture',
+    'Museos y centros de interpretación': 'culture',
+    'Edificios religiosos / Castillos': 'culture',
+    'Recursos culturales generales': 'culture',
     'Auditorios': 'culture',
-    'Aquariums': 'culture',
-    'patrimonio_cultural_cuevas_y_restos_arqueologicos': 'culture',
-    'patrimonio_cultural_edificios_religiosos_castillos_y_estructuras_de_interes': 'culture',
-    'patrimonio_y_recursos_culturales': 'culture',
+    'Palacios de congresos': 'culture',
     
-    // NATURE
-    'espacios_naturales_y_playas': 'nature',
+    // CULTURAL -> history
+    'Cuevas y restos arqueológicos': 'history',
+    
+    // CULTURAL -> family_friendly
+    'Hipódromos y estadios': 'family_friendly',
+    
+    // NATURALEZA -> nature
+    'Naturaleza': 'nature',
+    'Espacios naturales': 'nature',
     'Parques naturales': 'nature',
+    'Rutas y paseos': 'nature',
+    'Centros BTT': 'nature',
+    'Puertos pesqueros': 'nature',
     
-    // BEACHES
-    'espacios_naturales_y_playas': 'beaches',
+    // NATURALEZA -> beaches
+    'Playas': 'beaches',
     
-    // SHOPPING
-    'zonas_de_compras': 'shopping',
-    'Recintos feriales': 'shopping',
-    
-    // NIGHTLIFE
-    'Casinos': 'nightlife',
-    'palacios_de_hielo': 'nightlife',
-    
-    // FESTIVALS_EVENTS
-    'Recintos feriales': 'festivals_events',
-    'destinos_turisticos': 'festivals_events',
-    
-    // HISTORY
-    'patrimonio_cultural_edificios_religiosos_castillos_y_estructuras_de_interes': 'history',
-    'patrimonio_cultural_cuevas_y_restos_arqueologicos': 'history',
-    
-    // FAMILY_FRIENDLY
-    'parques_de_atracciones_y_tematicos': 'family_friendly',
+    // OCIO -> nightlife
+    'Ocio': 'nightlife',
+    'Ocio general': 'nightlife',
+    'Recursos deportivos': 'nightlife',
+    'Turismo activo (kayak, surf, escalada...)': 'family_friendly',
+    'Alquiler deportivo': 'nightlife',
+    'Golf': 'nightlife',
+    'Puertos deportivos / Náutica': 'nightlife',
+    'Palacios de hielo': 'nightlife',
+    'Parques de atracciones': 'family_friendly',
     'Aquariums': 'family_friendly',
-    'hipodromo_y_estadios_de_futbol': 'family_friendly',
+    'Casinos': 'nightlife',
+    'Turismo de salud / Spas / Balnearios': 'nightlife',
     
-    // WALKING_TOURS
-    'resursos_de_ocio_en_euskadi': 'walking_tours',
-    'patrimonio_y_recursos_culturales': 'walking_tours',
+    // COMPRAS -> shopping
+    'Compras': 'shopping',
+    'Zonas de compras (comercio local)': 'shopping',
     
-    // COFFEE_SHOPS
-    'pastelerias_y_confiterias': 'coffee_shops',
+    // COMPRAS -> festivals_events
+    'Recintos feriales': 'festivals_events',
     
-    // LOCAL_FAVORITES
-    'productos_de_la_tierra': 'local_favorites',
-    'queserias_conserveras_y_productores': 'local_favorites',
-    
-    // BUDGET_FRIENDLY
-    'albergues_turisticos': 'budget_friendly',
+    // ALOJAMIENTO -> budget_friendly
+    'Alojamiento': 'budget_friendly',
+    'Hoteles': 'budget_friendly',
+    'Alojamientos rurales': 'budget_friendly',
+    'Albergues': 'budget_friendly',
     'Campings': 'budget_friendly',
+    
+    // SERVICIOS -> local_favorites
+    'Servicios': 'local_favorites',
+    'Oficinas de turismo': 'local_favorites',
+    
+    // SERVICIOS -> festivals_events
+    'Destinos turísticos (POIs generales)': 'festivals_events',
 };
 
 
 export const mapFastAPICategory = (fastapiCategory: string): string => {
     if (!fastapiCategory) return 'local_favorites';
     
-    const normalized = fastapiCategory.toLowerCase().trim();
-    const mapped = CATEGORY_MAP[normalized];
+    const trimmed = fastapiCategory.trim();
+    const mapped = CATEGORY_MAP[trimmed];
     
     return mapped || 'local_favorites';
 };
@@ -80,6 +95,7 @@ export const getAppCategoryFromSubcategory = (subcategory: string): string => {
     return mapFastAPICategory(subcategory);
 };
 
+
 export const mapRecommendationsCategories = (
     recommendations: Array<{ sub_category: string }>
 ): Array<{ category: string; appCategory: string }> => {
@@ -88,6 +104,7 @@ export const mapRecommendationsCategories = (
         appCategory: getAppCategoryFromSubcategory(rec.sub_category),
     }));
 };
+
 
 export const getMappedCategories = (): string[] => {
     return [

@@ -1,9 +1,11 @@
 import type { Event } from '../../services/models';
 import PlaceholderImage from './PlaceholderImage';
+import { getAppCopy, getCatLabel } from '../../i18n/copy';
 
 interface EventCardProps {
     event: Event;
     categoryName?: string;
+    lang?: string;
 }
 
 const formatDate = (dateStr?: string | null) => {
@@ -18,29 +20,11 @@ const formatDate = (dateStr?: string | null) => {
 const formatPrice = (price: number) =>
     price === 0 ? 'Gratis' : `€${price}`;
 
-const CATEGORY_LABELS: Record<string, string> = {
-    food: 'Comida',
-    bars: 'Bares',
-    experiences: 'Experiencias',
-    places: 'Lugares',
-    culture: 'Cultura',
-    nature: 'Naturaleza',
-    shopping: 'Compras',
-    nightlife: 'Noche',
-    coffee_shops: 'Cafeterías',
-    walking_tours: 'Rutas',
-    family_friendly: 'Familia',
-    history: 'Historia',
-    festivals_events: 'Eventos',
-    beaches: 'Playas',
-    budget_friendly: 'Económico',
-    local_favorites: 'Favoritos',
-};
-
-const EventCard = ({ event, categoryName }: EventCardProps) => {
+const EventCard = ({ event, categoryName, lang }: EventCardProps) => {
+    const copy = getAppCopy(lang);
     const dateLabel = formatDate(event.date);
     const timeLabel = event.startTime ? `${event.startTime}${event.endTime ? `–${event.endTime}` : ''}` : '';
-    const catLabel = categoryName ? (CATEGORY_LABELS[categoryName] ?? categoryName) : null;
+    const catLabel = categoryName ? getCatLabel(categoryName, copy) : null;
 
     return (
         <li className="exp-card">
