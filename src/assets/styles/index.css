@@ -977,12 +977,13 @@ p {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: stretch;
 
 
   .nearby-header {
+    flex-shrink: 0;
     text-align: center;
+    padding: 12px 0 4px;
 
     .category-filters {
       display: flex;
@@ -1001,12 +1002,6 @@ p {
       }
     }
 
-    input {
-      border-radius: var(--mp);
-      width: stretch;
-      max-width: 89%;
-      margin: var(--mp);
-    }
   }
 
 }
@@ -3764,8 +3759,8 @@ p {
     padding-right: 2.5rem;
   }
 
-  .nearby-map {
-    height: 200px;
+  .nearby-footer {
+    height: 260px;
   }
 
   .experiences {
@@ -3832,16 +3827,44 @@ p {
 
 .nearby {
   width: 100%;
+  height: calc(100dvh - 60px);
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 
-  .nearby-body {
-
-    width: 89%;
-    align-items: center;
-    align-self: center;
-    align-content: center;
+  &::-webkit-scrollbar {
+    display: none;
   }
+}
+
+.nearby-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px 16px;
+}
+
+.nearby-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.nearby-footer {
+  flex-shrink: 0;
+  height: 220px;
+
+  .nearby-map {
+    height: 100%;
+    border-radius: 12px;
+  }
+}
+
+.nearby-header .exp-search {
+  width: calc(100% - 32px);
+  margin: 8px 16px;
+  display: flex;
 }
 
 .place-item {
@@ -3865,7 +3888,6 @@ p {
       flex-direction: column;
       gap: 4px;
       overflow: hidden;
-      /* Para que el texto largo se corte correctamente */
     }
 
     h3,
@@ -3873,5 +3895,44 @@ p {
       font-size: small;
     }
   }
+}
 
+/* ── Desktop scroll ───────────────────────────────────────────── */
+@media (min-width: 768px) {
+  html,
+  body {
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .app {
+    height: auto;
+    min-height: 100vh;
+    overflow: visible;
+  }
+
+  .app-main {
+    overflow: visible;
+    min-height: 0;
+    height: auto;
+  }
+
+  .home,
+  .saved,
+  .experiences,
+  .profile {
+    height: auto;
+    min-height: calc(100dvh - 60px);
+    overflow-y: visible;
+  }
+
+  .nearby {
+    height: calc(100dvh - 60px);
+    overflow-y: auto;
+  }
+
+  .detail-scroll {
+    height: auto;
+    overflow-y: visible;
+  }
 }
