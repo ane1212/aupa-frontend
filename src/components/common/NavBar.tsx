@@ -39,7 +39,6 @@ const NavBar = () => {
         <nav>
             <div className="app-sidebar-brand">
                 <img src={logoTrimmed} alt="Aupa" style={{ height: '28px' }} />
-                <span className="app-sidebar-brand-name">Aupa</span>
             </div>
             {navItems.map((item) => (
                 <NavBarItem key={item.to} {...item} />

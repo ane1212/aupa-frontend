@@ -28,7 +28,7 @@ const LocalListing: React.FC = () => {
                 if (localData && localData.id) {
                     // 2. Obtener los eventos filtrados por el ID de este local específico
                     const eventsResponse = await eventService.getAll({ localId: localData.id });
-                    
+
                     // El response es PaginatedResponse<Event>, los datos reales están en data
                     if (eventsResponse && eventsResponse.data) {
                         setEvents(eventsResponse.data);
@@ -39,7 +39,7 @@ const LocalListing: React.FC = () => {
             } catch (err: any) {
                 console.error("Error cargando eventos del local:", err);
                 setError(t.errLoadingData);
-                
+
                 // Fallback / simulación con tipado correcto en caso de que no haya backend corriendo
                 const mockLocalId = local?.id || "mock-local-123";
                 const mockEvents: Event[] = [
@@ -123,15 +123,15 @@ const LocalListing: React.FC = () => {
                     <h1 style={{ fontSize: '1.5rem', fontWeight: 800, margin: 0 }}>{t.myEvents}</h1>
                     <p style={{ margin: '4px 0 0 0', fontSize: '0.8rem', color: '#64748b' }}>
                         {local ? t.eventsOf.replace('{name}', local.name) : t.loadingLocal}
-                      </p>
+                    </p>
                 </div>
-                <button 
+                <button
                     onClick={() => navigate('/local/create')}
-                    style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
                         gap: '6px',
-                        background: '#ef342a',
+                        background: '#22c55e',
                         color: 'white',
                         border: 'none',
                         padding: '8px 16px',
@@ -156,20 +156,14 @@ const LocalListing: React.FC = () => {
                 {events.length === 0 ? (
                     <div style={{ textAlign: 'center', padding: '3rem 1rem', background: 'white', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                         <p style={{ margin: '0 0 1rem 0', color: '#64748b' }}>{t.noEvents}</p>
-                        <button
-                            onClick={() => navigate('/local/create')}
-                            className="local-btn"
-                            style={{ maxWidth: '200px', margin: '0 auto' }}
-                        >
-                            {t.createFirstEvent}
-                        </button>
+
                     </div>
                 ) : (
                     events.map(event => (
-                        <LocalEventCard 
-                            key={event.id} 
-                            event={event} 
-                            onToggleActive={handleToggleActive} 
+                        <LocalEventCard
+                            key={event.id}
+                            event={event}
+                            onToggleActive={handleToggleActive}
                         />
                     ))
                 )}

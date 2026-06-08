@@ -13,7 +13,6 @@ const SavedSection = ({ cat, label, items, seeAll, onRemove }: SavedSectionProps
     <div key={cat} className="sv-section">
         <div className="sv-section-head">
             <span className="sv-section-label">{label}</span>
-            <button className="sv-see-all">{seeAll}</button>
         </div>
         <ul className="sv-place-list">
             {items.map(item => (

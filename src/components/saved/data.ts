@@ -22,7 +22,12 @@ export const initialTripItems: TripItem[] = [
     { id: 4, name: 'Guggenheim Museum', category: 'Culture', subtitle: 'Bilbao' },
 ];
 
-export const CATEGORY_ORDER = ['food', 'bars', 'experiences', 'places'];
+export const CATEGORY_ORDER = [
+    'food', 'bars', 'culture', 'nature', 'nightlife', 'shopping',
+    'coffee_shops', 'walking_tours', 'family_friendly', 'history',
+    'festivals_events', 'beaches', 'budget_friendly', 'local_favorites',
+    'vegetarian_vegan', 'experiences', 'places',
+];
 export const CATEGORY_LABELS: Record<string, string> = {
     food: 'FOOD',
     bars: 'BARS',

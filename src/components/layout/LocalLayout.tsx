@@ -25,17 +25,16 @@ const LocalLayout = () => {
         <div className="local-layout">
             <header className="local-header">
                 <div className="flex items-center gap-2" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <img src={logoTrimmed} alt="Aupa Logo" style={{ height: '32px' }} />
                     <span className="local-header-title">Aupa Partner</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <NotificationPanel />
-                    <button 
-                        onClick={handleLogout} 
-                        style={{ 
-                            background: 'none', 
-                            border: 'none', 
-                            cursor: 'pointer', 
+                    <button
+                        onClick={handleLogout}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
                             color: '#64748b',
                             display: 'flex',
                             alignItems: 'center'
@@ -55,7 +54,6 @@ const LocalLayout = () => {
                 {/* Logo shown only in desktop sidebar */}
                 <div className="local-sidebar-brand">
                     <img src={logoTrimmed} alt="Aupa" style={{ height: '28px' }} />
-                    <span className="local-header-title">Aupa Partner</span>
                 </div>
 
                 <NavLink to="/local/home" className={({ isActive }) => `local-nav-item ${isActive ? 'active' : ''}`}>

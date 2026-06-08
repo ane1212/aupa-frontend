@@ -1,4 +1,5 @@
 export { default as Detail } from './Detail';
+export { default as NearbyDetail } from './NearbyDetail';
 export { default as DashboardHome } from './Dashboard/DashboardHome';
 export { default as DashboardUsers } from './Dashboard/Users/DashboardUsers';
 export { default as DashboardLocals } from './Dashboard/Local/DashboardLocals';
