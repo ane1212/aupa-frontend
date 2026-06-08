@@ -27,7 +27,7 @@ const DashboardHome = () => {
         Promise.all([
             userService.getAllUsers({ page: 1, limit: 5 }),
             localService.getAll({ page: 1, limit: 5 }),
-            localService.getAll({ page: 1, limit: 5, status: 'pending' } as any),
+            localService.getAll({ page: 1, limit: 5, status: 'pendiente' } as any),
             eventService.getAll({ page: 1, limit: 1 }),
             categoryService.getAll({ page: 1, limit: 1 }),
         ]).then(([usersRes, localsRes, pendingRes, eventsRes, catsRes]) => {

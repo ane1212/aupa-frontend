@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { incidentService } from '../../services/API';
+import { getAppCopy } from '../../i18n/copy';
 import { toUUID } from './CommentForm';
 
 interface Props {
     eventId: string;
+    lang?: string;
     onSent?: () => void;
 }
 
-const IncidentForm = ({ eventId, onSent }: Props) => {
+const IncidentForm = ({ eventId, lang, onSent }: Props) => {
+    const d = getAppCopy(lang).detail;
     const [open, setOpen] = useState(false);
     const [text, setText] = useState('');
     const [submitting, setSubmitting] = useState(false);
@@ -17,7 +20,7 @@ const IncidentForm = ({ eventId, onSent }: Props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!text.trim()) { setError('Escribe una descripción del problema.'); return; }
+        if (!text.trim()) { setError(d.reportDescError); return; }
         setError('');
         setSubmitting(true);
         try {
@@ -27,7 +30,7 @@ const IncidentForm = ({ eventId, onSent }: Props) => {
             setOpen(false);
             onSent?.();
         } catch {
-            setError('No se pudo enviar. Inténtalo de nuevo.');
+            setError(d.sendError);
         } finally {
             setSubmitting(false);
         }
@@ -36,7 +39,7 @@ const IncidentForm = ({ eventId, onSent }: Props) => {
     if (sent) {
         return (
             <p className="comment-form-error" style={{ color: '#16a34a' }}>
-                Incidencia enviada. Gracias por tu reporte.
+                {d.reportSent}
             </p>
         );
     }
@@ -49,13 +52,13 @@ const IncidentForm = ({ eventId, onSent }: Props) => {
                 onClick={() => setOpen(v => !v)}
             >
                 <AlertTriangle size={15} />
-                {open ? 'Cancelar' : 'Reportar un problema'}
+                {open ? d.reportCancel : d.reportProblem}
             </button>
             {open && (
                 <form className="comment-form" onSubmit={handleSubmit}>
                     <textarea
                         className="comment-form-textarea"
-                        placeholder="Describe el problema (información incorrecta, lugar cerrado, etc.)…"
+                        placeholder={d.reportPlaceholder}
                         value={text}
                         onChange={e => setText(e.target.value)}
                         rows={3}
@@ -63,7 +66,7 @@ const IncidentForm = ({ eventId, onSent }: Props) => {
                     />
                     {error && <p className="comment-form-error">{error}</p>}
                     <button className="comment-form-submit" type="submit" disabled={submitting}>
-                        {submitting ? 'Enviando…' : 'Enviar reporte'}
+                        {submitting ? d.sending : d.reportSend}
                     </button>
                 </form>
             )}

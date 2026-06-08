@@ -126,7 +126,7 @@ const NearbyDetail = () => {
                         </div>
                         <div className="detail-score">
                             <span className="detail-score-badge">{score}</span>
-                            <span className="detail-score-label">Local Score</span>
+                            <span className="detail-score-label">{copy.detail.localScore}</span>
                         </div>
                     </div>
 
@@ -154,7 +154,7 @@ const NearbyDetail = () => {
                     {/* Descripción */}
                     {rec.description && (
                         <div className="detail-about">
-                            <h2 className="detail-section-title">Sobre este lugar</h2>
+                            <h2 className="detail-section-title">{copy.detail.about}</h2>
                             <p
                                 className="detail-description"
                                 dangerouslySetInnerHTML={{ __html: rec.description }}
@@ -166,7 +166,7 @@ const NearbyDetail = () => {
                     {reviews.length > 0 && avgRating !== null && (
                         <div className="detail-reviews">
                             <div className="detail-section-head">
-                                <h2 className="detail-section-title">Reseñas</h2>
+                                <h2 className="detail-section-title">{copy.detail.reviews}</h2>
                                 <span className="detail-reviews-link">
                                     <Star size={13} fill="#f59e0b" color="#f59e0b" />
                                     <span>{avgRating.toFixed(1)} ({reviews.length})</span>
@@ -208,7 +208,7 @@ const NearbyDetail = () => {
                     {dbComments.length > 0 && (
                         <div className="detail-reviews">
                             <div className="detail-section-head">
-                                <h2 className="detail-section-title">Reseñas</h2>
+                                <h2 className="detail-section-title">{copy.detail.reviews}</h2>
                                 {dbAvgRating !== null && (
                                     <span className="detail-reviews-link">
                                         <Star size={13} fill="#f59e0b" color="#f59e0b" />
@@ -256,9 +256,10 @@ const NearbyDetail = () => {
                     {/* ── Add comment ── */}
                     {user && (
                         <div className="detail-reviews">
-                            <h2 className="detail-section-title">Añadir reseña</h2>
+                            <h2 className="detail-section-title">{copy.detail.addReview}</h2>
                             <CommentForm
                                 eventId={rec.id ?? rec.name}
+                                lang={user?.language}
                                 onAdded={c => setDbComments(prev => [c, ...prev])}
                             />
                         </div>
@@ -266,13 +267,13 @@ const NearbyDetail = () => {
 
                     {/* ── Report incident ── */}
                     {user && (
-                        <IncidentForm eventId={rec.id ?? rec.name} />
+                        <IncidentForm eventId={rec.id ?? rec.name} lang={user?.language} />
                     )}
 
                     {/* Lugares similares cerca */}
                     {similar.length > 0 && (
                         <div className="detail-nearby">
-                            <h2 className="detail-section-title">Lugares similares cerca</h2>
+                            <h2 className="detail-section-title">{copy.detail.similarPlaces}</h2>
                             <ul className="home-picks-grid">
                                 {similar.map((item, i) => (
                                     <ExperienceCard

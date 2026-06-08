@@ -99,8 +99,34 @@ export type AppCopy = {
     budget: string;
     youllVisit: string;
     save: string;
+    savedLabel: string;
     addToTrip: string;
+    inTrip: string;
     notFound: string;
+    about: string;
+    reviews: string;
+    addReview: string;
+    similarPlaces: string;
+    open: string;
+    closed: string;
+    schedule: string;
+    closesAt: string;
+    free: string;
+    freeEntry: string;
+    price: string;
+    showMore: string;
+    showLess: string;
+    sending: string;
+    sendError: string;
+    reviewPlaceholder: string;
+    reviewSubmit: string;
+    reviewRatingError: string;
+    reportProblem: string;
+    reportCancel: string;
+    reportSent: string;
+    reportPlaceholder: string;
+    reportSend: string;
+    reportDescError: string;
   };
   localPartner: {
     introTitle: string;
@@ -359,8 +385,34 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       budget: 'Budget',
       youllVisit: "You'll visit",
       save: 'Save',
+      savedLabel: 'Saved',
       addToTrip: 'Add to My Trip',
+      inTrip: 'In my trip',
       notFound: 'Item not found',
+      about: 'About this place',
+      reviews: 'Reviews',
+      addReview: 'Add a review',
+      similarPlaces: 'Similar places nearby',
+      open: 'Open',
+      closed: 'Closed',
+      schedule: 'Hours',
+      closesAt: 'Closes',
+      free: 'Free',
+      freeEntry: 'Free entry',
+      price: 'Price',
+      showMore: 'Show more',
+      showLess: 'Show less',
+      sending: 'Sending…',
+      sendError: 'Could not send. Please try again.',
+      reviewPlaceholder: 'Write your review…',
+      reviewSubmit: 'Post review',
+      reviewRatingError: 'Please add a rating and a comment.',
+      reportProblem: 'Report a problem',
+      reportCancel: 'Cancel',
+      reportSent: 'Report sent. Thank you!',
+      reportPlaceholder: 'Describe the problem (wrong info, place closed, etc.)…',
+      reportSend: 'Send report',
+      reportDescError: 'Please write a description of the problem.',
     },
     localPartner: {
       introTitle: 'Why become a Local Partner?',
@@ -617,8 +669,34 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       budget: 'Presupuesto',
       youllVisit: 'Visitarás',
       save: 'Guardar',
+      savedLabel: 'Guardado',
       addToTrip: 'Añadir a mi viaje',
+      inTrip: 'En mi viaje',
       notFound: 'Elemento no encontrado',
+      about: 'Sobre este lugar',
+      reviews: 'Reseñas',
+      addReview: 'Añadir reseña',
+      similarPlaces: 'Lugares similares cerca',
+      open: 'Abierto',
+      closed: 'Cerrado',
+      schedule: 'Horario',
+      closesAt: 'Cierra',
+      free: 'Gratis',
+      freeEntry: 'Entrada libre',
+      price: 'Precio',
+      showMore: 'Ver más',
+      showLess: 'Ver menos',
+      sending: 'Enviando…',
+      sendError: 'No se pudo enviar. Inténtalo de nuevo.',
+      reviewPlaceholder: 'Escribe tu reseña…',
+      reviewSubmit: 'Publicar reseña',
+      reviewRatingError: 'Añade una puntuación y un comentario.',
+      reportProblem: 'Reportar un problema',
+      reportCancel: 'Cancelar',
+      reportSent: 'Incidencia enviada. ¡Gracias por tu reporte!',
+      reportPlaceholder: 'Describe el problema (información incorrecta, lugar cerrado, etc.)…',
+      reportSend: 'Enviar reporte',
+      reportDescError: 'Escribe una descripción del problema.',
     },
     localPartner: {
       introTitle: '¿Por qué ser Local Partner?',
@@ -875,8 +953,34 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       budget: 'Aurrekontua',
       youllVisit: 'Bisitatuko duzu',
       save: 'Gorde',
+      savedLabel: 'Gordeta',
       addToTrip: 'Nire bidaian gehitu',
+      inTrip: 'Nire bidaian',
       notFound: 'Ez da aurkitu',
+      about: 'Leku honi buruz',
+      reviews: 'Iritziak',
+      addReview: 'Iritzi bat gehitu',
+      similarPlaces: 'Inguruko antzeko lekuak',
+      open: 'Irekita',
+      closed: 'Itxita',
+      schedule: 'Ordutegia',
+      closesAt: 'Ixten da',
+      free: 'Doan',
+      freeEntry: 'Sarrera doan',
+      price: 'Prezioa',
+      showMore: 'Gehiago ikusi',
+      showLess: 'Gutxiago ikusi',
+      sending: 'Bidaltzen…',
+      sendError: 'Ezin izan da bidali. Saiatu berriz.',
+      reviewPlaceholder: 'Idatzi zure iritzia…',
+      reviewSubmit: 'Argitaratu iritzia',
+      reviewRatingError: 'Gehitu puntuazio bat eta iruzkin bat.',
+      reportProblem: 'Arazo bat salatu',
+      reportCancel: 'Utzi',
+      reportSent: 'Txostena bidalita. Eskerrik asko!',
+      reportPlaceholder: 'Deskribatu arazoa (informazio okerra, lekua itxita, etab.)…',
+      reportSend: 'Bidali txostena',
+      reportDescError: 'Idatzi arazoaren deskribapena.',
     },
     localPartner: {
       introTitle: 'Zergatik tokiko bazkide bihurtu?',
@@ -1133,8 +1237,34 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       budget: 'Budget',
       youllVisit: 'Vous visiterez',
       save: 'Enregistrer',
+      savedLabel: 'Enregistré',
       addToTrip: 'Ajouter à mon voyage',
+      inTrip: 'Dans mon voyage',
       notFound: 'Élément introuvable',
+      about: 'À propos de ce lieu',
+      reviews: 'Avis',
+      addReview: 'Ajouter un avis',
+      similarPlaces: 'Lieux similaires à proximité',
+      open: 'Ouvert',
+      closed: 'Fermé',
+      schedule: 'Horaires',
+      closesAt: 'Ferme',
+      free: 'Gratuit',
+      freeEntry: 'Entrée libre',
+      price: 'Prix',
+      showMore: 'Voir plus',
+      showLess: 'Voir moins',
+      sending: 'Envoi…',
+      sendError: "Impossible d'envoyer. Veuillez réessayer.",
+      reviewPlaceholder: 'Rédigez votre avis…',
+      reviewSubmit: "Publier l'avis",
+      reviewRatingError: 'Veuillez ajouter une note et un commentaire.',
+      reportProblem: 'Signaler un problème',
+      reportCancel: 'Annuler',
+      reportSent: 'Signalement envoyé. Merci !',
+      reportPlaceholder: 'Décrivez le problème (infos incorrectes, lieu fermé, etc.)…',
+      reportSend: 'Envoyer le signalement',
+      reportDescError: 'Veuillez décrire le problème.',
     },
     localPartner: {
       introTitle: 'Pourquoi devenir Local Partner ?',

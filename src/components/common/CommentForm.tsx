@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Star } from 'lucide-react';
 import { commentService } from '../../services/API';
+import { getAppCopy } from '../../i18n/copy';
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -14,10 +15,12 @@ export const toUUID = (str: string): string => {
 
 interface Props {
     eventId: string;
+    lang?: string;
     onAdded: (comment: { id: string; userId: string; eventId: string; content: string; rating: number; createdAt?: string }) => void;
 }
 
-const CommentForm = ({ eventId, onAdded }: Props) => {
+const CommentForm = ({ eventId, lang, onAdded }: Props) => {
+    const d = getAppCopy(lang).detail;
     const [rating, setRating] = useState(0);
     const [hovered, setHovered] = useState(0);
     const [text, setText] = useState('');
@@ -26,7 +29,7 @@ const CommentForm = ({ eventId, onAdded }: Props) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (rating === 0 || !text.trim()) { setError('Añade una puntuación y un comentario.'); return; }
+        if (rating === 0 || !text.trim()) { setError(d.reviewRatingError); return; }
         setError('');
         setSubmitting(true);
         try {
@@ -35,7 +38,7 @@ const CommentForm = ({ eventId, onAdded }: Props) => {
             setRating(0);
             setText('');
         } catch {
-            setError('No se pudo enviar. Inténtalo de nuevo.');
+            setError(d.sendError);
         } finally {
             setSubmitting(false);
         }
@@ -63,7 +66,7 @@ const CommentForm = ({ eventId, onAdded }: Props) => {
             </div>
             <textarea
                 className="comment-form-textarea"
-                placeholder="Escribe tu reseña…"
+                placeholder={d.reviewPlaceholder}
                 value={text}
                 onChange={e => setText(e.target.value)}
                 rows={3}
@@ -71,7 +74,7 @@ const CommentForm = ({ eventId, onAdded }: Props) => {
             />
             {error && <p className="comment-form-error">{error}</p>}
             <button className="comment-form-submit" type="submit" disabled={submitting}>
-                {submitting ? 'Enviando…' : 'Publicar reseña'}
+                {submitting ? d.sending : d.reviewSubmit}
             </button>
         </form>
     );
