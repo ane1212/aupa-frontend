@@ -482,7 +482,7 @@ const Detail = () => {
                         disabled={savingTrip || !isRealEvent}
                     >
                         {inTrip ? <Check size={16} /> : <Plus size={16} />}
-                        {inTrip ? 'En mi viaje' : '+ Añadir al viaje'}
+                        {inTrip ? 'En mi viaje' : 'Añadir al viaje'}
                     </button>
                 </div>
             )}
