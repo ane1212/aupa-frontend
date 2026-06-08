@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { eventService, favoriteService, itineraryService, commentService, categoryService } from '../services/API';
 import { useAuth } from '../context';
 import { getAppCopy, getCatLabel, type AppCopy } from '../i18n/copy';
+import CommentForm from '../components/common/CommentForm';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import type { Comment } from '../services/models';
@@ -423,6 +424,17 @@ const Detail = () => {
                                     </li>
                                 ))}
                             </ul>
+                        </div>
+                    )}
+
+                    {/* ── Add comment ── */}
+                    {isRealEvent && user && (
+                        <div className="detail-reviews">
+                            <h2 className="detail-section-title">Añadir reseña</h2>
+                            <CommentForm
+                                eventId={String(eventData.id)}
+                                onAdded={c => setComments(prev => [c, ...prev])}
+                            />
                         </div>
                     )}
 

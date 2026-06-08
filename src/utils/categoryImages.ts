@@ -2,7 +2,8 @@ const categoryImages = import.meta.glob('../assets/images/*.jpg', { eager: true 
 const categoryCounters = new Map<string, number>();
 
 
-export const getCategoryImage = (category: string): string => {
+export const getCategoryImage = (category?: string | null): string => {
+    if (!category) return new URL('../assets/images/default.jpg', import.meta.url).href;
     const normalizedCategory = category.trim().toLowerCase();
     
     const currentCount = categoryCounters.get(normalizedCategory) ?? 0;

@@ -1297,5 +1297,7 @@ export const getAppCopy = (language?: string | null) => {
   return (language && language in APP_COPY ? APP_COPY[language as LanguageType] : APP_COPY.en);
 };
 
-export const getCatLabel = (key: string, copy: AppCopy): string =>
-  copy.onboarding.categories[key] ?? key.replace(/_/g, ' ');
+export const getCatLabel = (key: string | undefined | null, copy: AppCopy): string => {
+  if (!key) return '';
+  return copy.onboarding.categories[key] ?? key.replace(/_/g, ' ');
+};
