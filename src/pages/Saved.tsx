@@ -1,11 +1,10 @@
-// Saved.tsx - CORREGIDO (aparecen en All)
 import { useState, useEffect } from 'react';
 import { FilterChips, SavedContent } from '../components/saved';
-import type { Filter, SavedItem } from '../components/saved';
+import type { Filter, FilterDef, SavedItem } from '../components/saved';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
-import { eventService } from '../services/API';
-import type { Event } from '../services/models';
+import { favoriteService, eventService } from '../services/API';
+import { generateRandomScore } from '../utils/randomScore';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 
@@ -21,6 +20,10 @@ const Saved = () => {
     const [savedList, setSavedList] = useState<SavedItem[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const handleRemove = (eventId: string) => {
+        setSavedList(prev => prev.filter(i => i.id !== eventId));
+    };
+
     useEffect(() => {
         const fetchSaved = async () => {
             if (!user?.id) {
@@ -28,26 +31,36 @@ const Saved = () => {
                 return;
             }
             try {
-                const response = await eventService.getAll({ limit: 50 });
-                const events: Event[] = response.data || [];
-                
-                const savedItems: SavedItem[] = events.map(event => {
-                    const category = getAppCategoryFromSubcategory(event.categoryId || 'event');
-                    
-                    return {
-                        id: parseInt(event.id) || 0,
-                        name: event.title,
-                        meta: truncate(event.description, 50),
-                        sub: event.subcategory || '',
-                        score: 0,
-                        category: 'places',
-                        image: event.image || getCategoryImage(category),
-                    };
-                });
-                
+                const favsRes = await favoriteService.getByUser(user.id, { limit: 100 });
+                const favorites = favsRes.data ?? [];
+
+                const savedItems: SavedItem[] = (
+                    await Promise.all(
+                        favorites.map(async (fav) => {
+                            try {
+                                const event = await eventService.getById(fav.eventId);
+                                const mapped = getAppCategoryFromSubcategory(event.categoryId || '');
+                                const VALID_CATS = ['food', 'bars', 'experiences', 'places'];
+                                const category = VALID_CATS.includes(mapped) ? mapped : 'places';
+                                return {
+                                    id: event.id,
+                                    favoriteId: fav.id,
+                                    name: event.title,
+                                    meta: truncate(event.description ?? null, 50),
+                                    sub: event.address || '',
+                                    score: generateRandomScore(event.id),
+                                    category,
+                                    image: event.image || getCategoryImage(category),
+                                } satisfies SavedItem;
+                            } catch {
+                                return null;
+                            }
+                        })
+                    )
+                ).filter((i): i is SavedItem => i !== null);
+
                 setSavedList(savedItems);
-            } catch (error) {
-                console.error('Failed to fetch saved events:', error);
+            } catch {
                 setSavedList([]);
             } finally {
                 setLoading(false);
@@ -61,7 +74,7 @@ const Saved = () => {
         ? savedList
         : savedList.filter(i => i.category === activeFilter);
 
-    const translatedFilterDefs = [
+    const translatedFilterDefs: FilterDef[] = [
         { id: 'all', label: copy.saved.filterAll },
         { id: 'places', label: copy.saved.filterPlaces },
         { id: 'food', label: copy.saved.filterFood },
@@ -97,6 +110,7 @@ const Saved = () => {
                 categoryLabels={categoryLabelsTranslated}
                 noItems={copy.saved.noItems}
                 seeAll={copy.saved.filterAll}
+                onRemove={handleRemove}
             />
         </div>
     );

@@ -22,6 +22,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        const handleForceLogout = () => {
+            setToken(null)
+            setUser(null)
+            localStorage.removeItem('user')
+        }
+        window.addEventListener('auth:logout', handleForceLogout)
+        return () => window.removeEventListener('auth:logout', handleForceLogout)
+    }, [])
+
+    useEffect(() => {
         const loadUser = async () => {
             if (!token) {
                 setUser(null);

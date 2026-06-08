@@ -64,7 +64,10 @@ export type AppCopy = {
   experiences: {
     browseByVibe: string;
     topExperiences: string;
+    myTrips: string;
+    allEvents: string;
     noResults: string;
+    noTrips: string;
     searchPlaceholder: string;
   };
   saved: {
@@ -317,7 +320,10 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     experiences: {
       browseByVibe: 'Browse by vibe',
       topExperiences: 'Top experiences',
+      myTrips: 'My Trips',
+      allEvents: 'All Events',
       noResults: 'No experiences found.',
+      noTrips: 'No trips added yet.',
       searchPlaceholder: 'Search experiences',
     },
     saved: {
@@ -568,7 +574,10 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     experiences: {
       browseByVibe: 'Explorar por ambiente',
       topExperiences: 'Mejores experiencias',
+      myTrips: 'Mis viajes',
+      allEvents: 'Todos los eventos',
       noResults: 'No se encontraron experiencias.',
+      noTrips: 'Aún no tienes viajes añadidos.',
       searchPlaceholder: 'Buscar experiencias',
     },
     saved: {
@@ -819,7 +828,10 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     experiences: {
       browseByVibe: 'Aurkitu giroaren arabera',
       topExperiences: 'Esperientzia onenak',
+      myTrips: 'Nire bidaiak',
+      allEvents: 'Ekitaldi guztiak',
       noResults: 'Ez da esperientziarik aurkitu.',
+      noTrips: 'Oraindik ez duzu bidaiarik gehitu.',
       searchPlaceholder: 'Bilatu esperientziak',
     },
     saved: {
@@ -1070,7 +1082,10 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     experiences: {
       browseByVibe: 'Parcourir par ambiance',
       topExperiences: 'Meilleures expériences',
+      myTrips: 'Mes voyages',
+      allEvents: 'Tous les événements',
       noResults: 'Aucune expérience trouvée.',
+      noTrips: 'Aucun voyage ajouté pour l\'instant.',
       searchPlaceholder: 'Rechercher des expériences',
     },
     saved: {

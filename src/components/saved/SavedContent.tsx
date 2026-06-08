@@ -7,9 +7,10 @@ interface SavedContentProps {
     categoryLabels: Record<string, string>;
     noItems: string;
     seeAll: string;
+    onRemove: (id: string) => void;
 }
 
-const SavedContent = ({ visible, categoryLabels, noItems, seeAll }: SavedContentProps) => {
+const SavedContent = ({ visible, categoryLabels, noItems, seeAll, onRemove }: SavedContentProps) => {
     const categories = CATEGORY_ORDER.filter(cat => visible.some(i => i.category === cat));
 
     return (
@@ -24,6 +25,7 @@ const SavedContent = ({ visible, categoryLabels, noItems, seeAll }: SavedContent
                     label={categoryLabels[cat] ?? cat.toUpperCase()}
                     items={visible.filter(i => i.category === cat)}
                     seeAll={seeAll}
+                    onRemove={onRemove}
                 />
             ))}
         </div>

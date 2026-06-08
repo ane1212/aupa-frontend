@@ -36,12 +36,19 @@ const request = async <T>(
     if (res.status === 401) {
         if (!endpoint.includes('/auth/login')) {
             localStorage.removeItem('token')
+            window.dispatchEvent(new Event('auth:logout'))
         }
         throw new Error('UNAUTHORIZED')
     }
 
     if (!res.ok) {
-        const error = await res.json()
+        let error: any
+        try { error = await res.json() } catch { error = { code: 'UNKNOWN_ERROR' } }
+        if (error?.code === 'USER_NOT_FOUND') {
+            localStorage.removeItem('token')
+            window.dispatchEvent(new Event('auth:logout'))
+            throw new Error('UNAUTHORIZED')
+        }
         throw error
     }
 
