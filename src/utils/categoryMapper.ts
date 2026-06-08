@@ -81,11 +81,11 @@ export const getAppCategoryFromSubcategory = (subcategory: string): string => {
 };
 
 export const mapRecommendationsCategories = (
-    recommendations: Array<{ category: string }>
+    recommendations: Array<{ sub_category: string }>
 ): Array<{ category: string; appCategory: string }> => {
     return recommendations.map(rec => ({
         ...rec,
-        appCategory: getAppCategoryFromSubcategory(rec.category),
+        appCategory: getAppCategoryFromSubcategory(rec.sub_category),
     }));
 };
 

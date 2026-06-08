@@ -68,7 +68,7 @@ const Nearby = () => {
 
                 const recsWithCategory = recs.map(rec => ({
                     ...rec,
-                    appCategory: getAppCategoryFromSubcategory(rec.category),
+                    appCategory: getAppCategoryFromSubcategory(rec.sub_category),
                 }));
 
                 setRecommendations(recsWithCategory);
@@ -87,14 +87,14 @@ const Nearby = () => {
         ? recommendations.filter(p =>
             p.name.toLowerCase().includes(query.toLowerCase()) ||
             p.description.toLowerCase().includes(query.toLowerCase()) ||
-            p.category.toLowerCase().includes(query.toLowerCase())
+            p.sub_category.toLowerCase().includes(query.toLowerCase())
         )
         : recommendations;
 
     const placesForMap: Place[] = filtered.map((rec, index) => ({
         id: index,
         name: rec.name,
-        category: rec.category,
+        category: rec.sub_category,
         lat: rec.latitude ?? 43.2627,
         lng: rec.longitude ?? -2.9253,
         type: rec.description,
@@ -148,7 +148,7 @@ const Nearby = () => {
                 {!loading && filtered.slice(0, 3).map((rec, index) => (
                     <div key={`${rec.name}-${index}`} className="place-item">
                         <img
-                            src={getCategoryImage(rec.category)}
+                            src={getCategoryImage(rec.sub_category)}
                             alt={rec.name}
                             style={{
                                 width: '100%',

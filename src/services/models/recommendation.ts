@@ -2,7 +2,7 @@ export interface Recommendation {
     name: string;
     description: string;
     local_score: number;
-    category: string;
+    sub_category: string;
     google_rating: number;
     id?: string;
     distance?: number;

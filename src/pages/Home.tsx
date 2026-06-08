@@ -71,9 +71,9 @@ const Home = () => {
 
         setLocalPicks(nearestRecs.slice(6, 12).map(rec => ({
           name: rec.name,
-          category: getAppCategoryFromSubcategory(rec.category),
+          category: getAppCategoryFromSubcategory(rec.sub_category),
           distance: `${Math.floor((rec as any).distance_from_user || 0)}m`,
-          image: getCategoryImage(rec.category),
+          image: getCategoryImage(rec.sub_category),
         })));
 
 
