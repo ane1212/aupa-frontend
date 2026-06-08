@@ -1,4 +1,5 @@
 import { Bookmark } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import type { SavedItem } from './types';
 import { itineraryService } from '../../services/API';
 
@@ -7,16 +8,19 @@ interface SavedPlaceCardProps {
 }
 
 const SavedPlaceCard = ({ item }: SavedPlaceCardProps) => {
-    const handleBookmark = async () => {
+    const navigate = useNavigate();
+
+    const handleBookmark = async (e: React.MouseEvent) => {
+        e.stopPropagation();
         try {
-            await itineraryService.addEvent(item.id.toString());
+            await itineraryService.addEvent(item.id);
         } catch (error) {
             console.error('Failed to add event:', error);
         }
     };
 
     return (
-        <li className="sv-place-card">
+        <li className="sv-place-card" onClick={() => navigate(`/detail/${item.id}`)} style={{ cursor: 'pointer' }}>
             {item.image ? (
                 <img className="sv-img-placeholder" src={item.image} alt={item.name} />
             ) : (
@@ -30,8 +34,8 @@ const SavedPlaceCard = ({ item }: SavedPlaceCardProps) => {
             <div className="sv-place-actions">
                 <div className="sv-score-row">
                     {item.score > 0 && <span className="sv-score-badge">{item.score}</span>}
-                    <button 
-                        className="sv-bookmark" 
+                    <button
+                        className="sv-bookmark"
                         aria-label="Guardar lugar"
                         onClick={handleBookmark}
                     >

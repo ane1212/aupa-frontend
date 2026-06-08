@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { ChevronLeft, Share2, Clock, MapPin, Bookmark, Plus } from 'lucide-react';
+import { ChevronLeft, Share2, Clock, MapPin, Bookmark, Plus, Check } from 'lucide-react';
 import { useState, useEffect } from 'react';
-import { eventService } from '../services/API';
+import { eventService, favoriteService, itineraryService } from '../services/API';
 import { useAuth } from '../context';
+import { generateRandomScore } from '../utils/randomScore';
 
 interface Stop {
     id: number | string;
@@ -92,6 +93,12 @@ const Detail = () => {
 
     const [item, setItem] = useState<DetailData | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [saved, setSaved] = useState(false);
+    const [favoriteId, setFavoriteId] = useState<string | null>(null);
+    const [inTrip, setInTrip] = useState(false);
+    const [itineraryId, setItineraryId] = useState<string | null>(null);
+    const [savingFav, setSavingFav] = useState(false);
+    const [savingTrip, setSavingTrip] = useState(false);
 
     useEffect(() => {
         const fetchDetail = async () => {
@@ -114,7 +121,7 @@ const Detail = () => {
                         name: event.title,
                         category: 'Event',
                         subtitle: event.address || 'Ubicación no especificada',
-                        score: 95,
+                        score: generateRandomScore(id),
                         duration: `${event.startTime} ${event.endTime ? `- ${event.endTime}` : ''}`,
                         stops: 1,
                         budget: event.price === 0 ? 'Gratis' : `${event.price}€`,
@@ -134,6 +141,75 @@ const Detail = () => {
 
         fetchDetail();
     }, [id]);
+
+    useEffect(() => {
+        if (!user || !id) return;
+        // only check for real (UUID) events, not static demo items
+        if (/^\d+$/.test(id)) return;
+
+        const checkStatus = async () => {
+            try {
+                const [favsRes, tripRes] = await Promise.allSettled([
+                    favoriteService.getByUser(user.id, { limit: 100 }),
+                    itineraryService.getMy({ limit: 100 }),
+                ]);
+                if (favsRes.status === 'fulfilled') {
+                    const match = favsRes.value.data.find(f => f.eventId === id);
+                    if (match) { setSaved(true); setFavoriteId(match.id); }
+                }
+                if (tripRes.status === 'fulfilled') {
+                    const match = tripRes.value.data.find(i => i.eventId === id);
+                    if (match) { setInTrip(true); setItineraryId(match.id); }
+                }
+            } catch { /* silent */ }
+        };
+        checkStatus();
+    }, [id, user]);
+
+    const isRealEvent = item ? /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(item.id)) : false;
+
+    const handleSave = async () => {
+        if (savingFav || !item || !isRealEvent) return;
+        setSavingFav(true);
+        try {
+            if (saved && favoriteId) {
+                await favoriteService.delete(favoriteId);
+                setSaved(false);
+                setFavoriteId(null);
+            } else {
+                try {
+                    const fav = await favoriteService.create({ eventId: String(item.id) });
+                    setSaved(true);
+                    setFavoriteId(fav.id);
+                } catch (err: any) {
+                    // 409 = ya estaba guardado, reflejar estado correcto
+                    if (err?.code === 'FAVORITE_ALREADY_EXISTS' || err?.status === 409) {
+                        setSaved(true);
+                    }
+                }
+            }
+        } catch { /* silent */ } finally {
+            setSavingFav(false);
+        }
+    };
+
+    const handleAddToTrip = async () => {
+        if (savingTrip || !item || !isRealEvent) return;
+        setSavingTrip(true);
+        try {
+            if (inTrip && itineraryId) {
+                await itineraryService.remove(itineraryId);
+                setInTrip(false);
+                setItineraryId(null);
+            } else {
+                const entry = await itineraryService.addEvent(String(item.id));
+                setInTrip(true);
+                setItineraryId(entry.id);
+            }
+        } catch { /* silent */ } finally {
+            setSavingTrip(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -235,13 +311,21 @@ const Detail = () => {
             {/* Sticky action bar (Only shown for non-locals) */}
             {user?.role !== 'local' && (
                 <div className="detail-actions">
-                    <button className="detail-btn-save">
+                    <button
+                        className={`detail-btn-save${saved ? ' active' : ''}`}
+                        onClick={handleSave}
+                        disabled={savingFav || !isRealEvent}
+                    >
                         <Bookmark size={16} />
-                        Save
+                        {saved ? 'Saved' : 'Save'}
                     </button>
-                    <button className="detail-btn-trip">
-                        <Plus size={16} />
-                        Add to My Trip
+                    <button
+                        className={`detail-btn-trip${inTrip ? ' active' : ''}`}
+                        onClick={handleAddToTrip}
+                        disabled={savingTrip || !isRealEvent}
+                    >
+                        {inTrip ? <Check size={16} /> : <Plus size={16} />}
+                        {inTrip ? 'In My Trip' : 'Add to My Trip'}
                     </button>
                 </div>
             )}
