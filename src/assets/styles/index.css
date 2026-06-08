@@ -413,11 +413,13 @@ p {
       touch-action: manipulation;
     }
 
+    position: relative;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     justify-content: space-between;
     text-align: center;
+    overflow: hidden;
 
     .register-header span,
     .span-text {
@@ -534,7 +536,7 @@ p {
   /* Fondo completo centrado */
   .auth {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: 3rem 1rem;
@@ -599,8 +601,10 @@ p {
   /* Footer decorativo al fondo del card */
   .auth .register>img.footer,
   .auth .login>img.footer {
+    position: static;
     width: 100%;
-    margin-top: 1.5rem;
+    height: auto;
+    margin-top: auto;
     display: block;
   }
 
@@ -1026,21 +1030,9 @@ p {
   .nearby-header {
     text-align: center;
 
-    .category-filters {
-      display: flex;
-      gap: calc(var(--mp) / 2);
-      overflow-x: auto;
-      padding: calc(var(--mp) / 2);
-      scrollbar-width: none;
-
-      button {
-        min-width: 89px;
-        max-width: 89px;
-      }
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    .category-filters button {
+      min-width: 89px;
+      max-width: 89px;
     }
 
     input {
@@ -3042,6 +3034,44 @@ p {
   color: #333;
   transition: all 0.15s;
   touch-action: manipulation;
+}
+
+.category-filters {
+  display: block;
+  white-space: nowrap;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x;
+  padding: 4px 0 8px;
+  scrollbar-width: none;
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-chip {
+    display: inline-flex;
+    vertical-align: middle;
+    margin-right: 8px;
+    white-space: nowrap;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+
+.experiences .category-filters .category-chip,
+.saved .category-filters .category-chip {
+  flex-direction: row;
+  padding: 6px 12px;
+  gap: 5px;
+  min-width: unset;
+  touch-action: pan-x;
 }
 
 .category-chip {

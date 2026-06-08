@@ -11,6 +11,18 @@ import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import { GripVertical, Trash2, Check } from 'lucide-react';
+import { CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants';
+import { Bookmark } from 'lucide-react';
+import { categories as nearbyCategories } from './Nearby';
+
+const CATEGORY_LABELS: Record<string, string> = {
+    food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
+    culture: 'Cultura', nature: 'Naturaleza', shopping: 'Compras', nightlife: 'Noche',
+    coffee_shops: 'Cafeterías', walking_tours: 'Rutas', family_friendly: 'Familia',
+    history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
+    budget_friendly: 'Económico', local_favorites: 'Favoritos locales',
+    vegetarian_vegan: 'Vegano',
+};
 
 interface Experience {
     id: number | string;
@@ -37,6 +49,7 @@ const Experiences = () => {
     const [activeTab, setActiveTab] = useState<ExpTab>('all');
     const [query, setQuery] = useState('');
     const [dbEvents, setDbEvents] = useState<Experience[]>([]);
+    const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [savedIds, setSavedIds] = useState<Set<string>>(new Set());
     const [savedFavMap, setSavedFavMap] = useState<Record<string, string>>({});
     const [tripItems, setTripItems] = useState<TripCard[]>([]);
@@ -143,9 +156,9 @@ const Experiences = () => {
     const PAGE_SIZE = 6;
     const [page, setPage] = useState(1);
 
-    const filtered = query.trim()
-        ? dbEvents.filter(e => e.name.toLowerCase().includes(query.toLowerCase()))
-        : dbEvents;
+    const filtered = dbEvents
+        .filter(e => !query.trim() || e.name.toLowerCase().includes(query.toLowerCase()))
+        .filter(e => !activeCategory || e.category === activeCategory);
 
     const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
     const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -248,9 +261,30 @@ const Experiences = () => {
 
             {activeTab === 'all' && (
                 <>
+                    <div className="category-filters">
+                            <button
+                                className={`category-chip${!activeCategory ? ' selected' : ''}`}
+                                onClick={() => { setActiveCategory(null); setPage(1); }}
+                            >
+                                <span>Todos</span>
+                            </button>
+                            {nearbyCategories.map(cat => {
+                                const Icon = CATEGORY_ICON_MAP[cat] || Bookmark;
+                                return (
+                                    <button
+                                        key={cat}
+                                        className={`category-chip${activeCategory === cat ? ' selected' : ''}`}
+                                        onClick={() => { setActiveCategory(activeCategory === cat ? null : cat); setPage(1); }}
+                                    >
+                                        <Icon size={15} />
+                                        <span>{CATEGORY_LABELS[cat] ?? cat}</span>
+                                    </button>
+                                );
+                            })}
+                    </div>
                     <SearchBar
                         value={query}
-                        onChange={v => { setQuery(v); setPage(1); }}
+                        onChange={v => { setQuery(v); setPage(1); setActiveCategory(null); }}
                         placeholder={copy?.experiences?.searchPlaceholder || 'Search'}
                     />
                     <h2 className="exp-title exp-section-title">{copy?.experiences?.topExperiences || 'Top Experiences'}</h2>
