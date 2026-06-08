@@ -1,3 +1,4 @@
+
 export const generateRandomScore = (seed?: string, min = 80, max = 99): number => {
     if (seed) {
         let hash = 0;
