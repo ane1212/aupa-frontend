@@ -13,4 +13,5 @@ export interface Place {
     score: number;
     lat: number;
     lng: number;
+    category?: string;
 }

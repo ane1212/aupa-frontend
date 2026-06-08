@@ -91,15 +91,16 @@ const Nearby = () => {
         )
         : recommendations;
 
-    const placesForMap: Place[] = filtered.map(rec => ({
-        id: rec.id || rec.name,
+    const placesForMap: Place[] = filtered.map((rec, index) => ({
+        id: index,
         name: rec.name,
         category: rec.category,
-        lat: rec.latitude || 43.2627,
-        lng: rec.longitude || -2.9253,
+        lat: rec.latitude ?? 43.2627,
+        lng: rec.longitude ?? -2.9253,
         type: rec.description,
-        distance: rec.distance || rec.distance_from_user || 0,
-        score: rec.local_score || rec.score || 0,
+        distance: `${rec.distance ?? 0}m`,
+        walkTime: '',
+        score: rec.local_score ?? 0,
     }));
 
     return (
@@ -158,7 +159,7 @@ const Nearby = () => {
                         <div className='place-item-content'>
                             <h3>{rec.name}</h3>
                             <p>{rec.description}</p>
-                            <p>{rec.distance || rec.distance_from_user || 0}m</p>
+                            <p>{rec.distance ?? 0}m</p>
                         </div>
                         {rec.local_score > 0 && <p>Score: {rec.local_score}</p>}
                     </div>

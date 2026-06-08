@@ -35,7 +35,7 @@ const PartnerLayout = ({
         </div>
 
         {showCityFooter && (
-            <img className="footer" src={footer} alt="" aria-hidden="true" />
+            <img className="lp-footer-img" src={footer} alt="" aria-hidden="true" />
         )}
     </div>
 );
