@@ -6,7 +6,6 @@ import { getUserLocation, TEST_LOCATION, formatDistance } from '../utils/locatio
 import { getCategoryImage } from '../utils/categoryImages';
 import { generateRandomScore } from '../utils/randomScore';
 import { getWeather, getLocationFromCoords } from '../utils/weather';
-import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 import logo from '../assets/logo-trimmed.png';
 import { SectionHeader, LocalPickCard } from '../components/home';
 import ExperienceCard from '../components/experiences/ExperienceCard';
@@ -101,11 +100,11 @@ const Home = () => {
                 key={`${rec.name}-${index}`}
                 id={rec.id ?? String(index)}
                 name={rec.name}
-                image={getCategoryImage(rec.category)}
+                image={getCategoryImage(rec.sub_category)}
                 duration={rec.address ?? ''}
                 price=""
                 score={generateRandomScore(rec.id ?? rec.name)}
-                category={rec.category}
+                category={rec.sub_category}
                 distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
                 onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
               />
