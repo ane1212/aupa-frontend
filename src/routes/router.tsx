@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, LocalPartner, ErrorPage, DashboardLogin, Onboarding, MapView, LocalHome, LocalListing, LocalCreateEvent, LocalExperiences, LocalProfile, LocalDetail } from "../pages";
+import { DashboardHome, DashboardUsers, DashboardLocals, DashboardEvents, DashboardCategories, DashboardPreferences, Experiences, Home, Login, Nearby, Profile, Register, Saved, Detail, NearbyDetail, LocalPartner, ErrorPage, DashboardLogin, Onboarding, MapView, LocalHome, LocalListing, LocalCreateEvent, LocalExperiences, LocalProfile, LocalDetail } from "../pages";
 import Root from "../components/layout/Root";
 import AuthLayout from "../components/layout/Auth";
 import DashboardLayout from "../components/layout/DashboardLayout";
@@ -46,6 +46,10 @@ const router = createBrowserRouter([
   {
     path: "/detail/:id",
     element: <Detail />,
+  },
+  {
+    path: "/nearby-detail",
+    element: <NearbyDetail />,
   },
   {
     path: "/local-partner",

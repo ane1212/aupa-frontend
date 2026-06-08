@@ -21,6 +21,7 @@ interface Props {
     distance?: string;
     saved?: boolean;
     onBookmark?: () => void;
+    onClickCard?: () => void;
 }
 
 const BookmarkFilled = () => (
@@ -36,12 +37,13 @@ const BookmarkFilled = () => (
     </svg>
 );
 
-const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, onBookmark }: Props) => {
+const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, onBookmark, onClickCard }: Props) => {
     const navigate = useNavigate();
     const catLabel = category ? (CATEGORY_LABELS[category] ?? category) : null;
     const timeMeta = [date, duration].filter(Boolean).join(' · ');
+    const handleClick = onClickCard ?? (() => navigate(`/detail/${id}`));
     return (
-        <li className="exp-card" onClick={() => navigate(`/detail/${id}`)} style={{ cursor: 'pointer' }}>
+        <li className="exp-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
             <img className="exp-card-img" src={image} alt={name} />
             <div className="exp-card-info">
                 <p className="exp-card-name">{name}</p>
