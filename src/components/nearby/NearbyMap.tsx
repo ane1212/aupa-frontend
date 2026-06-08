@@ -12,7 +12,6 @@ const NearbyMap = ({ places }: NearbyMapProps) => {
     const mapRef = useRef<any>(null);
     const markersRef = useRef<any[]>([]);
 
-    // Inicializa el mapa una sola vez
     useEffect(() => {
         const L = (window as any).L;
         if (!L || !containerRef.current || mapRef.current) return;
@@ -30,7 +29,6 @@ const NearbyMap = ({ places }: NearbyMapProps) => {
 
         L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-        // Posición del usuario
         navigator.geolocation?.getCurrentPosition(
             ({ coords }) => {
                 if (mapRef.current) {
@@ -55,7 +53,6 @@ const NearbyMap = ({ places }: NearbyMapProps) => {
         };
     }, []);
 
-    // Actualiza los marcadores cuando cambia la lista filtrada
     useEffect(() => {
         const L = (window as any).L;
         const map = mapRef.current;
@@ -77,7 +74,7 @@ const NearbyMap = ({ places }: NearbyMapProps) => {
         const newMarkers = places.map(p =>
             L.marker([p.lat, p.lng], { icon: placeIcon })
                 .addTo(map)
-                .bindPopup(`<strong>${p.name}</strong><br>${p.type} · ${p.neighborhood}`),
+                .bindPopup(`<strong>${p.name}</strong><br>${p.type}`),
         );
 
         markersRef.current = newMarkers;

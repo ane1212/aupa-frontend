@@ -1,17 +1,20 @@
+
 interface LocalPickCardProps {
   name: string;
   category: string;
   distance: string;
+  image?: string;
 }
 
-const LocalPickCard = ({ name, category, distance }: LocalPickCardProps) => (
-  <article className="local-pick-card">
-    <div className="local-pick-image" aria-hidden="true" />
-    <h3>{name}</h3>
-    <p>
-      {category} · {distance}
-    </p>
-  </article>
-);
-
-export default LocalPickCard;
+export const LocalPickCard = ({ name, category, distance, image }: LocalPickCardProps) => {
+  return (
+    <div className="local-pick-card">
+      {image && (
+        <img className="local-pick-image" src={image} alt={name} />
+      )}
+      <h3>{name}</h3>
+      <p>{category}</p>
+      <span>{distance}</span>
+    </div>
+  );
+};
