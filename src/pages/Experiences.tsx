@@ -140,9 +140,15 @@ const Experiences = () => {
         fetchTrips();
     }, [activeTab]);
 
+    const PAGE_SIZE = 6;
+    const [page, setPage] = useState(1);
+
     const filtered = query.trim()
         ? dbEvents.filter(e => e.name.toLowerCase().includes(query.toLowerCase()))
         : dbEvents;
+
+    const totalPages = Math.ceil(filtered.length / PAGE_SIZE);
+    const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
     const handleBookmark = async (eventId: string) => {
         if (!user) return;
@@ -244,13 +250,13 @@ const Experiences = () => {
                 <>
                     <SearchBar
                         value={query}
-                        onChange={setQuery}
+                        onChange={v => { setQuery(v); setPage(1); }}
                         placeholder={copy?.experiences?.searchPlaceholder || 'Search'}
                     />
                     <h2 className="exp-title exp-section-title">{copy?.experiences?.topExperiences || 'Top Experiences'}</h2>
                     <ul className="exp-list">
-                        {filtered.length > 0
-                            ? filtered.map(exp => (
+                        {paginated.length > 0
+                            ? paginated.map(exp => (
                                 <ExperienceCard
                                     key={exp.id}
                                     {...exp}
@@ -261,6 +267,21 @@ const Experiences = () => {
                             : <li className="exp-no-results">{copy?.experiences?.noResults || 'No results'}</li>
                         }
                     </ul>
+                    {totalPages > 1 && (
+                        <div className="exp-pagination">
+                            <button
+                                className="exp-page-btn"
+                                onClick={() => setPage(p => p - 1)}
+                                disabled={page === 1}
+                            >‹</button>
+                            <span className="exp-page-info">{page} / {totalPages}</span>
+                            <button
+                                className="exp-page-btn"
+                                onClick={() => setPage(p => p + 1)}
+                                disabled={page === totalPages}
+                            >›</button>
+                        </div>
+                    )}
                 </>
             )}
 

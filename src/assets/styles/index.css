@@ -965,6 +965,48 @@ p {
   list-style: none;
 }
 
+.exp-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px 0 8px;
+}
+
+.exp-page-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid #e0e0e0;
+  background: #fff;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, border-color 0.15s;
+
+  &:hover:not(:disabled) {
+    background: #f5f5f5;
+    border-color: #bbb;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+}
+
+.exp-page-info {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #555;
+  min-width: 40px;
+  text-align: center;
+}
+
 .nearby-map {
   height: 155px;
   border-radius: 8px;
