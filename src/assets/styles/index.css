@@ -1734,6 +1734,34 @@ p {
   color: #526071;
 }
 
+.profile-summary-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+  padding-left: 4px;
+}
+
+.profile-stat-item {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.profile-stat-num {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--color-K);
+  line-height: 1;
+}
+
+.profile-stat-label {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #555;
+}
+
 .profile-partner-cta {
   width: 100%;
   border: 0;
@@ -2622,6 +2650,72 @@ p {
     display: flex;
     flex-direction: column;
     gap: var(--mp);
+  }
+
+  .exp-trip-progress {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+
+  .exp-trip-progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .exp-trip-progress-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+
+  .exp-trip-progress-count {
+    font-size: 0.73rem;
+    color: #888;
+  }
+
+  .exp-trip-progress-track {
+    height: 6px;
+    background: #eee;
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .exp-trip-progress-fill {
+    height: 100%;
+    background: #22c55e;
+    border-radius: 99px;
+    transition: width 0.35s ease;
+  }
+
+  .exp-trip-check {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid #d0d0d0;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    padding: 0;
+    transition: border-color 0.15s, background 0.15s;
+
+    &.checked {
+      border-color: #22c55e;
+      background: #22c55e;
+      color: #fff;
+    }
+  }
+
+  .exp-trip-card.checked .exp-trip-name {
+    text-decoration: line-through;
+    color: #aaa;
   }
 
   .exp-trip-list {

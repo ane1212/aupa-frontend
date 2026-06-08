@@ -38,6 +38,8 @@ export type AppCopy = {
     partnerTitle: string;
     partnerSubtitle: string;
     logout: string;
+    savedPlaces: string;
+    tripVisits: string;
   };
   onboarding: {
     introTitle: string;
@@ -286,6 +288,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       partnerTitle: 'Become a local partner!',
       partnerSubtitle: 'Promote your local business on Aupa!',
       logout: 'Log out',
+      savedPlaces: 'Places saved',
+      tripVisits: 'Trips added',
     },
     onboarding: {
       introTitle: "Let's get you started",
@@ -540,6 +544,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       partnerTitle: '¡Conviértete en socio local!',
       partnerSubtitle: 'Promociona tu negocio local en Aupa!',
       logout: 'Cerrar sesión',
+      savedPlaces: 'Lugares guardados',
+      tripVisits: 'Añadidos al viaje',
     },
     onboarding: {
       introTitle: 'Vamos a empezar',
@@ -794,6 +800,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       partnerTitle: 'Bihurtu tokiko bazkide!',
       partnerSubtitle: 'Sustatu zure negozio lokala Aupan!',
       logout: 'Saioa itxi',
+      savedPlaces: 'Gordetako lekuak',
+      tripVisits: 'Bidaian gehituta',
     },
     onboarding: {
       introTitle: 'Has gaitezen',
@@ -1048,6 +1056,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       partnerTitle: 'Devenir partenaire local !',
       partnerSubtitle: 'Faites connaître votre entreprise sur Aupa !',
       logout: 'Se déconnecter',
+      savedPlaces: 'Lieux sauvegardés',
+      tripVisits: 'Ajoutés au voyage',
     },
     onboarding: {
       introTitle: 'Commençons',

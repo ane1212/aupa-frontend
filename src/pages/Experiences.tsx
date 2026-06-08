@@ -10,7 +10,7 @@ import { getCategoryImage } from '../utils/categoryImages';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
-import { GripVertical, Trash2 } from 'lucide-react';
+import { GripVertical, Trash2, Check } from 'lucide-react';
 
 interface Experience {
     id: number | string;
@@ -42,6 +42,12 @@ const Experiences = () => {
     const [tripItems, setTripItems] = useState<TripCard[]>([]);
     const [loadingAll, setLoadingAll] = useState(true);
     const [loadingTrips, setLoadingTrips] = useState(false);
+    const [checkedIds, setCheckedIds] = useState<Set<string>>(() => {
+        try {
+            const stored = localStorage.getItem(`aupa_trip_checked_${user?.id ?? 'anon'}`);
+            return stored ? new Set(JSON.parse(stored)) : new Set();
+        } catch { return new Set(); }
+    });
 
     const dragItem = useRef<number | null>(null);
     const dragOver = useRef<number | null>(null);
@@ -188,12 +194,25 @@ const Experiences = () => {
 
     const handleRemove = async (id: string) => {
         setTripItems(prev => prev.filter(i => i.id !== id));
+        setCheckedIds(prev => { const n = new Set(prev); n.delete(id); return n; });
         try {
             await itineraryService.remove(id);
         } catch {
             const res = await itineraryService.getMy({ limit: 50 }).catch(() => null);
             if (res) setTripItems(res.data ?? []);
         }
+    };
+
+    const toggleCheck = (id: string, e: React.MouseEvent) => {
+        e.stopPropagation();
+        setCheckedIds(prev => {
+            const next = new Set(prev);
+            next.has(id) ? next.delete(id) : next.add(id);
+            try {
+                localStorage.setItem(`aupa_trip_checked_${user?.id ?? 'anon'}`, JSON.stringify([...next]));
+            } catch { /* */ }
+            return next;
+        });
     };
 
     if (loadingAll) {
@@ -253,45 +272,66 @@ const Experiences = () => {
                         </div>
                     ) : tripItems.length === 0 ? (
                         <p className="exp-no-results">{copy?.experiences?.noTrips || 'No trips added yet.'}</p>
-                    ) : (
-                        <ul className="exp-trip-list">
-                            {tripItems.map((item, idx) => (
-                                <li
-                                    key={item.id}
-                                    className="exp-trip-card"
-                                    draggable
-                                    onDragStart={() => handleDragStart(idx)}
-                                    onDragEnter={() => handleDragEnter(idx)}
-                                    onDragEnd={handleDragEnd}
-                                    onDragOver={e => e.preventDefault()}
-                                    onClick={() => navigate(`/detail/${item.eventId}`)}
-                                >
-                                    <span className="exp-trip-drag" aria-hidden="true" onClick={e => e.stopPropagation()}>
-                                        <GripVertical size={18} />
-                                    </span>
-                                    <span className="exp-trip-index">{idx + 1}</span>
-                                    {item.event?.image && (
-                                        <img className="exp-card-img" src={item.event.image} alt={item.event?.title ?? ''} />
-                                    )}
-                                    <div className="exp-trip-info">
-                                        <p className="exp-trip-name">
-                                            {item.event?.title ?? item.eventId}
-                                        </p>
-                                        {item.event?.address && (
-                                            <p className="exp-trip-meta">{item.event.address}</p>
-                                        )}
+                    ) : (() => {
+                        const completedCount = tripItems.filter(i => checkedIds.has(i.id)).length;
+                        const pct = tripItems.length > 0 ? Math.round((completedCount / tripItems.length) * 100) : 0;
+                        return (
+                            <>
+                                <div className="exp-trip-progress">
+                                    <div className="exp-trip-progress-header">
+                                        <span className="exp-trip-progress-title">Tu progreso</span>
+                                        <span className="exp-trip-progress-count">{completedCount} de {tripItems.length} completados</span>
                                     </div>
-                                    <button
-                                        className="exp-trip-delete"
-                                        aria-label="Eliminar del viaje"
-                                        onClick={e => { e.stopPropagation(); handleRemove(item.id); }}
-                                    >
-                                        <Trash2 size={15} />
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
+                                    <div className="exp-trip-progress-track">
+                                        <div className="exp-trip-progress-fill" style={{ width: `${pct}%` }} />
+                                    </div>
+                                </div>
+                                <ul className="exp-trip-list">
+                                    {tripItems.map((item, idx) => (
+                                        <li
+                                            key={item.id}
+                                            className={`exp-trip-card${checkedIds.has(item.id) ? ' checked' : ''}`}
+                                            draggable
+                                            onDragStart={() => handleDragStart(idx)}
+                                            onDragEnter={() => handleDragEnter(idx)}
+                                            onDragEnd={handleDragEnd}
+                                            onDragOver={e => e.preventDefault()}
+                                            onClick={() => navigate(`/detail/${item.eventId}`)}
+                                        >
+                                            <span className="exp-trip-drag" aria-hidden="true" onClick={e => e.stopPropagation()}>
+                                                <GripVertical size={18} />
+                                            </span>
+                                            <button
+                                                className={`exp-trip-check${checkedIds.has(item.id) ? ' checked' : ''}`}
+                                                aria-label={checkedIds.has(item.id) ? 'Marcar como pendiente' : 'Marcar como visitado'}
+                                                onClick={e => toggleCheck(item.id, e)}
+                                            >
+                                                {checkedIds.has(item.id) && <Check size={12} strokeWidth={3} />}
+                                            </button>
+                                            {item.event?.image && (
+                                                <img className="exp-card-img" src={item.event.image} alt={item.event?.title ?? ''} />
+                                            )}
+                                            <div className="exp-trip-info">
+                                                <p className="exp-trip-name">
+                                                    {item.event?.title ?? item.eventId}
+                                                </p>
+                                                {item.event?.address && (
+                                                    <p className="exp-trip-meta">{item.event.address}</p>
+                                                )}
+                                            </div>
+                                            <button
+                                                className="exp-trip-delete"
+                                                aria-label="Eliminar del viaje"
+                                                onClick={e => { e.stopPropagation(); handleRemove(item.id); }}
+                                            >
+                                                <Trash2 size={15} />
+                                            </button>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </>
+                        );
+                    })()}
                 </div>
             )}
         </div>

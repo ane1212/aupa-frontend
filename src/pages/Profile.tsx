@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bookmark, CircleUserRound, LogOut, Megaphone, type LucideIcon } from 'lucide-react';
-import { categoryService, preferenceService, userService } from '../services/API';
+import { categoryService, preferenceService, userService, favoriteService, itineraryService } from '../services/API';
 import type { Category, Preference, LanguageType } from '../services/models';
 import { useAuth } from '../context';
 import { CATEGORY_ICON_MAP, LANGUAGE_OPTIONS, MAX_STEP2_SELECTIONS, STEP2_NAMES, STEP3_NAMES, STEP4_NAMES } from '../components/onboarding/onboarding.constants';
@@ -52,6 +52,20 @@ const Profile = () => {
   const [selectedLanguage, setSelectedLanguage] = useState<LanguageType>(user?.language ?? 'en');
   const [isSavingPreferences, setIsSavingPreferences] = useState(false);
   const [isSavingLanguage, setIsSavingLanguage] = useState(false);
+
+  const [savedCount, setSavedCount] = useState(0);
+  const [tripCount, setTripCount] = useState(0);
+
+  useEffect(() => {
+    if (!user?.id) return;
+    Promise.allSettled([
+      favoriteService.getByUser(user.id, { limit: 1 }),
+      itineraryService.getMy({ limit: 1 }),
+    ]).then(([favsRes, tripRes]) => {
+      if (favsRes.status === 'fulfilled') setSavedCount(favsRes.value.meta.total);
+      if (tripRes.status === 'fulfilled') setTripCount(tripRes.value.meta.total);
+    });
+  }, [user?.id]);
 
   const handleLogout = () => {
     logout();
@@ -252,6 +266,16 @@ const Profile = () => {
             />
           )}
           <h2>{user?.name || 'Aupa'}!</h2>
+        </div>
+        <div className="profile-summary-stats">
+          <div className="profile-stat-item">
+            <span className="profile-stat-num">{savedCount}</span>
+            <span className="profile-stat-label">{copy.profile.savedPlaces}</span>
+          </div>
+          <div className="profile-stat-item">
+            <span className="profile-stat-num">{tripCount}</span>
+            <span className="profile-stat-label">{copy.profile.tripVisits}</span>
+          </div>
         </div>
       </section>
 
