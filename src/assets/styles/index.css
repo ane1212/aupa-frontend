@@ -2361,12 +2361,14 @@ p {
     flex-shrink: 0;
     width: 104px;
     cursor: pointer;
+    overflow: hidden;
   }
 
   .detail-nearby-img {
     width: 104px;
     height: 104px;
     border-radius: 10px;
+    aspect-ratio: 1/1;
     overflow: hidden;
     background: #e0e0e0;
     margin-bottom: 6px;
@@ -2374,7 +2376,8 @@ p {
     img {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      object-fit: cover;
+      object-position: center;
       background: #f0f0f0;
     }
   }
@@ -4235,7 +4238,6 @@ p {
 
   img {
     width: 100%;
-    aspect-ratio: 1 / 1;
     object-fit: cover;
     object-position: center;
     border-radius: 10px;
