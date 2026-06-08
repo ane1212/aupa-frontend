@@ -64,6 +64,7 @@ const Experiences = () => {
 
     const dragItem = useRef<number | null>(null);
     const dragOver = useRef<number | null>(null);
+    const pointerDragIdx = useRef<number | null>(null);
 
     useEffect(() => {
         const fetchAll = async () => {
@@ -211,6 +212,41 @@ const Experiences = () => {
         }
     };
 
+    const handleGripPointerDown = (e: React.PointerEvent, idx: number) => {
+        if (e.pointerType === 'mouse') return;
+        e.preventDefault();
+        e.stopPropagation();
+        pointerDragIdx.current = idx;
+
+        const onMove = (ev: PointerEvent) => {
+            if (pointerDragIdx.current === null) return;
+            const el = document.elementFromPoint(ev.clientX, ev.clientY);
+            const card = el?.closest<HTMLElement>('[data-trip-idx]');
+            if (!card) return;
+            const targetIdx = parseInt(card.dataset.tripIdx ?? '', 10);
+            if (isNaN(targetIdx) || targetIdx === pointerDragIdx.current) return;
+            setTripItems(prev => {
+                const next = [...prev];
+                const [dragged] = next.splice(pointerDragIdx.current!, 1);
+                next.splice(targetIdx, 0, dragged);
+                pointerDragIdx.current = targetIdx;
+                return next;
+            });
+        };
+
+        const onUp = () => {
+            pointerDragIdx.current = null;
+            document.removeEventListener('pointermove', onMove);
+            setTripItems(prev => {
+                itineraryService.reorder(prev.map((item, i) => ({ id: item.id, itemIndex: i }))).catch(() => {});
+                return prev;
+            });
+        };
+
+        document.addEventListener('pointermove', onMove);
+        document.addEventListener('pointerup', onUp, { once: true });
+    };
+
     const handleRemove = async (id: string) => {
         setTripItems(prev => prev.filter(i => i.id !== id));
         setCheckedIds(prev => { const n = new Set(prev); n.delete(id); return n; });
@@ -345,6 +381,7 @@ const Experiences = () => {
                                     {tripItems.map((item, idx) => (
                                         <li
                                             key={item.id}
+                                            data-trip-idx={idx}
                                             className={`exp-trip-card${checkedIds.has(item.id) ? ' checked' : ''}`}
                                             draggable
                                             onDragStart={() => handleDragStart(idx)}
@@ -353,7 +390,12 @@ const Experiences = () => {
                                             onDragOver={e => e.preventDefault()}
                                             onClick={() => navigate(`/detail/${item.eventId}`)}
                                         >
-                                            <span className="exp-trip-drag" aria-hidden="true" onClick={e => e.stopPropagation()}>
+                                            <span
+                                                className="exp-trip-drag"
+                                                aria-hidden="true"
+                                                onPointerDown={e => handleGripPointerDown(e, idx)}
+                                                onClick={e => e.stopPropagation()}
+                                            >
                                                 <GripVertical size={18} />
                                             </span>
                                             <button
@@ -364,7 +406,9 @@ const Experiences = () => {
                                                 {checkedIds.has(item.id) && <Check size={12} strokeWidth={3} />}
                                             </button>
                                             {item.event?.image && (
-                                                <img className="exp-card-img" src={item.event.image} alt={item.event?.title ?? ''} />
+                                                <div className="exp-card-img-wrap">
+                                                    <img className="exp-card-img" src={item.event.image} alt={item.event?.title ?? ''} />
+                                                </div>
                                             )}
                                             <div className="exp-trip-info">
                                                 <p className="exp-trip-name">

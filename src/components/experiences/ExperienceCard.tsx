@@ -44,7 +44,9 @@ const ExperienceCard = ({ id, name, duration, price, score, image, date, categor
     const handleClick = onClickCard ?? (() => navigate(`/detail/${id}`));
     return (
         <li className="exp-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
-            <img className="exp-card-img" src={image} alt={name} />
+            <div className="exp-card-img-wrap">
+                <img className="exp-card-img" src={image} alt={name} />
+            </div>
             <div className="exp-card-info">
                 <p className="exp-card-name">{name}</p>
                 {catLabel && <p className="exp-card-meta exp-card-cat">{catLabel}</p>}

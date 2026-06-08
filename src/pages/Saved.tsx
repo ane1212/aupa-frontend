@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import { SavedContent } from '../components/saved';
-import type { SavedItem } from '../components/saved';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
 import { favoriteService, eventService, categoryService } from '../services/API';
 import { generateRandomScore } from '../utils/randomScore';
 import { getCategoryImage } from '../utils/categoryImages';
+import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import { CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants';
 import { categories as nearbyCategories } from './Nearby';
 import { Bookmark } from 'lucide-react';
+import ExperienceCard from '../components/experiences/ExperienceCard';
 
 const CATEGORY_LABELS: Record<string, string> = {
     food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
@@ -19,30 +19,45 @@ const CATEGORY_LABELS: Record<string, string> = {
     vegetarian_vegan: 'Vegano',
 };
 
-const truncate = (str: string | null, max: number = 50) => {
-    if (!str) return '';
-    return str.length > max ? str.slice(0, max) + '...' : str;
+interface SavedCard {
+    id: string;
+    favoriteId: string;
+    name: string;
+    duration: string;
+    date: string;
+    price: string;
+    score: number;
+    image: string;
+    category: string;
+    distance?: string;
+}
+
+const formatTime = (t?: string) => (t ? t.slice(0, 5) : '');
+const formatDate = (d?: string) => {
+    if (!d) return '';
+    const parts = d.split('T')[0].split('-').map(Number);
+    if (parts.length < 3 || parts.some(isNaN)) return '';
+    const [y, m, day] = parts;
+    return new Date(y, m - 1, day).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
 };
 
 const Saved = () => {
     const { user } = useAuth();
     const copy = getAppCopy(user?.language);
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
-    const [savedList, setSavedList] = useState<SavedItem[]>([]);
+    const [savedList, setSavedList] = useState<SavedCard[]>([]);
     const [loading, setLoading] = useState(true);
-
-    const handleRemove = (eventId: string) => {
-        setSavedList(prev => prev.filter(i => i.id !== eventId));
-    };
 
     useEffect(() => {
         const fetchSaved = async () => {
             if (!user?.id) { setLoading(false); return; }
             try {
-                const [favsRes, catsRes] = await Promise.allSettled([
+                const [favsRes, catsRes, userLoc] = await Promise.allSettled([
                     favoriteService.getByUser(user.id, { limit: 100 }),
                     categoryService.getAll({ limit: 100 }),
+                    getUserLocation(),
                 ]);
+                const userCoords = userLoc.status === 'fulfilled' ? userLoc.value : null;
 
                 const catMap: Record<string, string> = {};
                 if (catsRes.status === 'fulfilled') {
@@ -51,28 +66,36 @@ const Saved = () => {
 
                 const favorites = favsRes.status === 'fulfilled' ? (favsRes.value.data ?? []) : [];
 
-                const savedItems: SavedItem[] = (
-                    await Promise.all(
-                        favorites.map(async (fav) => {
-                            try {
-                                const event = await eventService.getById(fav.eventId);
-                                const category = (event.categoryId && catMap[event.categoryId]) || 'places';
-                                return {
-                                    id: event.id,
-                                    favoriteId: fav.id,
-                                    name: event.title,
-                                    meta: truncate(event.description ?? null, 50),
-                                    sub: event.address || '',
-                                    score: generateRandomScore(event.id),
-                                    category,
-                                    image: event.image || getCategoryImage(category),
-                                } satisfies SavedItem;
-                            } catch { return null; }
-                        })
-                    )
-                ).filter((i): i is SavedItem => i !== null);
+                const raw = await Promise.all(
+                    favorites.map(async (fav): Promise<SavedCard | null> => {
+                        try {
+                            const ev = await eventService.getById(fav.eventId);
+                            const category = (ev.categoryId && catMap[ev.categoryId]) || 'places';
+                            const t1 = formatTime(ev.startTime);
+                            const t2 = formatTime(ev.endTime);
+                            let distance: string | undefined;
+                            if (userCoords && ev.latitude != null && ev.longitude != null) {
+                                const km = calcDistanceKm(userCoords.lat, userCoords.lng, ev.latitude, ev.longitude);
+                                distance = formatDistance(km);
+                            }
+                            return {
+                                id: ev.id,
+                                favoriteId: fav.id,
+                                name: ev.title,
+                                duration: [t1, t2].filter(Boolean).join('–'),
+                                date: formatDate(ev.date),
+                                price: ev.price === 0 ? 'Gratis' : `€${ev.price}`,
+                                score: generateRandomScore(ev.id),
+                                image: ev.image || getCategoryImage(category),
+                                category,
+                                distance,
+                            };
+                        } catch { return null; }
+                    })
+                );
+                const items = raw.filter((i): i is SavedCard => i !== null);
 
-                setSavedList(savedItems);
+                setSavedList(items);
             } catch {
                 setSavedList([]);
             } finally {
@@ -81,6 +104,17 @@ const Saved = () => {
         };
         fetchSaved();
     }, [user?.id]);
+
+    const handleUnsave = async (id: string) => {
+        const item = savedList.find(i => i.id === id);
+        if (!item) return;
+        setSavedList(prev => prev.filter(i => i.id !== id));
+        try {
+            await favoriteService.delete(item.favoriteId);
+        } catch {
+            setSavedList(prev => [...prev, item]);
+        }
+    };
 
     const visible = activeCategory
         ? savedList.filter(i => i.category === activeCategory)
@@ -120,13 +154,28 @@ const Saved = () => {
                 })}
             </div>
 
-            <SavedContent
-                visible={visible}
-                categoryLabels={CATEGORY_LABELS}
-                noItems={copy.saved.noItems}
-                seeAll={copy.saved.filterAll}
-                onRemove={handleRemove}
-            />
+            {visible.length === 0 ? (
+                <p className="sv-empty">{copy.saved.noItems}</p>
+            ) : (
+                <ul className="exp-list">
+                    {visible.map(item => (
+                        <ExperienceCard
+                            key={item.id}
+                            id={item.id}
+                            name={item.name}
+                            duration={item.duration}
+                            date={item.date}
+                            price={item.price}
+                            score={item.score}
+                            image={item.image}
+                            category={item.category}
+                            distance={item.distance}
+                            saved={true}
+                            onBookmark={() => handleUnsave(item.id)}
+                        />
+                    ))}
+                </ul>
+            )}
         </div>
     );
 };
