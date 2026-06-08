@@ -5,6 +5,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   overflow-y: hidden;
   height: 100%;
   background: #f3f5f8;
@@ -2538,6 +2539,33 @@ p {
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+    }
+  }
+
+  /* ── Incident form ── */
+  .incident-form-wrap {
+    margin-top: 4px;
+    padding: 0 var(--np);
+    padding-left: 4px;
+  }
+
+  .incident-form-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+    color: #6b7280;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    &:hover {
+      border-color: var(--color-J);
+      color: var(--color-J);
     }
   }
 

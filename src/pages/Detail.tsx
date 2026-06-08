@@ -5,6 +5,7 @@ import { eventService, favoriteService, itineraryService, commentService, catego
 import { useAuth } from '../context';
 import { getAppCopy, getCatLabel, type AppCopy } from '../i18n/copy';
 import CommentForm from '../components/common/CommentForm';
+import IncidentForm from '../components/common/IncidentForm';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import type { Comment } from '../services/models';
@@ -436,6 +437,11 @@ const Detail = () => {
                                 onAdded={c => setComments(prev => [c, ...prev])}
                             />
                         </div>
+                    )}
+
+                    {/* ── Report incident ── */}
+                    {isRealEvent && user && (
+                        <IncidentForm eventId={String(eventData.id)} />
                     )}
 
                     {/* ── Static stops (legacy experiences) ── */}

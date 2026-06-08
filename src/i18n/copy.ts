@@ -62,6 +62,7 @@ export type AppCopy = {
   nearby: {
     title: string;
     searchPlaceholder: string;
+    noResults: string;
   };
   experiences: {
     browseByVibe: string;
@@ -321,6 +322,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     nearby: {
       title: 'Places near you',
       searchPlaceholder: 'Where do you want to go?',
+      noResults: 'No places found in this category.',
     },
     experiences: {
       browseByVibe: 'Browse by vibe',
@@ -578,6 +580,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     nearby: {
       title: 'Lugares cerca de ti',
       searchPlaceholder: '¿A dónde quieres ir?',
+      noResults: 'No se encontraron lugares en esta categoría.',
     },
     experiences: {
       browseByVibe: 'Explorar por ambiente',
@@ -835,6 +838,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     nearby: {
       title: 'Inguruko lekuak',
       searchPlaceholder: 'Nora joan nahi duzu?',
+      noResults: 'Ez da lekurik aurkitu kategoria honetan.',
     },
     experiences: {
       browseByVibe: 'Aurkitu giroaren arabera',
@@ -1092,6 +1096,7 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
     nearby: {
       title: 'Lieux près de vous',
       searchPlaceholder: 'Où voulez-vous aller ?',
+      noResults: 'Aucun lieu trouvé dans cette catégorie.',
     },
     experiences: {
       browseByVibe: 'Parcourir par ambiance',

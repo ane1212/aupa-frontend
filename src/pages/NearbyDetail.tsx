@@ -10,6 +10,7 @@ import { useAuth } from '../context';
 import { getAppCopy, getCatLabel } from '../i18n/copy';
 import ExperienceCard from '../components/experiences/ExperienceCard';
 import CommentForm, { toUUID } from '../components/common/CommentForm';
+import IncidentForm from '../components/common/IncidentForm';
 
 const StarRow = ({ rating, count, total }: { rating: number; count: number; total: number }) => (
     <div className="detail-star-row">
@@ -261,6 +262,11 @@ const NearbyDetail = () => {
                                 onAdded={c => setDbComments(prev => [c, ...prev])}
                             />
                         </div>
+                    )}
+
+                    {/* ── Report incident ── */}
+                    {user && (
+                        <IncidentForm eventId={rec.id ?? rec.name} />
                     )}
 
                     {/* Lugares similares cerca */}
