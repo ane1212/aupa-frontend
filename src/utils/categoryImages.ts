@@ -1,8 +1,6 @@
 const categoryImages = import.meta.glob('../assets/images/*.jpg', { eager: true });
 const categoryCounters = new Map<string, number>();
 
-// Normaliza el nombre de categoría para usarlo como nombre de archivo
-// Solo reemplaza / por _
 const normalizeCategoryForFilename = (category: string): string => {
     return category
         .trim()
