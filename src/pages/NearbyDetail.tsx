@@ -61,11 +61,11 @@ const NearbyDetail = () => {
     );
 
     const score = generateRandomScore(rec.id ?? rec.name);
-    const catLabel = getCatLabel(rec.category, copy);
+    const catLabel = getCatLabel(rec.sub_category, copy);
     const distStr = rec.distance_from_user != null
         ? formatDistance(rec.distance_from_user / 1000)
         : undefined;
-    const heroImage = rec.image || getCategoryImage(rec.category);
+    const heroImage = rec.image || getCategoryImage(rec.sub_category);
 
     const reviews = rec.reviews ?? [];
     const avgRating = reviews.length > 0 && reviews.every(r => r.rating != null)
