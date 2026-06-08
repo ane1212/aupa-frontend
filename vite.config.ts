@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
       },
       proxy: {
         '/api/v1/recommendations': {
-          target: 'http://aupa-fastapi:8000',
+          target: 'https://iceberg-api-ywds.onrender.com/',
           changeOrigin: true,
           rewrite: (path) => path,
         },

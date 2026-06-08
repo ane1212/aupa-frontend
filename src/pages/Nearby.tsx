@@ -56,7 +56,7 @@ const Nearby = () => {
 
                 const recsWithCategory = recs.map(rec => ({
                     ...rec,
-                    appCategory: getAppCategoryFromSubcategory(rec.category),
+                    appCategory: getAppCategoryFromSubcategory(rec.sub_category),
                 }));
 
                 setRecommendations(recsWithCategory);
@@ -75,14 +75,14 @@ const Nearby = () => {
         ? recommendations.filter(p =>
             p.name.toLowerCase().includes(query.toLowerCase()) ||
             p.description.toLowerCase().includes(query.toLowerCase()) ||
-            p.category.toLowerCase().includes(query.toLowerCase())
+            p.sub_category.toLowerCase().includes(query.toLowerCase())
         )
         : recommendations;
 
     const placesForMap: Place[] = filtered.map((rec, index) => ({
         id: index,
         name: rec.name,
-        category: rec.category,
+        category: rec.sub_category,
         lat: rec.latitude ?? 43.2627,
         lng: rec.longitude ?? -2.9253,
         type: rec.description,
@@ -139,12 +139,12 @@ const Nearby = () => {
                                     key={`${rec.name}-${index}`}
                                     id={rec.id ?? String(index)}
                                     name={rec.name}
-                                    image={getCategoryImage(rec.category)}
+                                    image={getCategoryImage(rec.sub_category)}
                                     duration={rec.address ?? ''}
                                     price=""
                                     score={generateRandomScore(rec.id ?? rec.name)}
-                                    category={rec.category}
                                     lang={user?.language}
+                                    category={rec.sub_category}
                                     distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
                                     onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
                                 />

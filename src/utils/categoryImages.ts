@@ -10,11 +10,11 @@ export const getCategoryImage = (category: string): string => {
     const nextCount = currentCount + 1;
     categoryCounters.set(normalizedCategory, nextCount);
 
-    const useNumbered = nextCount % 2 === 1;  // 1, 3, 5... → numbered; 2, 4, 6... → base
+    const useNumbered = nextCount % 2 === 1;
     
     let numberedImage: string | null = null;
     if (useNumbered) {
-        const numberedIndex = Math.floor(nextCount / 2) + 1;  // 1, 2, 3...
+        const numberedIndex = Math.floor(nextCount / 2) + 1;
         numberedImage = `../assets/images/${normalizedCategory}_${numberedIndex}.jpg`;
     }
     
