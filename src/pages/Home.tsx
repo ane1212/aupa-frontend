@@ -1,73 +1,54 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapPin, Sun } from 'lucide-react';
 import { fastapiService } from '../services/API';
-import { getUserLocation, TEST_LOCATION } from '../utils/location';
+import { getUserLocation, TEST_LOCATION, formatDistance } from '../utils/location';
 import { getCategoryImage } from '../utils/categoryImages';
 import { generateRandomScore } from '../utils/randomScore';
-import { getWeather, getLocationFromCoords} from '../utils/weather';
+import { getWeather, getLocationFromCoords } from '../utils/weather';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 import logo from '../assets/logo-trimmed.png';
-import {
-  RecommendationCard,
-  SectionHeader,
-  LocalPickCard,
-} from '../components/home';
+import { SectionHeader, LocalPickCard } from '../components/home';
+import ExperienceCard from '../components/experiences/ExperienceCard';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
-import type { LanguageType } from '../services/models';
+import type { LanguageType, Recommendation } from '../services/models';
 import NotificationPanel from '../components/layout/NotificationPanel';
 
-
 const Home = () => {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const copy = getAppCopy(user?.language);
   const locale = (user?.language ?? 'en') as LanguageType;
 
-  const [recommendations, setRecommendations] = useState<{
-    title: string;
-    distance: string;
-    score: number;
-  }[]>([]);
-
-
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [localPicks, setLocalPicks] = useState<{
     name: string;
     category: string;
     distance: string;
     image: string;
   }[]>([]);
-
-
   const [loading, setLoading] = useState(true);
-
-
   const [weather, setWeather] = useState({ temperature: 0, unit: '°C' });
   const [locationName, setLocationName] = useState('Paris');
-
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const location = await getUserLocation() ?? TEST_LOCATION;
-        
+
         const [weatherData, locationData] = await Promise.all([
           getWeather(location.lat, location.lng),
           getLocationFromCoords(location.lat, location.lng),
         ]);
-        
+
         setWeather(weatherData);
         setLocationName(locationData.city || locationData.name.split(',')[0]);
 
         const nearestResponse = await fastapiService.nearest(location.lat, location.lng, 12);
         const nearestRecs = nearestResponse.recommendations || [];
 
-
-        setRecommendations(nearestRecs.slice(0, 6).map(rec => ({
-          title: rec.name,
-          distance: `${Math.floor((rec as any).distance_from_user || 0)}m away`,
-          score: generateRandomScore(),
-        })));
-
+        setRecommendations(nearestRecs.slice(0, 6));
 
         setLocalPicks(nearestRecs.slice(6, 12).map(rec => ({
           name: rec.name,
@@ -76,7 +57,6 @@ const Home = () => {
           image: getCategoryImage(rec.sub_category),
         })));
 
-
       } catch (error) {
         console.error('Failed to fetch data', error);
       } finally {
@@ -84,12 +64,8 @@ const Home = () => {
       }
     };
 
-
     fetchData();
   }, []);
-
-
-
 
   return (
     <div className="home">
@@ -99,12 +75,8 @@ const Home = () => {
           <NotificationPanel />
         </div>
 
-
-
         <h1>Aupa, {user?.name ?? copy.home.titleSuffix}!</h1>
         <p>{copy.home.subtitle}</p>
-
-
 
         <div className="home-meta">
           <span>
@@ -120,15 +92,26 @@ const Home = () => {
 
       <section className="home-section">
         <SectionHeader title={copy.home.recommended} />
-        <div className="recommendation-list">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            recommendations.map((item, index) => (
-              <RecommendationCard key={`${item.title}-${index}`} {...item} />
-            ))
-          )}
-        </div>
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            {recommendations.map((rec, index) => (
+              <ExperienceCard
+                key={`${rec.name}-${index}`}
+                id={rec.id ?? String(index)}
+                name={rec.name}
+                image={getCategoryImage(rec.category)}
+                duration={rec.address ?? ''}
+                price=""
+                score={generateRandomScore(rec.id ?? rec.name)}
+                category={rec.category}
+                distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
+                onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
+              />
+            ))}
+          </ul>
+        )}
       </section>
 
       <section className="home-section">
@@ -138,10 +121,10 @@ const Home = () => {
             <p>Loading...</p>
           ) : (
             localPicks.map((item, index) => (
-              <LocalPickCard 
-                key={`${item.name}-${index}`} 
-                name={item.name} 
-                category={item.category} 
+              <LocalPickCard
+                key={`${item.name}-${index}`}
+                name={item.name}
+                category={item.category}
                 distance={item.distance}
                 image={item.image}
               />
@@ -149,10 +132,8 @@ const Home = () => {
           )}
         </div>
       </section>
-
     </div>
   );
 };
-
 
 export default Home;

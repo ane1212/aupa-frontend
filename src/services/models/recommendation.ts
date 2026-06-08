@@ -5,12 +5,13 @@ export interface Recommendation {
     sub_category: string;
     google_rating: number;
     id?: string;
-    distance?: number;
+    distance_from_user?: number;
     latitude?: number;
     longitude?: number;
     address?: string;
     image?: string;
     price?: number;
+    reviews?: { author?: string; rating?: number; text?: string }[];
 }
 
 export interface RecommendationsResponse {

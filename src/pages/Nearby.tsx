@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { fastapiService } from '../services/API';
 import { getCategoryImage } from '../utils/categoryImages';
-import { getUserLocation, TEST_LOCATION } from '../utils/location';
+import { getUserLocation, TEST_LOCATION, formatDistance } from '../utils/location';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
+import { generateRandomScore } from '../utils/randomScore';
 import type { Recommendation } from '../services/models';
 import { CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants';
 import { Bookmark } from 'lucide-react';
@@ -10,6 +12,8 @@ import NearbyMap from '../components/nearby/NearbyMap';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
 import type { Place } from '../components/nearby/types';
+import ExperienceCard from '../components/experiences/ExperienceCard';
+import SearchBar from '../components/experiences/SearchBar';
 
 export const categories = [
     'food', 'culture', 'nature', 'bars', 'local_favorites',
@@ -20,6 +24,7 @@ export const categories = [
 
 
 const Nearby = () => {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const copy = getAppCopy(user?.language);
 
@@ -98,7 +103,7 @@ const Nearby = () => {
         lat: rec.latitude ?? 43.2627,
         lng: rec.longitude ?? -2.9253,
         type: rec.description,
-        distance: `${rec.distance ?? 0}m`,
+        distance: rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : '0 m',
         walkTime: '',
         score: rec.local_score ?? 0,
     }));
@@ -135,39 +140,37 @@ const Nearby = () => {
                         );
                     })}
                 </div>
-                <input
-                    type="text"
-                    className="search-bar"
-                    placeholder={copy.nearby.searchPlaceholder}
+                <SearchBar
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={setQuery}
+                    placeholder={copy.nearby.searchPlaceholder}
                 />
             </div>
-            <div className='nearby-body'>
-                {loading && <p className="loading-text">Loading...</p>}
-                {!loading && filtered.slice(0, 3).map((rec, index) => (
-                    <div key={`${rec.name}-${index}`} className="place-item">
-                        <img
-                            src={getCategoryImage(rec.sub_category)}
-                            alt={rec.name}
-                            style={{
-                                width: '100%',
-                                height: '144px',
-                                objectFit: 'cover',
-                            }}
-                        />
-                        <div className='place-item-content'>
-                            <h3>{rec.name}</h3>
-                            <p>{rec.description}</p>
-                            <p>{rec.distance ?? 0}m</p>
-                        </div>
-                        {rec.local_score > 0 && <p>Score: {rec.local_score}</p>}
-                    </div>
-                ))}
-            </div>
-            <div className='nearby-footer'>
-
-                <NearbyMap places={placesForMap} />
+            <div className="nearby-content">
+                <div className='nearby-body'>
+                    {loading && <p className="loading-text">Loading...</p>}
+                    {!loading && (
+                        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            {filtered.slice(0, 10).map((rec, index) => (
+                                <ExperienceCard
+                                    key={`${rec.name}-${index}`}
+                                    id={rec.id ?? String(index)}
+                                    name={rec.name}
+                                    image={getCategoryImage(rec.sub_category)}
+                                    duration={rec.address ?? ''}
+                                    price=""
+                                    score={generateRandomScore(rec.id ?? rec.name)}
+                                    category={rec.sub_category}
+                                    distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
+                                    onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
+                                />
+                            ))}
+                        </ul>
+                    )}
+                </div>
+                <div className='nearby-footer'>
+                    <NearbyMap places={placesForMap} />
+                </div>
             </div>
 
         </div>
