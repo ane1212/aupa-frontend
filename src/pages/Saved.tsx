@@ -4,6 +4,7 @@ import type { Filter, FilterDef, SavedItem } from '../components/saved';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
 import { favoriteService, eventService } from '../services/API';
+import { generateRandomScore } from '../utils/randomScore';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 
@@ -18,6 +19,10 @@ const Saved = () => {
     const [activeFilter, setActiveFilter] = useState<Filter>('all');
     const [savedList, setSavedList] = useState<SavedItem[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const handleRemove = (eventId: string) => {
+        setSavedList(prev => prev.filter(i => i.id !== eventId));
+    };
 
     useEffect(() => {
         const fetchSaved = async () => {
@@ -34,13 +39,16 @@ const Saved = () => {
                         favorites.map(async (fav) => {
                             try {
                                 const event = await eventService.getById(fav.eventId);
-                                const category = getAppCategoryFromSubcategory(event.categoryId || 'event');
+                                const mapped = getAppCategoryFromSubcategory(event.categoryId || '');
+                                const VALID_CATS = ['food', 'bars', 'experiences', 'places'];
+                                const category = VALID_CATS.includes(mapped) ? mapped : 'places';
                                 return {
                                     id: event.id,
+                                    favoriteId: fav.id,
                                     name: event.title,
                                     meta: truncate(event.description ?? null, 50),
                                     sub: event.address || '',
-                                    score: 0,
+                                    score: generateRandomScore(event.id),
                                     category,
                                     image: event.image || getCategoryImage(category),
                                 } satisfies SavedItem;
@@ -102,6 +110,7 @@ const Saved = () => {
                 categoryLabels={categoryLabelsTranslated}
                 noItems={copy.saved.noItems}
                 seeAll={copy.saved.filterAll}
+                onRemove={handleRemove}
             />
         </div>
     );

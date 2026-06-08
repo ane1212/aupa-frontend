@@ -1,16 +1,27 @@
 import { useState, useEffect } from 'react';
-import { eventService } from '../../services/API';
+import { eventService, categoryService } from '../../services/API';
 import type { Event } from '../../services/models';
 import EventCard from './EventCard';
 
 const EventList: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([]);
+    const [categoryMap, setCategoryMap] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setLoading(true);
-        eventService.getAll()
-            .then(res => setEvents(res.data || []))
+        Promise.all([
+            eventService.getAll(),
+            categoryService.getAll({ limit: 100 }),
+        ])
+            .then(([eventsRes, catsRes]) => {
+                setEvents(eventsRes.data || []);
+                const map: Record<string, string> = {};
+                for (const cat of (catsRes.data || [])) {
+                    map[cat.id] = cat.name;
+                }
+                setCategoryMap(map);
+            })
             .catch(() => setEvents([]))
             .finally(() => setLoading(false));
     }, []);
@@ -21,7 +32,7 @@ const EventList: React.FC = () => {
     return (
         <ul className="exp-list">
             {events.map(event => (
-                <EventCard key={event.id} event={event} />
+                <EventCard key={event.id} event={event} categoryName={event.categoryId ? categoryMap[event.categoryId] : undefined} />
             ))}
         </ul>
     );

@@ -234,7 +234,6 @@ p {
 }
 
 .experience-list,
-.exp-list,
 .sv-place-list,
 .places-list {
   display: flex;
@@ -243,6 +242,15 @@ p {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.exp-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 2px 2px 4px;
 }
 
 .recommendation-list,
@@ -631,12 +639,14 @@ p {
   color: #9c9292;
 }
 
+.sv-bookmark svg,
 .exp-bookmark svg {
   display: block;
   flex-shrink: 0;
   overflow: hidden;
 }
 
+.sv-bookmark.is-saved,
 .exp-bookmark.is-saved {
   color: #ef342a;
 }
@@ -671,7 +681,20 @@ p {
       transparent calc(50% - 0.5px),
       #ccc calc(50% - 0.5px),
       #ccc calc(50% + 0.5px),
+      transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom left,
+      transparent calc(50% - 0.5px),
+      #ccc calc(50% - 0.5px),
+      #ccc calc(50% + 0.5px),
       transparent calc(50% + 0.5px))
+}
+
+.exp-card-img {
+  width: 76px;
+  height: 76px;
+  border-radius: 10px;
+  border: none;
+  object-fit: cover;
 }
 
 .sv-img-placeholder.small,
@@ -689,6 +712,24 @@ p {
   flex-shrink: 0;
 }
 
+.exp-card {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 14px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 10px 14px 10px 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.15s ease;
+}
+
+@media (hover: hover) {
+  .exp-card:hover {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.07);
+  }
+}
+
 .place-info,
 .np-place-info,
 .sv-place-info,
@@ -701,7 +742,7 @@ p {
 }
 
 .exp-card-info {
-  gap: 3px;
+  gap: 4px;
 }
 
 .place-name,
@@ -720,14 +761,34 @@ p {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   line-clamp: 2;
+  white-space: normal;
+  font-size: 0.88rem;
+  color: #1a1a1a;
 }
 
 .place-meta,
 .np-place-meta,
-.sv-place-meta,
-.exp-card-meta {
+.sv-place-meta {
   font-size: 0.75rem;
   color: #555;
+}
+
+.exp-card-meta {
+  font-size: 0.73rem;
+  color: #888;
+}
+
+.exp-card-cat {
+  display: inline-block;
+  align-self: flex-start;
+  background: #f0f0f0;
+  color: #555;
+  border-radius: 6px;
+  padding: 1px 6px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .sv-place-meta {
@@ -1069,10 +1130,10 @@ p {
   .sv-place-list {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 2px 2px 4px;
     display: flex;
     flex-direction: column;
-    gap: var(--mp);
+    gap: 10px;
   }
 
   .sv-place-card {
@@ -2171,8 +2232,8 @@ p {
     }
 
     .exp-card-img {
-      width: 78px;
-      height: 78px;
+      width: 82px;
+      height: 82px;
     }
 
     .exp-card-name {
@@ -2196,8 +2257,8 @@ p {
     }
 
     .exp-card-img {
-      width: 86px;
-      height: 86px;
+      width: 90px;
+      height: 90px;
     }
 
     .exp-card-name {
@@ -2272,10 +2333,25 @@ p {
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
 
+  .exp-trip-card {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 10px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px 12px 10px 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: box-shadow 0.15s ease;
 
+    &:hover {
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.07);
+    }
+  }
 
   .exp-trip-drag {
     color: #c0c0c0;
@@ -2308,15 +2384,16 @@ p {
 
   .exp-trip-name {
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.88rem;
+    color: #1a1a1a;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .exp-trip-meta {
-    font-size: 0.72rem;
-    color: #9c9292;
+    font-size: 0.73rem;
+    color: #888;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

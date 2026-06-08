@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { ExperienceCard, SearchBar } from '../components/experiences';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
-import { itineraryService, eventService, favoriteService } from '../services/API';
+import { itineraryService, eventService, favoriteService, categoryService } from '../services/API';
 import type { ItineraryItem } from '../services/API';
 import type { Event } from '../services/models';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
 import { generateRandomScore } from '../utils/randomScore';
+import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import { GripVertical, Trash2 } from 'lucide-react';
 
 interface Experience {
@@ -18,6 +19,9 @@ interface Experience {
     price: string;
     score: number;
     image: string;
+    date?: string;
+    category?: string;
+    distance?: string;
 }
 
 interface TripCard extends ItineraryItem {
@@ -44,21 +48,52 @@ const Experiences = () => {
 
     useEffect(() => {
         const fetchAll = async () => {
-            const [eventsRes, favsRes] = await Promise.allSettled([
+            const [eventsRes, favsRes, catsRes, userLoc] = await Promise.allSettled([
                 eventService.getAll({ limit: 100 }),
                 user ? favoriteService.getByUser(user.id, { limit: 200 }) : Promise.resolve(null),
+                categoryService.getAll({ limit: 100 }),
+                getUserLocation(),
             ]);
+            const userCoords = userLoc.status === 'fulfilled' ? userLoc.value : null;
+
+            const catMap: Record<string, string> = {};
+            if (catsRes.status === 'fulfilled' && catsRes.value) {
+                for (const cat of (catsRes.value.data ?? [])) {
+                    catMap[cat.id] = cat.name;
+                }
+            }
 
             if (eventsRes.status === 'fulfilled') {
                 const events = eventsRes.value.data ?? [];
-                setDbEvents(events.map(ev => ({
-                    id: ev.id,
-                    name: ev.title,
-                    duration: ev.startTime + (ev.endTime ? ` - ${ev.endTime}` : ''),
-                    price: ev.price === 0 ? 'Free' : `€${ev.price}`,
-                    score: generateRandomScore(ev.id),
-                    image: ev.image || getCategoryImage(getAppCategoryFromSubcategory(ev.categoryId || '')),
-                })));
+                const formatTime = (t?: string) => t ? t.slice(0, 5) : '';
+                const formatDate = (d?: string) => {
+                    if (!d) return '';
+                    const parts = d.split('T')[0].split('-').map(Number);
+                    if (parts.length < 3 || parts.some(isNaN)) return '';
+                    const [y, m, day] = parts;
+                    return new Date(y, m - 1, day).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+                };
+                setDbEvents(events.map(ev => {
+                    const t1 = formatTime(ev.startTime);
+                    const t2 = formatTime(ev.endTime);
+                    const appCat = ev.categoryId ? catMap[ev.categoryId] : undefined;
+                    let distance: string | undefined;
+                    if (userCoords && ev.latitude != null && ev.longitude != null) {
+                        const km = calcDistanceKm(userCoords.lat, userCoords.lng, ev.latitude, ev.longitude);
+                        distance = formatDistance(km);
+                    }
+                    return {
+                        id: ev.id,
+                        name: ev.title,
+                        duration: [t1, t2].filter(Boolean).join('–'),
+                        date: formatDate(ev.date),
+                        category: appCat,
+                        distance,
+                        price: ev.price === 0 ? 'Gratis' : `€${ev.price}`,
+                        score: generateRandomScore(ev.id),
+                        image: ev.image || getCategoryImage(getAppCategoryFromSubcategory(ev.categoryId || '')),
+                    };
+                }));
             }
 
             if (favsRes.status === 'fulfilled' && favsRes.value) {
@@ -235,6 +270,9 @@ const Experiences = () => {
                                         <GripVertical size={18} />
                                     </span>
                                     <span className="exp-trip-index">{idx + 1}</span>
+                                    {item.event?.image && (
+                                        <img className="exp-card-img" src={item.event.image} alt={item.event?.title ?? ''} />
+                                    )}
                                     <div className="exp-trip-info">
                                         <p className="exp-trip-name">
                                             {item.event?.title ?? item.eventId}

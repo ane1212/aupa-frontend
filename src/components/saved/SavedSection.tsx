@@ -6,9 +6,10 @@ interface SavedSectionProps {
     label: string;
     items: SavedItem[];
     seeAll: string;
+    onRemove: (id: string) => void;
 }
 
-const SavedSection = ({ cat, label, items, seeAll }: SavedSectionProps) => (
+const SavedSection = ({ cat, label, items, seeAll, onRemove }: SavedSectionProps) => (
     <div key={cat} className="sv-section">
         <div className="sv-section-head">
             <span className="sv-section-label">{label}</span>
@@ -16,7 +17,7 @@ const SavedSection = ({ cat, label, items, seeAll }: SavedSectionProps) => (
         </div>
         <ul className="sv-place-list">
             {items.map(item => (
-                <SavedPlaceCard key={item.id} item={item} />
+                <SavedPlaceCard key={item.id} item={item} onRemove={onRemove} />
             ))}
         </ul>
     </div>

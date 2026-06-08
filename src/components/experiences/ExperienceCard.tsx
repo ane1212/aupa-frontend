@@ -1,6 +1,14 @@
 import { Bookmark } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
+const CATEGORY_LABELS: Record<string, string> = {
+    food: 'Comida', bars: 'Bares', experiences: 'Experiencias', places: 'Lugares',
+    culture: 'Cultura', nature: 'Naturaleza', shopping: 'Compras', nightlife: 'Noche',
+    coffee_shops: 'Cafeterías', walking_tours: 'Rutas', family_friendly: 'Familia',
+    history: 'Historia', festivals_events: 'Eventos', beaches: 'Playas',
+    budget_friendly: 'Económico', local_favorites: 'Favoritos locales',
+};
+
 interface Props {
     id: number | string;
     name: string;
@@ -8,6 +16,9 @@ interface Props {
     price: string;
     score: number;
     image: string;
+    date?: string;
+    category?: string;
+    distance?: string;
     saved?: boolean;
     onBookmark?: () => void;
 }
@@ -25,14 +36,18 @@ const BookmarkFilled = () => (
     </svg>
 );
 
-const ExperienceCard = ({ id, name, duration, price, score, image, saved = false, onBookmark }: Props) => {
+const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, onBookmark }: Props) => {
     const navigate = useNavigate();
+    const catLabel = category ? (CATEGORY_LABELS[category] ?? category) : null;
+    const timeMeta = [date, duration].filter(Boolean).join(' · ');
     return (
         <li className="exp-card" onClick={() => navigate(`/detail/${id}`)} style={{ cursor: 'pointer' }}>
             <img className="exp-card-img" src={image} alt={name} />
             <div className="exp-card-info">
                 <p className="exp-card-name">{name}</p>
-                <p className="exp-card-meta">{duration} · {price}</p>
+                {catLabel && <p className="exp-card-meta exp-card-cat">{catLabel}</p>}
+                {timeMeta && <p className="exp-card-meta">{timeMeta}</p>}
+                {distance && <p className="exp-card-meta">{distance}</p>}
             </div>
             <div className="exp-card-actions">
                 <div className="exp-score-row">

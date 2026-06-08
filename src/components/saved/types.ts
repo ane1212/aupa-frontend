@@ -3,6 +3,7 @@ export type Filter = 'all' | 'places' | 'food' | 'bars';
 
 export interface SavedItem {
     id: string;
+    favoriteId?: string;
     name: string;
     meta: string;
     sub?: string;
