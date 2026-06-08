@@ -1,17 +1,17 @@
 import { Bookmark } from 'lucide-react';
-import PlaceholderImage from './PlaceholderImage';
 
 interface Props {
     name: string;
     duration: string;
     price: string;
     score: number;
+    image: string;
     onBookmark?: () => void;
 }
 
-const ExperienceCard = ({ name, duration, price, score, onBookmark }: Props) => (
+const ExperienceCard = ({ name, duration, price, score, image, onBookmark }: Props) => (
     <li className="exp-card">
-        <PlaceholderImage className="exp-card-img" />
+        <img className="exp-card-img" src={image} alt={name} />
         <div className="exp-card-info">
             <p className="exp-card-name">{name}</p>
             <p className="exp-card-meta">{duration} · {price}</p>

@@ -8,7 +8,7 @@ const SuperAdminRoute = ({ children }: { children: ReactNode }) => {
   const location = useLocation();
 
   if (isLoading) {
-    return null; // Or a loading spinner
+    return null;
   }
 
   if (!isAuthenticated || user?.role !== UserRole.SUPER_ADMIN) {

@@ -1,4 +1,4 @@
-import { GripVertical, MoreVertical, ChevronDown } from 'lucide-react';
+import { GripVertical, MoreVertical } from 'lucide-react';
 import type { TripItem } from './types';
 import ImgPlaceholder from './ImgPlaceholder';
 
@@ -11,7 +11,7 @@ interface TripListItemProps {
     onNavigate: (id: number) => void;
 }
 
-const TripListItem = ({ item, idx, completed, onToggle, onMenuOpen, onNavigate }: TripListItemProps) => (
+const TripListItem = ({ item, completed, onToggle, onMenuOpen, onNavigate }: TripListItemProps) => (
     <li className="sv-trip-item" onClick={() => onNavigate(item.id)}>
         <span className="sv-drag" aria-hidden="true" onClick={e => e.stopPropagation()}>
             <GripVertical size={16} />
@@ -40,15 +40,6 @@ const TripListItem = ({ item, idx, completed, onToggle, onMenuOpen, onNavigate }
             >
                 <MoreVertical size={16} />
             </button>
-            {idx === 0 && (
-                <button
-                    className="sv-icon-btn"
-                    aria-label="Expandir"
-                    onClick={e => e.stopPropagation()}
-                >
-                    <ChevronDown size={16} />
-                </button>
-            )}
         </div>
     </li>
 );

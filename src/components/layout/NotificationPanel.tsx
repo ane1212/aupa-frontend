@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Bell, Check, CheckCheck, Trash2, X, Info, AlertTriangle, Monitor } from 'lucide-react'
 import { notificationService } from '../../services/API'
+import { useAuth } from '../../context'
 import type { Notification } from '../../services/models'
+
 
 const typeIcon = (type: string) => {
     if (type === 'alerta') return <AlertTriangle size={14} color="#d97706" />
@@ -9,21 +11,31 @@ const typeIcon = (type: string) => {
     return <Info size={14} color="#2563eb" />
 }
 
+
 const typeBg = (type: string) => {
     if (type === 'alerta') return '#fffbeb'
     if (type === 'sistema') return '#f5f3ff'
     return '#eff6ff'
 }
 
+
 const NotificationPanel = () => {
+    const { user } = useAuth()
     const [open, setOpen] = useState(false)
     const [notifications, setNotifications] = useState<Notification[]>([])
     const [loading, setLoading] = useState(false)
     const panelRef = useRef<HTMLDivElement>(null)
 
+
     const unread = notifications.filter(n => !n.read).length
 
+
     const fetchNotifications = () => {
+        if (!user) {
+            setNotifications([])
+            return
+        }
+
         setLoading(true)
         notificationService.getAll({ page: 1, limit: 30 })
             .then(res => {
@@ -37,14 +49,13 @@ const NotificationPanel = () => {
             .finally(() => setLoading(false))
     }
 
-    // Load on mount + every 60s
     useEffect(() => {
+        if (!user) return
         fetchNotifications()
         const interval = setInterval(fetchNotifications, 60_000)
         return () => clearInterval(interval)
-    }, [])
+    }, [user])
 
-    // Close on outside click
     useEffect(() => {
         if (!open) return
         const handler = (e: MouseEvent) => {
@@ -56,24 +67,30 @@ const NotificationPanel = () => {
         return () => document.removeEventListener('mousedown', handler)
     }, [open])
 
+
     const handleMarkRead = async (id: string) => {
+        if (!user) return 
         await notificationService.markAsRead(id)
         setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n))
     }
 
+
     const handleMarkAllRead = async () => {
+        if (!user) return 
         await notificationService.markAllAsRead()
         setNotifications(prev => prev.map(n => ({ ...n, read: true })))
     }
 
+
     const handleDelete = async (id: string) => {
+        if (!user) return 
         await notificationService.delete(id)
         setNotifications(prev => prev.filter(n => n.id !== id))
     }
 
+
     return (
         <div ref={panelRef} style={{ position: 'relative' }}>
-            {/* Bell button */}
             <button
                 type="button"
                 onClick={() => setOpen(o => !o)}
@@ -99,7 +116,6 @@ const NotificationPanel = () => {
                 )}
             </button>
 
-            {/* Dropdown panel */}
             {open && (
                 <div style={{
                     position: 'absolute', top: 'calc(100% + 10px)', right: 0,
@@ -110,7 +126,6 @@ const NotificationPanel = () => {
                     zIndex: 300, display: 'flex', flexDirection: 'column',
                     animation: 'modalIn 0.18s ease',
                 }}>
-                    {/* Header */}
                     <div style={{
                         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                         padding: '1rem 1.1rem 0.75rem',
@@ -145,14 +160,15 @@ const NotificationPanel = () => {
                         </div>
                     </div>
 
-                    {/* List */}
                     <div style={{ flex: 1, overflowY: 'auto' }}>
                         {loading ? (
                             <p style={{ textAlign: 'center', color: '#98a2b3', fontSize: '0.82rem', padding: '2rem 0' }}>Cargando...</p>
                         ) : notifications.length === 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '2.5rem 1rem' }}>
                                 <Bell size={30} color="#d0d5dd" />
-                                <p style={{ margin: 0, color: '#98a2b3', fontSize: '0.82rem' }}>No tienes notificaciones.</p>
+                                <p style={{ margin: 0, color: '#98a2b3', fontSize: '0.82rem' }}>
+                                    {user ? 'No tienes notificaciones.' : 'Inicia sesión para ver notificaciones.'}
+                                </p>
                             </div>
                         ) : (
                             notifications.map(n => (
@@ -166,7 +182,7 @@ const NotificationPanel = () => {
                                         transition: 'background 0.15s',
                                     }}
                                 >
-                                    {/* Type icon */}
+
                                     <div style={{
                                         width: 30, height: 30, flexShrink: 0, borderRadius: '8px',
                                         background: typeBg(n.type), display: 'grid', placeItems: 'center', marginTop: 2,
@@ -174,7 +190,6 @@ const NotificationPanel = () => {
                                         {typeIcon(n.type)}
                                     </div>
 
-                                    {/* Content */}
                                     <div style={{ flex: 1, minWidth: 0 }}>
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                             <strong style={{ fontSize: '0.82rem', color: '#111827' }}>{n.title}</strong>
@@ -190,7 +205,6 @@ const NotificationPanel = () => {
                                         )}
                                     </div>
 
-                                    {/* Actions */}
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', flexShrink: 0 }}>
                                         {!n.read && (
                                             <button
@@ -220,5 +234,6 @@ const NotificationPanel = () => {
         </div>
     )
 }
+
 
 export default NotificationPanel

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import PasswordInput from './PasswordInput';
-import { Mail, ArrowLeft } from 'lucide-react';
+import { Mail, ChevronLeft } from 'lucide-react';
 import footer from '../../assets/redfooter.png';
 import AuthLink from './AuthLink';
 import { useNavigate } from 'react-router-dom';
@@ -70,8 +70,8 @@ const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
                 <h2>Welcome back</h2>
                 <span>Sign in to your Aupa! account</span>
                 <br />
-                <button type="button" className="btn-back" onClick={onBack}>
-                    <ArrowLeft className="icon-back" size={21} color="currentColor" />
+                <button className="detail-hero-btn detail-hero-back" onClick={() => navigate(-1)}>
+                    <ChevronLeft size={20} />
                 </button>
             </div>
 

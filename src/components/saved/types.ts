@@ -8,6 +8,7 @@ export interface SavedItem {
     sub?: string;
     score: number;
     category: string;
+    image?: string;
 }
 
 export interface TripItem {
