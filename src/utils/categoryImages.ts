@@ -1,24 +1,28 @@
 const categoryImages = import.meta.glob('../assets/images/*.jpg', { eager: true });
 const categoryCounters = new Map<string, number>();
 
+const normalizeCategoryForFilename = (category: string): string => {
+    return category
+        .trim()
+        .toLowerCase()
+        .replace(/\//g, '_');
+};
 
-export const getCategoryImage = (category?: string | null): string => {
-    if (!category) return new URL('../assets/images/default.jpg', import.meta.url).href;
-    const normalizedCategory = category.trim().toLowerCase();
-    
+export const getCategoryImage = (category: string): string => {
+    const normalizedCategory = normalizeCategoryForFilename(category);
+
     const currentCount = categoryCounters.get(normalizedCategory) ?? 0;
-    
     const nextCount = currentCount + 1;
     categoryCounters.set(normalizedCategory, nextCount);
 
     const useNumbered = nextCount % 2 === 1;
-    
+
     let numberedImage: string | null = null;
     if (useNumbered) {
         const numberedIndex = Math.floor(nextCount / 2) + 1;
         numberedImage = `../assets/images/${normalizedCategory}_${numberedIndex}.jpg`;
     }
-    
+
     const baseImage = `../assets/images/${normalizedCategory}.jpg`;
 
     if (numberedImage) {
