@@ -5,6 +5,7 @@ import { favoriteService, eventService, categoryService } from '../services/API'
 import { generateRandomScore } from '../utils/randomScore';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
+import { getFavMeta, removeFromFavCache } from '../utils/favCache';
 import { CATEGORY_ICON_MAP } from '../components/onboarding/onboarding.constants';
 import { categories as nearbyCategories } from './Nearby';
 import { Bookmark } from 'lucide-react';
@@ -82,7 +83,23 @@ const Saved = () => {
                                 category,
                                 distance,
                             };
-                        } catch { return null; }
+                        } catch {
+                            // FastAPI place — use cached metadata
+                            const meta = getFavMeta(fav.eventId);
+                            if (!meta) return null;
+                            return {
+                                id: fav.eventId,
+                                favoriteId: fav.id,
+                                name: meta.name,
+                                duration: '',
+                                date: '',
+                                price: '',
+                                score: meta.score,
+                                image: meta.image || getCategoryImage(meta.category ?? 'places'),
+                                category: meta.category ?? 'places',
+                                distance: meta.distance,
+                            };
+                        }
                     })
                 );
                 const items = raw.filter((i): i is SavedCard => i !== null);
@@ -103,6 +120,7 @@ const Saved = () => {
         setSavedList(prev => prev.filter(i => i.id !== id));
         try {
             await favoriteService.delete(item.favoriteId);
+            removeFromFavCache(item.id);
         } catch {
             setSavedList(prev => [...prev, item]);
         }

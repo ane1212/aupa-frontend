@@ -8,7 +8,7 @@ import type { ItineraryItem } from '../services/API';
 import type { Event } from '../services/models';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
-import { removeFromTripCache } from '../utils/tripCache';
+import { removeFromTripCache, getTripMeta } from '../utils/tripCache';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import { GripVertical, Trash2, Check } from 'lucide-react';
@@ -31,6 +31,8 @@ interface Experience {
 
 interface TripCard extends ItineraryItem {
     event?: Event;
+    meta?: { name: string; image: string; category?: string; score: number; distance?: string };
+    distance?: string;
 }
 
 type ExpTab = 'all' | 'mytrips';
@@ -125,15 +127,25 @@ const Experiences = () => {
         const fetchTrips = async () => {
             setLoadingTrips(true);
             try {
-                const res = await itineraryService.getMy({ limit: 50 });
-                const items = res.data ?? [];
+                const [res, userLoc] = await Promise.allSettled([
+                    itineraryService.getMy({ limit: 50 }),
+                    getUserLocation(),
+                ]);
+                const items = res.status === 'fulfilled' ? (res.value.data ?? []) : [];
+                const userCoords = userLoc.status === 'fulfilled' ? userLoc.value : null;
                 const withEvents = await Promise.all(
                     items.map(async (item) => {
                         try {
                             const event = await eventService.getById(item.eventId);
-                            return { ...item, event };
+                            let distance: string | undefined;
+                            if (userCoords && event.latitude != null && event.longitude != null) {
+                                const km = calcDistanceKm(userCoords.lat, userCoords.lng, event.latitude, event.longitude);
+                                distance = formatDistance(km);
+                            }
+                            return { ...item, event, distance } as TripCard;
                         } catch {
-                            return item as TripCard;
+                            const meta = getTripMeta(item.eventId);
+                            return { ...item, meta, distance: meta?.distance } as TripCard;
                         }
                     })
                 );
@@ -384,7 +396,7 @@ const Experiences = () => {
                                             onDragEnter={() => handleDragEnter(idx)}
                                             onDragEnd={handleDragEnd}
                                             onDragOver={e => e.preventDefault()}
-                                            onClick={() => navigate(`/detail/${item.eventId}`)}
+                                            onClick={() => item.event ? navigate(`/detail/${item.eventId}`) : undefined}
                                         >
                                             <span
                                                 className="exp-trip-drag"
@@ -401,17 +413,20 @@ const Experiences = () => {
                                             >
                                                 {checkedIds.has(item.id) && <Check size={12} strokeWidth={3} />}
                                             </button>
-                                            {item.event?.image && (
+                                            {(item.event?.image || item.meta?.image) && (
                                                 <div className="exp-card-img-wrap">
-                                                    <img className="exp-card-img" src={item.event.image} alt={item.event?.title ?? ''} />
+                                                    <img className="exp-card-img" src={item.event?.image ?? item.meta?.image} alt={item.event?.title ?? item.meta?.name ?? ''} />
                                                 </div>
                                             )}
                                             <div className="exp-trip-info">
                                                 <p className="exp-trip-name">
-                                                    {item.event?.title ?? item.eventId}
+                                                    {item.event?.title ?? item.meta?.name ?? item.eventId}
                                                 </p>
                                                 {item.event?.address && (
                                                     <p className="exp-trip-meta">{item.event.address}</p>
+                                                )}
+                                                {item.distance && (
+                                                    <p className="exp-trip-meta">{item.distance}</p>
                                                 )}
                                             </div>
                                             <button

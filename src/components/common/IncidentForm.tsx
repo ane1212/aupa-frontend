@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { incidentService } from '../../services/API';
 import { getAppCopy } from '../../i18n/copy';
-import { toUUID } from './CommentForm';
 
 interface Props {
     eventId: string;
@@ -24,7 +23,7 @@ const IncidentForm = ({ eventId, lang, onSent }: Props) => {
         setError('');
         setSubmitting(true);
         try {
-            await incidentService.create({ eventId: toUUID(eventId), content: text.trim() });
+            await incidentService.create({ eventId, content: text.trim() });
             setSent(true);
             setText('');
             setOpen(false);
