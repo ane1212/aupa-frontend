@@ -501,7 +501,7 @@ const Detail = () => {
                         disabled={savingTrip || !isRealEvent}
                     >
                         {inTrip ? <Check size={16} /> : <Plus size={16} />}
-                        {inTrip ? copy.detail.inTrip : `+ ${copy.detail.addToTrip}`}
+                        {inTrip ? copy.detail.inTrip : ` ${copy.detail.addToTrip}`}
                     </button>
                 </div>
             )}
