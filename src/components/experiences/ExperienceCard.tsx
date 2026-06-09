@@ -1,6 +1,12 @@
-import { Bookmark } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { isInTripCache, getTripItemId, addToTripCache, removeFromTripCache } from '../../utils/tripCache';
+import { isInFavCache, getFavItemId, addToFavCache, removeFromFavCache } from '../../utils/favCache';
+import { Bookmark, Luggage, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getAppCopy, getCatLabel } from '../../i18n/copy';
+import { useAuth } from '../../context';
+import { itineraryService, favoriteService } from '../../services/API';
+import { toUUID } from '../common/CommentForm';
 
 interface Props {
     id: number | string;
@@ -13,8 +19,10 @@ interface Props {
     category?: string;
     distance?: string;
     saved?: boolean;
+    inTrip?: boolean;
     lang?: string;
     onBookmark?: () => void;
+    onAddToTrip?: () => void;
     onClickCard?: () => void;
 }
 
@@ -31,12 +39,77 @@ const BookmarkFilled = () => (
     </svg>
 );
 
-const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, lang, onBookmark, onClickCard }: Props) => {
+// If `raw` is already a UUID, use it directly; otherwise derive one deterministically.
+// This ensures the cache key matches the eventId stored in the DB for both real events
+// (UUID ids) and FastAPI place-name-based ids.
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const toEventId = (raw: string) => UUID_RE.test(raw) ? raw : toUUID(raw);
+
+const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, inTrip = false, lang, onBookmark, onAddToTrip, onClickCard }: Props) => {
     const navigate = useNavigate();
+    const { user } = useAuth();
     const copy = getAppCopy(lang);
     const catLabel = category ? getCatLabel(category, copy) : null;
     const timeMeta = [date, duration].filter(Boolean).join(' · ');
     const handleClick = onClickCard ?? (() => navigate(`/detail/${id}`));
+
+    // eventId is the stable key used both in the DB and in the localStorage caches.
+    // For real DB events (UUID ids) it is the UUID itself; for FastAPI name-based ids
+    // it is a deterministic UUID derived from the name.
+    const eventId = toEventId(String(id));
+
+    // Trip state
+    const [localInTrip, setLocalInTrip] = useState(() => isInTripCache(eventId));
+    const [togglingTrip, setTogglingTrip] = useState(false);
+    const isInTrip = inTrip || localInTrip;
+
+    // Saved/bookmark state — self-managed when no onBookmark callback provided
+    const [localSaved, setLocalSaved] = useState(() => isInFavCache(eventId));
+    const [togglingSaved, setTogglingSaved] = useState(false);
+    const isSaved = saved || localSaved;
+
+    const handleBookmark = useCallback(async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!user) { navigate('/login'); return; }
+        if (onBookmark) { onBookmark(); return; }
+        if (togglingSaved) return;
+        setTogglingSaved(true);
+        try {
+            if (isSaved) {
+                const favId = getFavItemId(eventId);
+                if (favId) await favoriteService.delete(favId);
+                removeFromFavCache(eventId);
+                setLocalSaved(false);
+            } else {
+                const fav = await favoriteService.create({ eventId });
+                addToFavCache(eventId, fav.id);
+                setLocalSaved(true);
+            }
+        } catch { /* already removed or FK issue */ }
+        finally { setTogglingSaved(false); }
+    }, [user, onBookmark, togglingSaved, isSaved, eventId]);
+
+    const handleAddToTrip = useCallback(async (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!user) { navigate('/login'); return; }
+        if (onAddToTrip) { onAddToTrip(); return; }
+        if (togglingTrip) return;
+        setTogglingTrip(true);
+        try {
+            if (isInTrip) {
+                const itemId = getTripItemId(eventId);
+                if (itemId) await itineraryService.remove(itemId);
+                removeFromTripCache(eventId);
+                setLocalInTrip(false);
+            } else {
+                const item = await itineraryService.addEvent(eventId);
+                addToTripCache(eventId, item.id);
+                setLocalInTrip(true);
+            }
+        } catch { /* FK mismatch or already removed — sync state */ }
+        finally { setTogglingTrip(false); }
+    }, [user, onAddToTrip, togglingTrip, isInTrip, eventId]);
+
     return (
         <li className="exp-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
             <div className="exp-card-img-wrap">
@@ -52,14 +125,24 @@ const ExperienceCard = ({ id, name, duration, price, score, image, date, categor
                 <div className="exp-score-row">
                     <span className="exp-score-badge">{score}</span>
                     <button
-                        className={`exp-bookmark${saved ? ' is-saved' : ''}`}
-                        aria-label={saved ? 'Quitar de guardados' : 'Guardar experiencia'}
-                        onClick={e => { e.stopPropagation(); onBookmark?.(); }}
+                        className={`exp-bookmark${isSaved ? ' is-saved' : ''}`}
+                        aria-label={isSaved ? 'Quitar de guardados' : 'Guardar experiencia'}
+                        onClick={handleBookmark}
+                        disabled={togglingSaved}
                     >
-                        {saved ? <BookmarkFilled /> : <Bookmark size={16} aria-hidden="true" />}
+                        {isSaved ? <BookmarkFilled /> : <Bookmark size={16} aria-hidden="true" />}
                     </button>
                 </div>
-                <span className="exp-score-label">Local Score</span>
+                <span className="exp-score-label">{copy.detail.localScore}</span>
+                <button
+                    className={`exp-trip-btn${isInTrip ? ' is-added' : ''}`}
+                    aria-label={isInTrip ? copy.detail.inTrip : copy.detail.addToTrip}
+                    onClick={handleAddToTrip}
+                    disabled={togglingTrip}
+                >
+                    {isInTrip ? <Check size={13} /> : <Luggage size={13} />}
+                    <span>{isInTrip ? copy.detail.inTrip : copy.detail.addToTrip}</span>
+                </button>
             </div>
         </li>
     );

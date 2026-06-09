@@ -278,7 +278,7 @@ const NearbyDetail = () => {
                                 {similar.map((item, i) => (
                                     <ExperienceCard
                                         key={item.name + i}
-                                        id={item.id ?? String(i)}
+                                        id={item.id ?? item.name}
                                         name={item.name}
                                         image={item.image || getCategoryImage(item.sub_category)}
                                         duration=""

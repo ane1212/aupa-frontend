@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
     Users, Store, CalendarDays, Tags, SlidersHorizontal,
-    TrendingUp, Clock, CheckCircle, AlertCircle, ArrowRight,
+    Clock, CheckCircle, ArrowRight,
     Activity
 } from "lucide-react";
 import { userService, localService, eventService, categoryService } from "../../services/API";
@@ -106,30 +106,6 @@ const DashboardHome = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Pending alert */}
-            {stats.localsPending > 0 && (
-                <div
-                    onClick={() => navigate('/dashboard/locals')}
-                    style={{
-                        display: 'flex', alignItems: 'center', gap: '12px',
-                        background: '#fffbeb', border: '1px solid #fde68a',
-                        borderRadius: '12px', padding: '1rem 1.25rem',
-                        cursor: 'pointer', transition: 'box-shadow 0.15s',
-                    }}
-                    onMouseEnter={e => (e.currentTarget.style.boxShadow = '0 4px 16px rgba(217,119,6,0.12)')}
-                    onMouseLeave={e => (e.currentTarget.style.boxShadow = 'none')}
-                >
-                    <AlertCircle size={20} color="#d97706" style={{ flexShrink: 0 }} />
-                    <div style={{ flex: 1 }}>
-                        <strong style={{ color: '#92400e', fontSize: '0.88rem' }}>
-                            {stats.localsPending} local{stats.localsPending !== 1 ? 'es' : ''} pendiente{stats.localsPending !== 1 ? 's' : ''} de verificación
-                        </strong>
-                        <p style={{ margin: 0, color: '#b45309', fontSize: '0.78rem' }}>Haz clic para revisar y aprobar o rechazar.</p>
-                    </div>
-                    <ArrowRight size={16} color="#d97706" />
-                </div>
-            )}
 
             {/* Quick access */}
             <div style={{ background: 'white', borderRadius: '14px', padding: '1.5rem', border: '1px solid rgba(156,146,146,0.12)', boxShadow: '0 2px 12px rgba(16,24,40,0.04)' }}>

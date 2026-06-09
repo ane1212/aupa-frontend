@@ -23,8 +23,8 @@ const Home = () => {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [localPicks, setLocalPicks] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
-  const [weather, setWeather] = useState({ temperature: 0, unit: '°C' });
-  const [locationName, setLocationName] = useState('Paris');
+  const [weather, setWeather] = useState({ temperature: 10, unit: '°C' });
+  const [locationName, setLocationName] = useState('Bilbao');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -88,7 +88,7 @@ const Home = () => {
             {recommendations.map((rec, index) => (
               <ExperienceCard
                 key={`${rec.name}-${index}`}
-                id={rec.id ?? String(index)}
+                id={rec.id ?? rec.name}
                 name={rec.name}
                 image={getCategoryImage(rec.sub_category)}
                 duration={rec.address ?? ''}
@@ -113,7 +113,7 @@ const Home = () => {
             {localPicks.map((rec, index) => (
               <ExperienceCard
                 key={`${rec.name}-${index}`}
-                id={rec.id ?? String(index)}
+                id={rec.id ?? rec.name}
                 name={rec.name}
                 image={getCategoryImage(rec.sub_category)}
                 duration={rec.address ?? ''}

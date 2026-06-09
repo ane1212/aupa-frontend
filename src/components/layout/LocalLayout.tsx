@@ -10,11 +10,13 @@ import {
     LogOut
 } from "lucide-react";
 import { useAuth } from "../../context";
+import { getAppCopy } from "../../i18n/copy";
 import NotificationPanel from "./NotificationPanel";
 
 const LocalLayout = () => {
-    const { logout } = useAuth();
+    const { logout, user } = useAuth();
     const navigate = useNavigate();
+    const copy = getAppCopy(user?.language);
 
     const handleLogout = () => {
         logout();
@@ -58,12 +60,12 @@ const LocalLayout = () => {
 
                 <NavLink to="/local/home" className={({ isActive }) => `local-nav-item ${isActive ? 'active' : ''}`}>
                     <LayoutDashboard size={22} className="local-nav-item-icon" />
-                    <span>Home</span>
+                    <span>{copy.localDash.navHome}</span>
                 </NavLink>
 
                 <NavLink to="/local/listing" className={({ isActive }) => `local-nav-item ${isActive ? 'active' : ''}`}>
                     <List size={22} className="local-nav-item-icon" />
-                    <span>Listing</span>
+                    <span>{copy.localDash.navEvents}</span>
                 </NavLink>
 
                 <NavLink to="/local/create" className={({ isActive }) => `local-nav-item local-nav-center-btn ${isActive ? 'active' : ''}`}>

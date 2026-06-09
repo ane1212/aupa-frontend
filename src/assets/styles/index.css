@@ -718,6 +718,40 @@ p {
   color: #ef342a;
 }
 
+.exp-trip-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: #f8f9fb;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 4px 9px;
+  font-size: 0.65rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #6b7280;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  margin-top: 4px;
+
+  &:hover {
+    border-color: var(--color-J);
+    color: var(--color-J);
+  }
+
+  &.is-added {
+    background: #f0fdf4;
+    border-color: #16a34a;
+    color: #16a34a;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
 .score-label,
 .np-score-label,
 .sv-score-label,

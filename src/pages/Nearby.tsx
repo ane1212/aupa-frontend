@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { fastapiService } from '../services/API';
+import { fastapiService, preferenceService, categoryService } from '../services/API';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getUserLocation, TEST_LOCATION, formatDistance } from '../utils/location';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
@@ -15,26 +15,47 @@ import type { Place } from '../components/nearby/types';
 import ExperienceCard from '../components/experiences/ExperienceCard';
 import SearchBar from '../components/experiences/SearchBar';
 
-export const categories = [
+export const ALL_CATEGORIES = [
     'food', 'culture', 'nature', 'bars', 'local_favorites',
     'shopping', 'coffee_shops', 'walking_tours', 'family_friendly',
     'vegetarian_vegan', 'history', 'festivals_events', 'beaches',
     'nightlife', 'budget_friendly'
 ];
 
+// keep old export name for any other file that imports it
+export const categories = ALL_CATEGORIES;
 
 const Nearby = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const copy = getAppCopy(user?.language);
 
+    const [visibleCategories, setVisibleCategories] = useState<string[]>(ALL_CATEGORIES);
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
     const [loading, setLoading] = useState(false);
     const [query, setQuery] = useState('');
 
+    // Load user preference categories
+    useEffect(() => {
+        if (!user) { setVisibleCategories(ALL_CATEGORIES); return; }
+        Promise.all([
+            preferenceService.getByUser(user.id, { limit: 100 }),
+            categoryService.getAll({ limit: 100 }),
+        ]).then(([prefsRes, catsRes]) => {
+            const prefs = prefsRes.data ?? [];
+            const cats = catsRes.data ?? [];
+            if (prefs.length === 0) { setVisibleCategories(ALL_CATEGORIES); return; }
+            const selectedNames = prefs
+                .map(p => cats.find(c => c.id === p.categoryId)?.name as string | undefined)
+                .filter((n): n is string => !!n && ALL_CATEGORIES.includes(n));
+            setVisibleCategories(selectedNames.length > 0 ? selectedNames : ALL_CATEGORIES);
+        }).catch(() => setVisibleCategories(ALL_CATEGORIES));
+    }, [user?.id]);
+
 
     useEffect(() => {
+        if (visibleCategories.length === 0) return;
         const fetchRecommendations = async () => {
             setLoading(true);
             try {
@@ -43,8 +64,21 @@ const Nearby = () => {
                 let recs;
 
                 if (!activeCategory) {
-                    const response = await fastapiService.nearest(location.lat, location.lng, 24);
-                    recs = response.recommendations || [];
+                    const responses = await Promise.all(
+                        visibleCategories.map(cat =>
+                            fastapiService.byCategory(cat, location.lat, location.lng)
+                                .then(r => r.recommendations || [])
+                                .catch(() => [])
+                        )
+                    );
+                    // merge and deduplicate by name
+                    const merged = responses.flat();
+                    const seen = new Set<string>();
+                    recs = merged.filter(r => {
+                        if (seen.has(r.name)) return false;
+                        seen.add(r.name);
+                        return true;
+                    });
                 } else {
                     const response = await fastapiService.byCategory(
                         activeCategory,
@@ -69,7 +103,7 @@ const Nearby = () => {
         };
 
         fetchRecommendations();
-    }, [activeCategory]);
+    }, [activeCategory, visibleCategories]);
 
     const filtered = query.trim()
         ? recommendations.filter(p =>
@@ -106,7 +140,7 @@ const Nearby = () => {
                         <span>{copy.saved.filterAll}</span>
                     </button>
 
-                    {categories.map((category) => {
+                    {visibleCategories.map((category) => {
                         const Icon = CATEGORY_ICON_MAP[category] || Bookmark;
                         const isSelected = activeCategory === category;
 
@@ -140,7 +174,7 @@ const Nearby = () => {
                             {filtered.slice(0, 10).map((rec, index) => (
                                 <ExperienceCard
                                     key={`${rec.name}-${index}`}
-                                    id={rec.id ?? String(index)}
+                                    id={rec.id ?? rec.name}
                                     name={rec.name}
                                     image={getCategoryImage(rec.sub_category)}
                                     duration={rec.address ?? ''}

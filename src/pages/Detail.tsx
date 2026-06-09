@@ -9,6 +9,7 @@ import IncidentForm from '../components/common/IncidentForm';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import type { Comment } from '../services/models';
+import { removeFromTripCache } from '../utils/tripCache';
 
 // ─── helpers ─────────────────────────────────────────────────────────────────
 
@@ -232,6 +233,7 @@ const Detail = () => {
         try {
             if (inTrip && itineraryId) {
                 await itineraryService.remove(itineraryId);
+                removeFromTripCache(String(eventData!.id));
                 setInTrip(false); setItineraryId(null);
             } else {
                 const entry = await itineraryService.addEvent(String(eventData!.id));

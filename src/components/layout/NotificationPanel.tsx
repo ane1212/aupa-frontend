@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Bell, Check, CheckCheck, Trash2, X, Info, AlertTriangle, Monitor } from 'lucide-react'
 import { notificationService } from '../../services/API'
 import { useAuth } from '../../context'
+import { getAppCopy } from '../../i18n/copy'
 import type { Notification } from '../../services/models'
 
 
@@ -21,6 +22,8 @@ const typeBg = (type: string) => {
 
 const NotificationPanel = () => {
     const { user } = useAuth()
+    const t = getAppCopy(user?.language).notifications
+    const locale = user?.language === 'es' ? 'es-ES' : user?.language === 'eu' ? 'eu-EU' : user?.language === 'fr' ? 'fr-FR' : 'en-GB'
     const [open, setOpen] = useState(false)
     const [notifications, setNotifications] = useState<Notification[]>([])
     const [loading, setLoading] = useState(false)
@@ -99,7 +102,7 @@ const NotificationPanel = () => {
                     border: '1px solid #eaecf0', borderRadius: '10px', background: open ? '#f9fafb' : 'white',
                     cursor: 'pointer', color: '#667085', transition: 'background 0.15s',
                 }}
-                aria-label="Notificaciones"
+                aria-label={t.title}
             >
                 <Bell size={18} />
                 {unread > 0 && (
@@ -132,10 +135,10 @@ const NotificationPanel = () => {
                         borderBottom: '1px solid rgba(156,146,146,0.12)',
                     }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <strong style={{ fontSize: '0.9rem', color: '#111827' }}>Notificaciones</strong>
+                            <strong style={{ fontSize: '0.9rem', color: '#111827' }}>{t.title}</strong>
                             {unread > 0 && (
                                 <span style={{ fontSize: '0.68rem', fontWeight: 800, padding: '1px 7px', borderRadius: '999px', background: '#fee2e2', color: '#d92d20' }}>
-                                    {unread} sin leer
+                                    {unread} {t.unread}
                                 </span>
                             )}
                         </div>
@@ -143,7 +146,7 @@ const NotificationPanel = () => {
                             {unread > 0 && (
                                 <button
                                     type="button"
-                                    title="Marcar todas como leídas"
+                                    title={t.markAllRead}
                                     onClick={handleMarkAllRead}
                                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#667085', display: 'grid', placeItems: 'center', padding: '4px' }}
                                 >
@@ -162,12 +165,12 @@ const NotificationPanel = () => {
 
                     <div style={{ flex: 1, overflowY: 'auto' }}>
                         {loading ? (
-                            <p style={{ textAlign: 'center', color: '#98a2b3', fontSize: '0.82rem', padding: '2rem 0' }}>Cargando...</p>
+                            <p style={{ textAlign: 'center', color: '#98a2b3', fontSize: '0.82rem', padding: '2rem 0' }}>{t.loading}</p>
                         ) : notifications.length === 0 ? (
                             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '2.5rem 1rem' }}>
                                 <Bell size={30} color="#d0d5dd" />
                                 <p style={{ margin: 0, color: '#98a2b3', fontSize: '0.82rem' }}>
-                                    {user ? 'No tienes notificaciones.' : 'Inicia sesión para ver notificaciones.'}
+                                    {user ? t.empty : t.loginToSee}
                                 </p>
                             </div>
                         ) : (
@@ -200,7 +203,7 @@ const NotificationPanel = () => {
                                         <p style={{ margin: '2px 0 0', fontSize: '0.75rem', color: '#667085', lineHeight: 1.4 }}>{n.message}</p>
                                         {n.createdAt && (
                                             <span style={{ fontSize: '0.68rem', color: '#98a2b3', marginTop: 4, display: 'block' }}>
-                                                {new Date(n.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                                                {new Date(n.createdAt).toLocaleDateString(locale, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
                                             </span>
                                         )}
                                     </div>
@@ -209,7 +212,7 @@ const NotificationPanel = () => {
                                         {!n.read && (
                                             <button
                                                 type="button"
-                                                title="Marcar como leída"
+                                                title={t.markRead}
                                                 onClick={() => handleMarkRead(n.id)}
                                                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#667085', display: 'grid', placeItems: 'center', padding: '3px', borderRadius: '4px' }}
                                             >
@@ -218,7 +221,7 @@ const NotificationPanel = () => {
                                         )}
                                         <button
                                             type="button"
-                                            title="Eliminar"
+                                            title={t.delete}
                                             onClick={() => handleDelete(n.id)}
                                             style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#98a2b3', display: 'grid', placeItems: 'center', padding: '3px', borderRadius: '4px' }}
                                         >
