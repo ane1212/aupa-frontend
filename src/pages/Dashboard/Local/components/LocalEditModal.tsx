@@ -1,6 +1,6 @@
 import { DashboardForm } from '../../../../components/common'
 import { localService } from '../../../../services/API'
-import type { Local, LocalStatus } from '../../../../services/models'
+import type { Local } from '../../../../services/models'
 
 interface Props {
     local: Local

@@ -6,7 +6,7 @@ interface SavedSectionProps {
     label: string;
     items: SavedItem[];
     seeAll: string;
-    onRemove: (id: string) => void;
+    onRemove: (id: number) => void;
 }
 
 const SavedSection = ({ cat, label, items, onRemove }: SavedSectionProps) => (

@@ -11,14 +11,13 @@ import { SectionHeader } from '../components/home';
 import ExperienceCard from '../components/experiences/ExperienceCard';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
-import type { LanguageType, Recommendation } from '../services/models';
+import type { Recommendation } from '../services/models';
 import NotificationPanel from '../components/layout/NotificationPanel';
 
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const copy = getAppCopy(user?.language);
-  const locale = (user?.language ?? 'en') as LanguageType;
 
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [localPicks, setLocalPicks] = useState<Recommendation[]>([]);
