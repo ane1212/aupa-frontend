@@ -10,7 +10,7 @@ const PlaceCard = ({ place }: PlaceCardProps) => (
         <div className="place-image-placeholder" aria-hidden="true" />
         <div className="place-info">
             <p className="place-name">{place.name}</p>
-            <p className="place-meta">{place.type} &middot; {place.neighborhood}</p>
+            <p className="place-meta">{place.type} &middot;</p>
             <p className="place-distance">{place.distance} &middot; {place.walkTime}</p>
         </div>
         <div className="place-actions">

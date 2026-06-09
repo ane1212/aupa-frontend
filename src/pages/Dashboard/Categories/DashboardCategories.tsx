@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../../hooks";
-import { Tags, Plus, Trash2, Pencil, Search, X } from "lucide-react";
+import { Tags, Plus, Trash2, Pencil, X } from "lucide-react";
 import { DataTable, SearchInput, Tooltip } from "../../../components/common";
 import type { DataTableColumn } from "../../../components/common";
 import { categoryService } from "../../../services/API";
@@ -37,10 +37,8 @@ const DashboardCategories = () => {
         categoryService.getAll(params)
             .then(res => {
                 if (cancelled) return
-                const data = res.data?.data || (Array.isArray(res.data) ? res.data : (Array.isArray(res) ? res : []))
-                const total = res.data?.meta?.total ?? res.meta?.total ?? data.length
-                setCategories(data)
-                setTotalItems(total)
+                setCategories(res.data)
+                setTotalItems(res.meta.total)
             })
             .catch(err => console.error('[fetchCategories] error:', err))
             .finally(() => { if (!cancelled) setIsLoading(false) })
