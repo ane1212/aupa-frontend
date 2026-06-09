@@ -6,7 +6,7 @@ import ExperienceCard from '../experiences/ExperienceCard';
 
 interface SavedPlaceCardProps {
     item: SavedItem;
-    onRemove: (id: string) => void;
+    onRemove: (id: number) => void;
 }
 
 const SavedPlaceCard = ({ item, onRemove }: SavedPlaceCardProps) => {

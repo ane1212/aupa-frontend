@@ -20,7 +20,7 @@ const DashboardLocals = () => {
     const [status, setStatus] = useState("all")
     const [currentPage, setCurrentPage] = useState(1)
     const [totalItems, setTotalItems] = useState(0)
-    const [refresh, setRefresh] = useState(0)
+    const [refresh] = useState(0)
 
     // Reset to page 1 when filters/search change
     useEffect(() => {
@@ -46,8 +46,6 @@ const DashboardLocals = () => {
 
         return () => { cancelled = true }
     }, [currentPage, debouncedSearch, status, refresh])
-
-    const fetchLocals = () => setRefresh(prev => prev + 1)
 
     const columns = useMemo<DataTableColumn<Local>[]>(() => [
         {

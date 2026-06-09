@@ -24,10 +24,10 @@ const CategoryEditModal = ({ category, onUpdated, onClose }: Props) => {
                 icon: category.icon || '',
             }}
             fields={[
-                { 
-                    key: 'name', 
-                    label: 'Nombre (Tipo)', 
-                    type: 'select', 
+                {
+                    key: 'name',
+                    label: 'Nombre (Tipo)',
+                    type: 'select',
                     required: true,
                     options: categoryOptions
                 },
@@ -35,8 +35,8 @@ const CategoryEditModal = ({ category, onUpdated, onClose }: Props) => {
                 { key: 'icon', label: 'Icono (URL o clase)', type: 'text', required: false },
             ]}
             onSubmit={async (data) => {
-                const res = await categoryService.update(category.id, data as any)
-                onUpdated(res.data || (res as any))
+                const updated = await categoryService.update(category.id, data as any)
+                onUpdated(updated)
             }}
             onClose={onClose}
         />

@@ -6,10 +6,10 @@ interface SavedSectionProps {
     label: string;
     items: SavedItem[];
     seeAll: string;
-    onRemove: (id: string) => void;
+    onRemove: (id: number) => void;
 }
 
-const SavedSection = ({ cat, label, items, seeAll, onRemove }: SavedSectionProps) => (
+const SavedSection = ({ cat, label, items, onRemove }: SavedSectionProps) => (
     <div key={cat} className="sv-section">
         <div className="sv-section-head">
             <span className="sv-section-label">{label}</span>

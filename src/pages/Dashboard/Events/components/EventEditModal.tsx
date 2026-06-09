@@ -41,8 +41,8 @@ const EventEditModal = ({ event, onUpdated, onClose }: Props) => (
                 price: data.price ? Number(data.price) : 0,
                 capacity: data.capacity ? Number(data.capacity) : undefined
             }
-            const res = await eventService.update(event.id, payload as any)
-            onUpdated(res.data || res as any)
+            const updated = await eventService.update(event.id, payload as any)
+            onUpdated(updated) // ← res ya es Event, no tiene .data
         }}
         onClose={onClose}
     />

@@ -10,7 +10,7 @@ export const categories: Category[] = [
 ];
 
 export const places: Place[] = [
-    { id: 1, name: 'Bar El Globo', type: 'Pintxos bar', neighborhood: 'Casco Viejo', distance: '400m away', walkTime: '5 min walk', score: 97, lat: 43.2572, lng: -2.9237 },
-    { id: 2, name: 'La Viña del Ensanche', type: 'Wine bar', neighborhood: 'Ensanche', distance: '600m away', walkTime: '8 min walk', score: 95, lat: 43.2627, lng: -2.9359 },
-    { id: 3, name: 'Gure Toki', type: 'Restaurant', neighborhood: 'Indautxu', distance: '750m away', walkTime: '10 min walk', score: 93, lat: 43.2638, lng: -2.9362 },
+    { id: 1, name: 'Bar El Globo', type: 'Pintxos bar', distance: '400m away', walkTime: '5 min walk', score: 97, lat: 43.2572, lng: -2.9237 },
+    { id: 2, name: 'La Viña del Ensanche', type: 'Wine bar', distance: '600m away', walkTime: '8 min walk', score: 95, lat: 43.2627, lng: -2.9359 },
+    { id: 3, name: 'Gure Toki', type: 'Restaurant',  distance: '750m away', walkTime: '10 min walk', score: 93, lat: 43.2638, lng: -2.9362 },
 ];

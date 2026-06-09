@@ -21,8 +21,8 @@ const EventCommentsModal = ({ event, onClose }: Props) => {
         const params = { page: currentPage, limit: 5 }
         commentService.getByEvent(event.id, params)
             .then(res => {
-                const data = res.data?.data || (Array.isArray(res.data) ? res.data : (Array.isArray(res) ? res : []))
-                const total = res.data?.meta?.total ?? res.meta?.total ?? data.length
+                const data = Array.isArray(res) ? res : []
+                const total = data.length
                 setComments(data)
                 setTotalItems(total)
             })

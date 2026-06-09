@@ -45,7 +45,7 @@ const BookmarkFilled = () => (
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const toEventId = (raw: string) => UUID_RE.test(raw) ? raw : toUUID(raw);
 
-const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, inTrip = false, lang, onBookmark, onAddToTrip, onClickCard }: Props) => {
+const ExperienceCard = ({ id, name, duration, score, image, date, category, distance, saved = false, inTrip = false, lang, onBookmark, onAddToTrip, onClickCard }: Props) => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const copy = getAppCopy(lang);

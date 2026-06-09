@@ -7,7 +7,7 @@ interface SavedContentProps {
     categoryLabels: Record<string, string>;
     noItems: string;
     seeAll: string;
-    onRemove: (id: string) => void;
+    onRemove: (id: number) => void;
 }
 
 const SavedContent = ({ visible, categoryLabels, noItems, seeAll, onRemove }: SavedContentProps) => {

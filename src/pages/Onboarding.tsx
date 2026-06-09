@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { categoryService, preferenceService } from '../services/API';
 import { useAuth } from '../context';
-import TopLogo from '../components/ui/TopLogo';
 import Step1Language from '../components/onboarding/Step1Language';
 import Step2Categories from '../components/onboarding/Step2Categories';
 import Step3Duration from '../components/onboarding/Step3Duration';

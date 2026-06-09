@@ -22,8 +22,8 @@ const EventIncidentsModal = ({ event, onClose }: Props) => {
         // Se hace la llamada, si el backend falla (404) lo capturamos
         incidentService.getByEvent(event.id, params)
             .then(res => {
-                const data = res.data?.data || (Array.isArray(res.data) ? res.data : (Array.isArray(res) ? res : []))
-                const total = res.data?.meta?.total ?? res.meta?.total ?? data.length
+                const data = Array.isArray(res) ? res : []
+                const total = data.length
                 setIncidents(data)
                 setTotalItems(total)
             })
@@ -39,9 +39,9 @@ const EventIncidentsModal = ({ event, onClose }: Props) => {
         { key: "id", header: "ID", render: (i) => i.id.slice(0, 8) + '…' },
         { key: "userId", header: "Usuario ID", render: (i) => i.userId.slice(0, 8) + '…' },
         { key: "content", header: "Incidencia", render: (i) => i.content },
-        { 
-            key: "status", 
-            header: "Estado", 
+        {
+            key: "status",
+            header: "Estado",
             render: (i) => (
                 <span className={`dashboard-badge dashboard-badge-role`}>
                     {i.status}

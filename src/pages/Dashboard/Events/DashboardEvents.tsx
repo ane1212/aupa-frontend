@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../../hooks";
-import { Calendar, Plus, Trash2, Pencil, CheckCircle, XCircle, Clock, X, MessageSquare, AlertTriangle } from "lucide-react";
+import { Calendar, Plus, Trash2, Pencil, CheckCircle, XCircle, X, MessageSquare, AlertTriangle } from "lucide-react";
 import { DataTable, SearchInput, SelectFilter, Tooltip } from "../../../components/common";
 import type { DataTableColumn } from "../../../components/common";
 import { eventService, categoryService } from "../../../services/API";
@@ -21,7 +21,7 @@ const DashboardEvents = () => {
     const [deleting, setDeleting] = useState<Event | null>(null)
     const [viewingComments, setViewingComments] = useState<Event | null>(null)
     const [viewingIncidents, setViewingIncidents] = useState<Event | null>(null)
-    
+
     const [showAdd, setShowAdd] = useState(false)
     const [search, setSearch] = useState("")
     const debouncedSearch = useDebounce(search)
@@ -32,11 +32,12 @@ const DashboardEvents = () => {
 
     // Load Categories once to map categoryId to Name
     useEffect(() => {
+        // En DashboardEvents para categorías
         categoryService.getAll({ limit: 100 })
             .then(res => {
-                const cats = res.data?.data || (Array.isArray(res.data) ? res.data : (Array.isArray(res) ? res : []))
+                const data = Array.isArray(res) ? res : []
                 const catMap: Record<string, string> = {}
-                cats.forEach((c: Category) => {
+                data.forEach((c: Category) => {
                     catMap[c.id] = c.name
                 })
                 setCategories(catMap)
@@ -59,9 +60,8 @@ const DashboardEvents = () => {
         let cancelled = false
         eventService.getAll(params)
             .then(res => {
-                if (cancelled) return
-                const data = res.data?.data || (Array.isArray(res.data) ? res.data : (Array.isArray(res) ? res : []))
-                const total = res.data?.meta?.total ?? res.meta?.total ?? data.length
+                const data = Array.isArray(res) ? res : []
+                const total = data.length
                 setEvents(data)
                 setTotalItems(total)
             })
@@ -95,7 +95,7 @@ const DashboardEvents = () => {
             render: (event) => (
                 <div className="dashboard-user-cell">
                     <div className="dashboard-user-avatar">
-                        {event.image ? <img src={event.image} alt={event.title} style={{width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover'}} /> : event.title.charAt(0)}
+                        {event.image ? <img src={event.image} alt={event.title} style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} /> : event.title.charAt(0)}
                     </div>
                     <strong>{event.title}</strong>
                 </div>
@@ -115,13 +115,13 @@ const DashboardEvents = () => {
             key: "comments",
             header: "Comentarios",
             render: (event) => (
-                <button 
-                    type="button" 
-                    className="dashboard-badge dashboard-badge-role" 
-                    style={{cursor: 'pointer', border: 'none'}} 
+                <button
+                    type="button"
+                    className="dashboard-badge dashboard-badge-role"
+                    style={{ cursor: 'pointer', border: 'none' }}
                     onClick={() => setViewingComments(event)}
                 >
-                    <MessageSquare size={12} style={{marginRight: '4px'}}/> Ver
+                    <MessageSquare size={12} style={{ marginRight: '4px' }} /> Ver
                 </button>
             ),
         },
@@ -129,13 +129,13 @@ const DashboardEvents = () => {
             key: "incidents",
             header: "Incidencias",
             render: (event) => (
-                <button 
-                    type="button" 
-                    className="dashboard-badge dashboard-status-inactivo" 
-                    style={{cursor: 'pointer', border: 'none'}} 
+                <button
+                    type="button"
+                    className="dashboard-badge dashboard-status-inactivo"
+                    style={{ cursor: 'pointer', border: 'none' }}
                     onClick={() => setViewingIncidents(event)}
                 >
-                    <AlertTriangle size={12} style={{marginRight: '4px'}}/> Ver
+                    <AlertTriangle size={12} style={{ marginRight: '4px' }} /> Ver
                 </button>
             ),
         },
