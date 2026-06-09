@@ -7,7 +7,7 @@ import { getCategoryImage } from '../utils/categoryImages';
 import { generateRandomScore } from '../utils/randomScore';
 import { getWeather, getLocationFromCoords } from '../utils/weather';
 import logo from '../assets/logo-trimmed.png';
-import { SectionHeader, LocalPickCard } from '../components/home';
+import { SectionHeader } from '../components/home';
 import ExperienceCard from '../components/experiences/ExperienceCard';
 import { useAuth } from '../context';
 import { getAppCopy } from '../i18n/copy';
@@ -21,12 +21,7 @@ const Home = () => {
   const locale = (user?.language ?? 'en') as LanguageType;
 
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
-  const [localPicks, setLocalPicks] = useState<{
-    name: string;
-    sub_category: string;
-    distance: string;
-    image: string;
-  }[]>([]);
+  const [localPicks, setLocalPicks] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [weather, setWeather] = useState({ temperature: 0, unit: '°C' });
   const [locationName, setLocationName] = useState('Paris');
@@ -49,12 +44,7 @@ const Home = () => {
 
         setRecommendations(nearestRecs.slice(0, 6));
 
-        setLocalPicks(nearestRecs.slice(6, 12).map(rec => ({
-          name: rec.name,
-          sub_category: rec.sub_category,
-          distance: `${Math.floor((rec as any).distance_from_user || 0)}m`,
-          image: getCategoryImage(rec.sub_category),
-        })));
+        setLocalPicks(nearestRecs.slice(6, 12));
 
       } catch (error) {
         console.error('Failed to fetch data', error);
@@ -105,6 +95,7 @@ const Home = () => {
                 price=""
                 score={generateRandomScore(rec.id ?? rec.name)}
                 category={rec.sub_category}
+                lang={user?.language}
                 distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
                 onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
               />
@@ -115,21 +106,27 @@ const Home = () => {
 
       <section className="home-section">
         <SectionHeader title={copy.home.topPicks} actionLabel={copy.home.seeAll} />
-        <div className="local-picks-grid">
-          {loading ? (
-            <p>Loading...</p>
-          ) : (
-            localPicks.map((item, index) => (
-              <LocalPickCard 
-                key={`${item.name}-${index}`} 
-                name={item.name} 
-                category={item.sub_category} 
-                distance={item.distance}
-                image={item.image}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <ul className="home-picks-grid">
+            {localPicks.map((rec, index) => (
+              <ExperienceCard
+                key={`${rec.name}-${index}`}
+                id={rec.id ?? String(index)}
+                name={rec.name}
+                image={getCategoryImage(rec.sub_category)}
+                duration={rec.address ?? ''}
+                price=""
+                score={generateRandomScore(rec.id ?? rec.name)}
+                category={rec.sub_category}
+                lang={user?.language}
+                distance={rec.distance_from_user != null ? formatDistance(rec.distance_from_user / 1000) : undefined}
+                onClickCard={() => navigate('/nearby-detail', { state: { rec } })}
               />
-            ))
-          )}
-        </div>
+            ))}
+          </ul>
+        )}
       </section>
     </div>
   );

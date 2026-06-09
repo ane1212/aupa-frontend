@@ -5,6 +5,7 @@ html,
 body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
   overflow-y: hidden;
   height: 100%;
   background: #f3f5f8;
@@ -334,11 +335,48 @@ p {
   }
 }
 
+.home-picks-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+
+  @media (min-width: 540px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    .exp-card {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 8px;
+      gap: 8px;
+    }
+
+    .exp-card-img-wrap {
+      width: 100%;
+      height: 80px;
+      border-radius: 8px;
+    }
+
+    .exp-card-actions {
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .exp-score-row {
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+    }
+  }
+}
+
 .local-pick-card {
   min-width: 0;
   width: 100%;
   border-radius: 6px;
-  background: #f1f3f6;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -361,12 +399,13 @@ p {
 }
 
 .local-pick-card p {
-  margin: 0 2px;
-  color: #526071;
-  font-size: 0.73rem;
+  margin: 2px 10px 0;
+  color: var(--color-J);
+  font-size: 0.7rem;
   line-height: 1.35;
-  font-weight: 500;
-  text-indent: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .local-pick-card span {
@@ -2436,6 +2475,101 @@ p {
     line-height: 1.55;
     margin: 0;
     padding-left: 36px;
+  }
+
+  /* ── Comment form ── */
+  .comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+    background: #f8f9fb;
+    border-radius: 12px;
+    margin-top: 4px;
+  }
+
+  .comment-form-stars {
+    display: flex;
+    gap: 4px;
+  }
+
+  .comment-form-star-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    line-height: 0;
+  }
+
+  .comment-form-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    color: #333;
+    resize: none;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &:focus {
+      border-color: var(--color-J);
+    }
+  }
+
+  .comment-form-error {
+    font-size: 0.75rem;
+    color: var(--color-J);
+    margin: 0;
+  }
+
+  .comment-form-submit {
+    align-self: flex-end;
+    background: var(--color-J);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  /* ── Incident form ── */
+  .incident-form-wrap {
+    margin-top: 4px;
+    padding: 0 var(--np);
+    padding-left: 4px;
+  }
+
+  .incident-form-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8f9fb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 0.8rem;
+    font-family: 'Poppins', sans-serif;
+    color: #6b7280;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+
+    &:hover {
+      border-color: var(--color-J);
+      color: var(--color-J);
+    }
   }
 
   /* ── Action bar ── */

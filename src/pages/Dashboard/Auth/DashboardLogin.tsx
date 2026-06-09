@@ -16,8 +16,8 @@ const DashboardLogin: React.FC = () => {
     const { login, user, isAuthenticated, isLoading } = useAuth();
 
     const [formData, setFormData] = useState<LoginFormData>({
-        email: '',
-        password: '',
+        email: 'admin@euskadi-events.test',
+        password: 'adminuserpassword',
     });
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string>('');

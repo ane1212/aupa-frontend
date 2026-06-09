@@ -10,19 +10,19 @@ const normalizeCategoryForFilename = (category: string): string => {
 
 export const getCategoryImage = (category: string): string => {
     const normalizedCategory = normalizeCategoryForFilename(category);
-    
+
     const currentCount = categoryCounters.get(normalizedCategory) ?? 0;
     const nextCount = currentCount + 1;
     categoryCounters.set(normalizedCategory, nextCount);
 
     const useNumbered = nextCount % 2 === 1;
-    
+
     let numberedImage: string | null = null;
     if (useNumbered) {
         const numberedIndex = Math.floor(nextCount / 2) + 1;
         numberedImage = `../assets/images/${normalizedCategory}_${numberedIndex}.jpg`;
     }
-    
+
     const baseImage = `../assets/images/${normalizedCategory}.jpg`;
 
     if (numberedImage) {

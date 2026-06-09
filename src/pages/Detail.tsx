@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { eventService, favoriteService, itineraryService, commentService, categoryService } from '../services/API';
 import { useAuth } from '../context';
 import { getAppCopy, getCatLabel, type AppCopy } from '../i18n/copy';
+import CommentForm from '../components/common/CommentForm';
+import IncidentForm from '../components/common/IncidentForm';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import type { Comment } from '../services/models';
@@ -262,7 +264,7 @@ const Detail = () => {
                 <div className="detail-hero">
                     <button className="detail-hero-btn detail-hero-back" onClick={() => navigate(-1)}><ChevronLeft size={20} /></button>
                 </div>
-                <p style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>No encontrado</p>
+                <p style={{ padding: '2rem', textAlign: 'center', color: '#888' }}>{copy.detail.notFound}</p>
             </div>
         </div>
     );
@@ -299,7 +301,7 @@ const Detail = () => {
                         </div>
                         <div className="detail-score">
                             <span className="detail-score-badge">{score}</span>
-                            <span className="detail-score-label">Local Score</span>
+                            <span className="detail-score-label">{copy.detail.localScore}</span>
                         </div>
                     </div>
 
@@ -322,7 +324,7 @@ const Detail = () => {
                                         {eventData ? fmt(eventData.startTime) : staticItem?.duration}
                                     </span>
                                     {eventData?.endTime && (
-                                        <span className="detail-stat-sub">hasta {fmt(eventData.endTime)}</span>
+                                        <span className="detail-stat-sub">{copy.detail.closesAt} {fmt(eventData.endTime)}</span>
                                     )}
                                 </div>
                             </div>
@@ -333,11 +335,11 @@ const Detail = () => {
                             <div className="detail-stat-text">
                                 <span className="detail-stat-main detail-budget">
                                     {eventData
-                                        ? (eventData.price === 0 ? 'Gratis' : `€${eventData.price}`)
+                                        ? (eventData.price === 0 ? copy.detail.free : `€${eventData.price}`)
                                         : staticItem?.budget}
                                 </span>
                                 <span className="detail-stat-sub">
-                                    {eventData?.price === 0 ? 'Entrada libre' : 'Precio'}
+                                    {eventData?.price === 0 ? copy.detail.freeEntry : copy.detail.price}
                                 </span>
                             </div>
                         </div>
@@ -348,10 +350,10 @@ const Detail = () => {
                                 <span className={`detail-open-dot${openStatus === true ? ' open' : openStatus === false ? ' closed' : ''}`} />
                                 <div className="detail-stat-text">
                                     <span className="detail-stat-main">
-                                        {openStatus === true ? 'Abierto' : openStatus === false ? 'Cerrado' : 'Horario'}
+                                        {openStatus === true ? copy.detail.open : openStatus === false ? copy.detail.closed : copy.detail.schedule}
                                     </span>
                                     {eventData.endTime && (
-                                        <span className="detail-stat-sub">Cierra {fmt(eventData.endTime)}</span>
+                                        <span className="detail-stat-sub">{copy.detail.closesAt} {fmt(eventData.endTime)}</span>
                                     )}
                                 </div>
                             </div>
@@ -359,7 +361,7 @@ const Detail = () => {
                             <div className="detail-stat">
                                 <MapPin size={14} className="detail-stat-icon" />
                                 <div className="detail-stat-text">
-                                    <span className="detail-stat-main">{staticItem.stops.length} {staticItem.stops.length === 1 ? 'parada' : 'paradas'}</span>
+                                    <span className="detail-stat-main">{staticItem.stops.length} {staticItem.stops.length === 1 ? copy.detail.stop : copy.detail.stops}</span>
                                 </div>
                             </div>
                         )}
@@ -369,13 +371,13 @@ const Detail = () => {
                     {/* ── About / description ── */}
                     {descText && (
                         <div className="detail-about">
-                            <h2 className="detail-section-title">Sobre este lugar</h2>
+                            <h2 className="detail-section-title">{copy.detail.about}</h2>
                             <p className={`detail-description${expanded ? '' : ' detail-description-clamped'}`}>
                                 {descText}
                             </p>
                             {descText.length > 160 && (
                                 <button className="detail-show-more" onClick={() => setExpanded(v => !v)}>
-                                    {expanded ? 'Ver menos ∧' : 'Ver más ∨'}
+                                    {expanded ? `${copy.detail.showLess} ∧` : `${copy.detail.showMore} ∨`}
                                 </button>
                             )}
                         </div>
@@ -385,7 +387,7 @@ const Detail = () => {
                     {comments.length > 0 && avgRating !== null && (
                         <div className="detail-reviews">
                             <div className="detail-section-head">
-                                <h2 className="detail-section-title">Reseñas</h2>
+                                <h2 className="detail-section-title">{copy.detail.reviews}</h2>
                                 <span className="detail-reviews-link">
                                     <Star size={13} fill="#f59e0b" color="#f59e0b" />
                                     <span>{avgRating.toFixed(1)} ({comments.length})</span>
@@ -426,10 +428,27 @@ const Detail = () => {
                         </div>
                     )}
 
+                    {/* ── Add comment ── */}
+                    {isRealEvent && user && (
+                        <div className="detail-reviews">
+                            <h2 className="detail-section-title">{copy.detail.addReview}</h2>
+                            <CommentForm
+                                eventId={String(eventData.id)}
+                                lang={user?.language}
+                                onAdded={c => setComments(prev => [c, ...prev])}
+                            />
+                        </div>
+                    )}
+
+                    {/* ── Report incident ── */}
+                    {isRealEvent && user && (
+                        <IncidentForm eventId={String(eventData.id)} lang={user?.language} />
+                    )}
+
                     {/* ── Static stops (legacy experiences) ── */}
                     {staticItem && staticItem.stops.length > 0 && (
                         <div className="detail-visits">
-                            <h2 className="detail-section-title">Visitarás</h2>
+                            <h2 className="detail-section-title">{copy.detail.youllVisit}</h2>
                             <ul className="detail-stops">
                                 {staticItem.stops.map((stop, idx) => (
                                     <li key={stop.id} className="detail-stop">
@@ -447,7 +466,7 @@ const Detail = () => {
                     {/* ── Nearby similar places ── */}
                     {nearby.length > 0 && (
                         <div className="detail-nearby">
-                            <h2 className="detail-section-title">Lugares similares cerca</h2>
+                            <h2 className="detail-section-title">{copy.detail.similarPlaces}</h2>
                             <div className="detail-nearby-scroll">
                                 {nearby.map(item => (
                                     <NearbyCard
@@ -474,7 +493,7 @@ const Detail = () => {
                         disabled={savingFav || !isRealEvent}
                     >
                         <Bookmark size={16} />
-                        {saved ? 'Guardado' : 'Guardar'}
+                        {saved ? copy.detail.savedLabel : copy.detail.save}
                     </button>
                     <button
                         className={`detail-btn-trip${inTrip ? ' active' : ''}`}
@@ -482,7 +501,7 @@ const Detail = () => {
                         disabled={savingTrip || !isRealEvent}
                     >
                         {inTrip ? <Check size={16} /> : <Plus size={16} />}
-                        {inTrip ? 'En mi viaje' : 'Añadir al viaje'}
+                        {inTrip ? copy.detail.inTrip : ` ${copy.detail.addToTrip}`}
                     </button>
                 </div>
             )}
