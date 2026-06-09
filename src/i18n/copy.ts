@@ -128,6 +128,16 @@ export type AppCopy = {
     reportSend: string;
     reportDescError: string;
   };
+  notifications: {
+    title: string;
+    unread: string;
+    markAllRead: string;
+    markRead: string;
+    delete: string;
+    loading: string;
+    empty: string;
+    loginToSee: string;
+  };
   localPartner: {
     introTitle: string;
     introSubtitle: string;
@@ -209,6 +219,8 @@ export type AppCopy = {
     fieldTitlePlaceholder: string;
     fieldDescription: string;
     fieldDescriptionPlaceholder: string;
+    fieldCategory: string;
+    fieldCategoryPlaceholder: string;
     fieldDate: string;
     fieldStartTime: string;
     fieldPrice: string;
@@ -265,6 +277,8 @@ export type AppCopy = {
     continueBtn: string;
     skipForNow: string;
     errLoadingData: string;
+    navHome: string;
+    navEvents: string;
     myEvents: string;
     eventsOf: string;
     loadingLocal: string;
@@ -414,6 +428,16 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       reportSend: 'Send report',
       reportDescError: 'Please write a description of the problem.',
     },
+    notifications: {
+      title: 'Notifications',
+      unread: 'unread',
+      markAllRead: 'Mark all as read',
+      markRead: 'Mark as read',
+      delete: 'Delete',
+      loading: 'Loading...',
+      empty: 'You have no notifications.',
+      loginToSee: 'Log in to see notifications.',
+    },
     localPartner: {
       introTitle: 'Why become a Local Partner?',
       introSubtitle: 'Join Aupa Partners and unlock tools to grow your business.',
@@ -495,6 +519,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       fieldTitlePlaceholder: 'E.g. Wine tasting, Live music...',
       fieldDescription: 'Description',
       fieldDescriptionPlaceholder: 'Describe the event, what it includes, etc.',
+      fieldCategory: 'Category',
+      fieldCategoryPlaceholder: 'Select a category',
       fieldDate: 'Date *',
       fieldStartTime: 'Start Time *',
       fieldPrice: 'Price (€)',
@@ -551,6 +577,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       continueBtn: 'Continue',
       skipForNow: 'Skip for now',
       errLoadingData: 'Could not load the information. Showing sample data.',
+      navHome: 'Home',
+      navEvents: 'Events',
       myEvents: 'My Events',
       eventsOf: 'Events from {name}',
       loadingLocal: 'Loading business...',
@@ -698,6 +726,16 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       reportSend: 'Enviar reporte',
       reportDescError: 'Escribe una descripción del problema.',
     },
+    notifications: {
+      title: 'Notificaciones',
+      unread: 'sin leer',
+      markAllRead: 'Marcar todas como leídas',
+      markRead: 'Marcar como leída',
+      delete: 'Eliminar',
+      loading: 'Cargando...',
+      empty: 'No tienes notificaciones.',
+      loginToSee: 'Inicia sesión para ver notificaciones.',
+    },
     localPartner: {
       introTitle: '¿Por qué ser Local Partner?',
       introSubtitle: 'Únete a Aupa Partners y desbloquea herramientas para hacer crecer tu negocio.',
@@ -779,6 +817,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       fieldTitlePlaceholder: 'Ej. Cata de vinos, Música en vivo...',
       fieldDescription: 'Descripción',
       fieldDescriptionPlaceholder: 'Describe el evento, qué incluye, etc.',
+      fieldCategory: 'Categoría',
+      fieldCategoryPlaceholder: 'Selecciona una categoría',
       fieldDate: 'Fecha *',
       fieldStartTime: 'Hora Inicio *',
       fieldPrice: 'Precio (€)',
@@ -835,6 +875,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       continueBtn: 'Continuar',
       skipForNow: 'Omitir por ahora',
       errLoadingData: 'No se pudo cargar la información. Mostrando datos simulados.',
+      navHome: 'Inicio',
+      navEvents: 'Eventos',
       myEvents: 'Mis Eventos',
       eventsOf: 'Eventos de {name}',
       loadingLocal: 'Cargando local...',
@@ -982,6 +1024,16 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       reportSend: 'Bidali txostena',
       reportDescError: 'Idatzi arazoaren deskribapena.',
     },
+    notifications: {
+      title: 'Jakinarazpenak',
+      unread: 'irakurri gabe',
+      markAllRead: 'Guztiak irakurrita markatu',
+      markRead: 'Irakurrita markatu',
+      delete: 'Ezabatu',
+      loading: 'Kargatzen...',
+      empty: 'Ez duzu jakinarazpenik.',
+      loginToSee: 'Jakinarazpenak ikusteko saioa hasi.',
+    },
     localPartner: {
       introTitle: 'Zergatik tokiko bazkide bihurtu?',
       introSubtitle: 'Sartu Aupa Partners-en eta desblokeatu tresnak zure negozioa hazteko.',
@@ -1063,6 +1115,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       fieldTitlePlaceholder: 'Adib. Ardo dastaketa, Zuzeneko musika...',
       fieldDescription: 'Deskribapena',
       fieldDescriptionPlaceholder: 'Deskribatu ekitaldia, zer barne hartzen duen, etab.',
+      fieldCategory: 'Kategoria',
+      fieldCategoryPlaceholder: 'Aukeratu kategoria bat',
       fieldDate: 'Data *',
       fieldStartTime: 'Hasiera Ordua *',
       fieldPrice: 'Prezioa (€)',
@@ -1119,6 +1173,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       continueBtn: 'Jarraitu',
       skipForNow: 'Saltatu oraingoz',
       errLoadingData: 'Ezin izan da informazioa kargatu. Datu simulatuak erakusten.',
+      navHome: 'Hasiera',
+      navEvents: 'Ekitaldiak',
       myEvents: 'Nire Ekitaldiak',
       eventsOf: '{name}-(r)en ekitaldiak',
       loadingLocal: 'Lokala kargatzen...',
@@ -1266,6 +1322,16 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       reportSend: 'Envoyer le signalement',
       reportDescError: 'Veuillez décrire le problème.',
     },
+    notifications: {
+      title: 'Notifications',
+      unread: 'non lues',
+      markAllRead: 'Tout marquer comme lu',
+      markRead: 'Marquer comme lue',
+      delete: 'Supprimer',
+      loading: 'Chargement...',
+      empty: 'Vous n\'avez aucune notification.',
+      loginToSee: 'Connectez-vous pour voir les notifications.',
+    },
     localPartner: {
       introTitle: 'Pourquoi devenir Local Partner ?',
       introSubtitle: 'Rejoignez Aupa Partners et accédez à des outils pour développer votre activité.',
@@ -1347,6 +1413,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       fieldTitlePlaceholder: 'Ex. Dégustation de vins, Musique live...',
       fieldDescription: 'Description',
       fieldDescriptionPlaceholder: "Décrivez l'événement, ce qu'il inclut, etc.",
+      fieldCategory: 'Catégorie',
+      fieldCategoryPlaceholder: 'Sélectionnez une catégorie',
       fieldDate: 'Date *',
       fieldStartTime: 'Heure de Début *',
       fieldPrice: 'Prix (€)',
@@ -1403,6 +1471,8 @@ export const APP_COPY: Record<LanguageType, AppCopy> = {
       continueBtn: 'Continuer',
       skipForNow: 'Ignorer pour le moment',
       errLoadingData: 'Impossible de charger les informations. Affichage de données simulées.',
+      navHome: 'Accueil',
+      navEvents: 'Événements',
       myEvents: 'Mes Événements',
       eventsOf: 'Événements de {name}',
       loadingLocal: "Chargement de l'établissement...",

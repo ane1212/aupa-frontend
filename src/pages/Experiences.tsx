@@ -8,6 +8,7 @@ import type { ItineraryItem } from '../services/API';
 import type { Event } from '../services/models';
 import { getCategoryImage } from '../utils/categoryImages';
 import { getAppCategoryFromSubcategory } from '../utils/categoryMapper';
+import { removeFromTripCache } from '../utils/tripCache';
 import { generateRandomScore } from '../utils/randomScore';
 import { getUserLocation, calcDistanceKm, formatDistance } from '../utils/location';
 import { GripVertical, Trash2, Check } from 'lucide-react';
@@ -240,8 +241,10 @@ const Experiences = () => {
     };
 
     const handleRemove = async (id: string) => {
+        const item = tripItems.find(i => i.id === id);
         setTripItems(prev => prev.filter(i => i.id !== id));
         setCheckedIds(prev => { const n = new Set(prev); n.delete(id); return n; });
+        if (item?.eventId) removeFromTripCache(item.eventId);
         try {
             await itineraryService.remove(id);
         } catch {

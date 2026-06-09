@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { localService, eventService } from '../../../services/API';
-import type { Local, CreateEventForm } from '../../../services/models';
+import { localService, eventService, categoryService } from '../../../services/API';
+import type { Local, CreateEventForm, Category } from '../../../services/models';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Calendar, Clock, Euro, MapPin, Users } from 'lucide-react';
+import { Calendar, Clock, Euro, MapPin, Tag, Users } from 'lucide-react';
 import { useAuth } from '../../../context';
 import { getAppCopy } from '../../../i18n/copy';
 
@@ -15,6 +15,7 @@ const LocalCreateEvent: React.FC = () => {
 
     const [local, setLocal] = useState<Local | null>(null);
     const [loadingLocal, setLoadingLocal] = useState(true);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     const [form, setForm] = useState<Omit<CreateEventForm, 'localId'>>({
         title: '',
@@ -26,6 +27,7 @@ const LocalCreateEvent: React.FC = () => {
         price: 0,
         capacity: 10,
         address: '',
+        categoryId: '',
     });
 
     const [submitting, setSubmitting] = useState(false);
@@ -34,8 +36,12 @@ const LocalCreateEvent: React.FC = () => {
     useEffect(() => {
         const fetchLocalAndEvent = async () => {
             try {
-                const myLocal = await localService.getMine();
+                const [myLocal, catsRes] = await Promise.all([
+                    localService.getMine(),
+                    categoryService.getAll({ limit: 100 }),
+                ]);
                 setLocal(myLocal);
+                setCategories(catsRes.data ?? []);
 
                 if (isEditMode && id) {
                     const event = await eventService.getById(id);
@@ -51,6 +57,7 @@ const LocalCreateEvent: React.FC = () => {
                         price: event.price,
                         capacity: event.capacity || 10,
                         address: event.address || '',
+                        categoryId: event.categoryId || '',
                     });
                 } else if (myLocal && myLocal.address) {
                     setForm(prev => ({ ...prev, address: myLocal.address }));
@@ -64,7 +71,7 @@ const LocalCreateEvent: React.FC = () => {
         fetchLocalAndEvent();
     }, [id, isEditMode]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setForm(prev => ({
             ...prev,
@@ -89,6 +96,7 @@ const LocalCreateEvent: React.FC = () => {
             if (cleanForm.image === '') delete cleanForm.image;
             if (cleanForm.description === '') delete cleanForm.description;
             if (cleanForm.address === '') delete cleanForm.address;
+            if (cleanForm.categoryId === '') delete cleanForm.categoryId;
 
             if (isEditMode && id) {
                 // Connect to the PUT /event/:id endpoint in backend
@@ -165,6 +173,23 @@ const LocalCreateEvent: React.FC = () => {
                         className="local-textarea"
                         placeholder={t.fieldDescriptionPlaceholder}
                     />
+                </div>
+
+                <div className="local-form-group">
+                    <label className="local-label" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Tag size={14} /> {t.fieldCategory}
+                    </label>
+                    <select
+                        name="categoryId"
+                        value={form.categoryId || ''}
+                        onChange={handleChange}
+                        className="local-input"
+                    >
+                        <option value="">{t.fieldCategoryPlaceholder}</option>
+                        {categories.map(cat => (
+                            <option key={cat.id} value={cat.id}>{cat.name}</option>
+                        ))}
+                    </select>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
