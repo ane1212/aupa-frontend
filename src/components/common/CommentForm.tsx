@@ -33,7 +33,7 @@ const CommentForm = ({ eventId, lang, onAdded }: Props) => {
         setError('');
         setSubmitting(true);
         try {
-            const created = await commentService.create({ eventId: toUUID(eventId), content: text.trim(), rating });
+            const created = await commentService.create({ eventId, content: text.trim(), rating });
             onAdded(created);
             setRating(0);
             setText('');

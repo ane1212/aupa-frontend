@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { getAppCopy, getCatLabel } from '../../i18n/copy';
 import { useAuth } from '../../context';
 import { itineraryService, favoriteService } from '../../services/API';
-import { toUUID } from '../common/CommentForm';
 
 interface Props {
     id: number | string;
@@ -39,12 +38,6 @@ const BookmarkFilled = () => (
     </svg>
 );
 
-// If `raw` is already a UUID, use it directly; otherwise derive one deterministically.
-// This ensures the cache key matches the eventId stored in the DB for both real events
-// (UUID ids) and FastAPI place-name-based ids.
-const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const toEventId = (raw: string) => UUID_RE.test(raw) ? raw : toUUID(raw);
-
 const ExperienceCard = ({ id, name, duration, score, image, date, category, distance, saved = false, inTrip = false, lang, onBookmark, onAddToTrip, onClickCard }: Props) => {
     const navigate = useNavigate();
     const { user } = useAuth();
@@ -53,10 +46,7 @@ const ExperienceCard = ({ id, name, duration, score, image, date, category, dist
     const timeMeta = [date, duration].filter(Boolean).join(' · ');
     const handleClick = onClickCard ?? (() => navigate(`/detail/${id}`));
 
-    // eventId is the stable key used both in the DB and in the localStorage caches.
-    // For real DB events (UUID ids) it is the UUID itself; for FastAPI name-based ids
-    // it is a deterministic UUID derived from the name.
-    const eventId = toEventId(String(id));
+    const eventId = String(id);
 
     // Trip state
     const [localInTrip, setLocalInTrip] = useState(() => isInTripCache(eventId));
@@ -82,12 +72,12 @@ const ExperienceCard = ({ id, name, duration, score, image, date, category, dist
                 setLocalSaved(false);
             } else {
                 const fav = await favoriteService.create({ eventId });
-                addToFavCache(eventId, fav.id);
+                addToFavCache(eventId, fav.id, { name, image, category, score, distance });
                 setLocalSaved(true);
             }
         } catch { /* already removed or FK issue */ }
         finally { setTogglingSaved(false); }
-    }, [user, onBookmark, togglingSaved, isSaved, eventId]);
+    }, [user, onBookmark, togglingSaved, isSaved, eventId, name, image, category, score, distance]);
 
     const handleAddToTrip = useCallback(async (e: React.MouseEvent) => {
         e.stopPropagation();
@@ -103,12 +93,12 @@ const ExperienceCard = ({ id, name, duration, score, image, date, category, dist
                 setLocalInTrip(false);
             } else {
                 const item = await itineraryService.addEvent(eventId);
-                addToTripCache(eventId, item.id);
+                addToTripCache(eventId, item.id, { name, image, category, score, distance });
                 setLocalInTrip(true);
             }
         } catch { /* FK mismatch or already removed — sync state */ }
         finally { setTogglingTrip(false); }
-    }, [user, onAddToTrip, togglingTrip, isInTrip, eventId]);
+    }, [user, onAddToTrip, togglingTrip, isInTrip, eventId, name, image, category, score, distance]);
 
     return (
         <li className="exp-card" onClick={handleClick} style={{ cursor: 'pointer' }}>
