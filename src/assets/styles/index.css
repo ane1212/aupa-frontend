@@ -75,7 +75,7 @@ p {
       gap: 4px;
 
       &.active {
-        color: var(--color-J);
+        color: var(--tone9);
       }
 
       span {
@@ -4109,13 +4109,13 @@ p {
 
   .app>nav>a.active {
     background: rgba(239, 52, 42, 0.06);
-    border-left: 3px solid var(--color-J);
-    color: var(--color-J);
+    border-left: 3px solid var(--tone9);
+    color: var(--tone9);
   }
 
   .app>nav>a:hover:not(.active) {
     background: rgba(0, 0, 0, 0.03);
-    color: var(--color-J);
+    color: var(--tone9);
   }
 
   /* Contenido desplazado a la derecha del sidebar */
