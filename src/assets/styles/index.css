@@ -1114,6 +1114,10 @@ p {
   .nearby-header {
     flex-shrink: 0;
     padding: var(--mp) var(--mp) 4px;
+    position: sticky;
+    top: 0;
+    z-index: 100; /* Asegura que la lista pase por debajo y no por encima */
+    background-color: #ffffff;
   }
 
 }
@@ -4245,6 +4249,17 @@ p {
 .nearby-body {
   display: flex;
   flex-direction: column;
+
+  ul {
+    list-style: 'none';
+    margin: 0;
+    padding: 0;
+    display: 'flex';
+    flex-direction: 'column';
+    gap: '10px';
+    max-height:550px;
+    overflow-y: auto;
+  }
 }
 
 .nearby-footer {
@@ -4252,10 +4267,28 @@ p {
   height: 220px;
 
   .nearby-map {
-    height: 100%;
-    border-radius: 12px;
+    position: fixed !important; 
+    outline-style: none !important;
+    bottom: 60px !important; 
+    z-index: 999 !important; 
+    
+    /* 📱 ESTILOS PARA MÓVIL (Por defecto) */
+    left: 16px !important;    /* Pequeño margen a la izquierda */
+    right: 16px !important;   /* Pequeño margen a la derecha */
+    width: calc(100% - 32px) !important; /* Ocupa todo el ancho disponible restando los márgenes */
+    max-width: 100% !important;
+    margin: 0 auto !important;
+
+    /* 💻 ESTILOS PARA DESKTOP (Solo se aplican en pantallas grandes) */
+    @media (min-width: 768px) {
+      left: 250px !important;  /* Recupera tu margen original de desktop */
+      right: 0 !important;
+      width: 100% !important;
+      max-width: 950px !important;
+    }
   }
 }
+
 
 .nearby-header .exp-search {
   width: calc(100% - var(--np));
