@@ -170,7 +170,7 @@ const Nearby = () => {
                         <p className="exp-no-results">{copy.nearby.noResults}</p>
                     )}
                     {!loading && filtered.length > 0 && (
-                        <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                        <ul>
                             {filtered.slice(0, 10).map((rec, index) => (
                                 <ExperienceCard
                                     key={`${rec.name}-${index}`}
