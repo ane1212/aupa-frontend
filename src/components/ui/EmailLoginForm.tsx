@@ -17,7 +17,7 @@ interface EmailLoginFormProps {
     onBack: () => void;
 }
 
-const EmailLoginForm: React.FC<EmailLoginFormProps> = ({ onBack }) => {
+const EmailLoginForm: React.FC<EmailLoginFormProps> = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const [formData, setFormData] = useState<LoginFormData>({

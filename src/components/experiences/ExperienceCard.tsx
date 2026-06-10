@@ -38,7 +38,7 @@ const BookmarkFilled = () => (
     </svg>
 );
 
-const ExperienceCard = ({ id, name, duration, price, score, image, date, category, distance, saved = false, inTrip = false, lang, onBookmark, onAddToTrip, onClickCard }: Props) => {
+const ExperienceCard = ({ id, name, duration, score, image, date, category, distance, saved = false, inTrip = false, lang, onBookmark, onAddToTrip, onClickCard }: Props) => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const copy = getAppCopy(lang);

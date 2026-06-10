@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useDebounce } from "../../../hooks";
-import { BookMarked, Eye, List, Search, X } from "lucide-react";
+import { BookMarked, List, X } from "lucide-react";
 import { DataTable, SearchInput, Tooltip } from "../../../components/common";
 import type { DataTableColumn } from "../../../components/common";
 import { userService } from "../../../services/API";

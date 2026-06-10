@@ -2,7 +2,7 @@ export type Tab = 'saved' | 'trip';
 export type Filter = 'all' | 'places' | 'food' | 'bars';
 
 export interface SavedItem {
-    id: string;
+    id: number;
     favoriteId?: string;
     name: string;
     meta: string;

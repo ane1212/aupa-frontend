@@ -1,9 +1,3 @@
-/**
- * Mapea categorías de FastAPI a categorías del frontend
- * Actualizado con las nuevas categorías (June 2026)
- * Mapea las descripciones humanas manteniendo case y símbolos originales
- */
-
 const CATEGORY_MAP: Record<string, string> = {
     // CULINARIO -> food
     'Culinario': 'food',
@@ -100,10 +94,10 @@ export const mapRecommendationsCategories = (
     recommendations: Array<{ sub_category: string }>
 ): Array<{ category: string; appCategory: string }> => {
     return recommendations.map(rec => ({
-        ...rec,
+        category: mapFastAPICategory(rec.sub_category), // o otro valor según tu lógica
         appCategory: getAppCategoryFromSubcategory(rec.sub_category),
-    }));
-};
+    }))
+}
 
 
 export const getMappedCategories = (): string[] => {
