@@ -6,20 +6,26 @@ import logoTrimmed from '../../assets/logo-trimmed.png';
 
 interface NavItem {
     to: string;
-    icon: React.ComponentType<{ size?: number; color?: string }>;
+    icon: React.ComponentType<{ size?: number; color?: string; fill?: string; strokeWidth?: number }>;
     label: string;
+    solidFill?: boolean;
 }
 
-interface NavBarItemProps {
-    to: string;
-    icon: React.ComponentType<{ size?: number; color?: string }>;
-    label: string;
-}
+interface NavBarItemProps extends NavItem {}
 
-const NavBarItem = ({ to, icon: Icon, label }: NavBarItemProps) => (
+const NavBarItem = ({ to, icon: Icon, label, solidFill }: NavBarItemProps) => (
     <NavLink to={to} className={({ isActive }) => isActive ? 'active' : ''}>
-        <Icon size={24} color="currentColor" />
-        <span>{label}</span>
+        {({ isActive }) => (
+            <>
+                <Icon
+                    size={24}
+                    color={isActive ? 'white' : 'currentColor'}
+                    fill={isActive ? 'var(--tone9)' : 'none'}
+                    strokeWidth={isActive && solidFill ? 0 : 2}
+                />
+                <span>{label}</span>
+            </>
+        )}
     </NavLink>
 );
 
@@ -28,10 +34,10 @@ const NavBar = () => {
     const copy = getAppCopy(user?.language);
 
     const navItems: NavItem[] = [
-        { to: '/home', icon: House, label: copy.nav.home },
+        { to: '/home', icon: House, label: copy.nav.home, solidFill: true },
         { to: '/nearby', icon: MapPin, label: copy.nav.nearby },
-        { to: '/experiences', icon: Star, label: copy.nav.experiences },
-        { to: '/saved', icon: Heart, label: copy.nav.saved },
+        { to: '/experiences', icon: Star, label: copy.nav.experiences, solidFill: true },
+        { to: '/saved', icon: Heart, label: copy.nav.saved, solidFill: true },
         { to: '/profile', icon: CircleUser, label: copy.nav.profile },
     ];
 
