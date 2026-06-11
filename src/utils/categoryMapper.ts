@@ -39,39 +39,38 @@ const CATEGORY_MAP: Record<string, string> = {
     'Playas': 'beaches',
     
     // OCIO -> nightlife
-    'Ocio': 'nightlife',
-    'Ocio general': 'nightlife',
-    'Recursos deportivos': 'nightlife',
+    'Ocio': 'walking_tours',
+    'Ocio general': 'walking_tours',
+    'Recursos deportivos': 'walking_tours',
     'Turismo activo (kayak, surf, escalada...)': 'family_friendly',
-    'Alquiler deportivo': 'nightlife',
-    'Golf': 'nightlife',
-    'Puertos deportivos / Náutica': 'nightlife',
-    'Palacios de hielo': 'nightlife',
+    'Alquiler deportivo': 'walking_tours',
+    'Golf': 'family_friendly',
+    'Puertos deportivos / Náutica': 'family_friendly',
+    'Palacios de hielo': 'family_friendly',
     'Parques de atracciones': 'family_friendly',
     'Aquariums': 'family_friendly',
-    'Casinos': 'nightlife',
-    'Turismo de salud / Spas / Balnearios': 'nightlife',
+    'Casinos': 'local_favorites',
+    'Turismo de salud / Spas / Balnearios': 'local_favorites',
     
     // COMPRAS -> shopping
     'Compras': 'shopping',
     'Zonas de compras (comercio local)': 'shopping',
     
     // COMPRAS -> festivals_events
-    'Recintos feriales': 'festivals_events',
-    
-    // ALOJAMIENTO -> budget_friendly
-    'Alojamiento': 'budget_friendly',
-    'Hoteles': 'budget_friendly',
-    'Alojamientos rurales': 'budget_friendly',
-    'Albergues': 'budget_friendly',
-    'Campings': 'budget_friendly',
+    'Recintos feriales': 'culture',
+
+    'Alojamiento': 'local_favorites',
+    'Hoteles': 'local_favorites',
+    'Alojamientos rurales': 'nature',
+    'Albergues': 'local_favorites',
+    'Campings': 'nature',
     
     // SERVICIOS -> local_favorites
     'Servicios': 'local_favorites',
     'Oficinas de turismo': 'local_favorites',
     
     // SERVICIOS -> festivals_events
-    'Destinos turísticos (POIs generales)': 'festivals_events',
+    'Destinos turísticos (POIs generales)': 'local_favorites',
 };
 
 
@@ -103,8 +102,7 @@ export const mapRecommendationsCategories = (
 export const getMappedCategories = (): string[] => {
     return [
         'food', 'culture', 'nature', 'bars', 'local_favorites',
-        'shopping', 'coffee_shops', 'walking_tours', 'family_friendly',
-        'vegetarian_vegan', 'history', 'festivals_events', 'beaches',
-        'nightlife', 'budget_friendly',
+        'shopping', 'walking_tours', 'family_friendly',
+         'history', 'beaches',
     ];
 };

@@ -17,9 +17,8 @@ import SearchBar from '../components/experiences/SearchBar';
 
 export const ALL_CATEGORIES = [
     'food', 'culture', 'nature', 'bars', 'local_favorites',
-    'shopping', 'coffee_shops', 'walking_tours', 'family_friendly',
-    'vegetarian_vegan', 'history', 'festivals_events', 'beaches',
-    'nightlife', 'budget_friendly'
+    'shopping',  'walking_tours', 'family_friendly',
+    'history', 'beaches',
 ];
 
 // keep old export name for any other file that imports it
